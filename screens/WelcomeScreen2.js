@@ -1,18 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function WelcomeScreen1({ navigation }) {
+import WelcomeScreen1 from './WelcomeScreen1';
+import LoginScreen from './LoginScreen';
+
+export default function WelcomeScreen2({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>LESS gère vos courses au quotidien</Text>
       <Text style={styles.lessDesc}>
-        Less c'est moins cher sur vos achats. Less C'est moins de temps devant l'écran. Less c'est moins de pollution et de gaspillage
-      </Text>
-
+        Vous rentrez votre liste d'achat. LESS compare où vous ferez les meilleures économies. Nous vous renverrons le ticket de course avec toutes les références et qui respecte vos critères.
+        </Text>
       <Button
         title='Suivant'
-        onPress={() => navigation.navigate('Welcome2')}
+        onPress={() => navigation.navigate('Login')}
+      />
+      <Button
+        title='Précédent'
+        onPress={() => navigation.goBack()}
       />
       <Button
         title='Ignorer'
@@ -30,17 +36,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  lessDesc: {
-    width: "70%",
-    padding: 'auto',
-    paddingBottom: 40,
-    paddingTop: 20
-  },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
-    textAlign: 'center',
+    textAlign: 'right',
   },
   menu: {
     backgroundColor: '#655074',
