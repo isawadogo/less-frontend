@@ -1,24 +1,36 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import { useState, useEffect } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../reducers/user';
+
+import { frontConfig } from '../modules/config';
+import { checkBody } from '../modules/checkBody';
+
 export default function HomeScreen({ navigation }) {
+  const user = useSelector((state) => state.user.value.userDetails);
+
+  useEffect(() => {
+    (() => {
+      if (!user.email) {
+        navigation.navigate('Login');
+      }
+    })();
+  }, []);
+
+  console.log('Dashboard screen - user details : ', user);
   return (
     <View style={styles.container}>
-      <View style={styles.imageWrapper}>
-        <Image style={styles.imageBackground} source={require('../assets/images/home.jpg')} />
-      </View>
-
-      <TouchableOpacity
-        onPress={() => navigation.navigate('DrawerNavigator')}
-        style={styles.menu}
-        activeOpacity={1}
-      >
-        <Text style={styles.title}>FoodApp</Text>
-        <View style={styles.iconWrapper}>
-          <Text style={styles.menuText}>Let's go!</Text>
-          <Ionicons name="ios-arrow-forward" size={28} style={styles.icon} />
-        </View>
-      </TouchableOpacity>
+      <Text>Hello {user.email}</Text>
+      <Button 
+        title='Modifier mon profil'
+        onPress={() => navigation.navigate('ModifierProfil')}
+      />
+      <Button 
+        title='Commencer'
+      />
     </View>
   )
 }
@@ -26,6 +38,9 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 70,

@@ -12,7 +12,8 @@ import WelcomeScreen1 from './screens/WelcomeScreen1';
 import LoginScreen from './screens/LoginScreen';
 import WelcomeScreen2 from './screens/WelcomeScreen2';
 import InscriptionScreen from './screens/InscriptionScreen';
-import ModifierProfilScreen from './screens/ModifierProfil';
+import ModifierProfilScreen from './screens/ModifierProfilScreen';
+import HomeScreen from './screens/HomeScreen';
 
 const store = configureStore({
   reducer: { user },
@@ -21,7 +22,7 @@ const store = configureStore({
 const TabNavigator = () => {
  return (
    <Tab.Navigator screenOptions={{ headerShown: false }}>
-     <Tab.Screen name="Profile" component={ProfileScreen} />
+     <Tab.Screen name="Home" component={HomeScreen} />
      <Tab.Screen name="Courses" component={CoursesScreen} />
      <Tab.Screen name="Livraisons" component={LivraisonsScreen} />
      <Tab.Screen name="Budget" component={BudgetScreen} />
@@ -42,8 +43,9 @@ export default function App() {
           <Stack.Screen name="Welcome1" component={WelcomeScreen1} />
           <Stack.Screen name="Welcome2" component={WelcomeScreen2} />
           <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Dashboard" component={HomeScreen} />
           <Stack.Screen name="Inscription" component={InscriptionScreen} />
-          <Stack.Screen name="ModiferProfil" component={ModifierProfilScreen} />
+          <Stack.Screen name="ModifierProfil" component={ModifierProfilScreen} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>

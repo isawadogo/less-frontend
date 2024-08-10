@@ -19,11 +19,11 @@ export default function InscriptionScreen({ navigation }) {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value.userDetails);
-
+  console.log('Inscription screen - user details :', user);
   useEffect(() => {
     (() => {
       if (user.email) {
-        navigation.navigate('ModifierProfil');
+        navigation.navigate('Dashboard');
       }
     })();
   }, []);
@@ -53,11 +53,16 @@ export default function InscriptionScreen({ navigation }) {
       const resJson = await conReq.json();
       console.log('connection result : ', resJson);
       if (resJson.result) {
-        dispatch(updateUser({ email: email, id: resJson.id, token: resJson.token}));
-        navigation.navigate('Inscription')
+        // Get User details
+        const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + resJson.id);
+        const json = await response.json();
+        if (json.result) {
+          dispatch(updateUser({ ...json.user, id: resJson.id }));
+        }
         setEmail('');
         setPassword1('');
         setPassword2('');
+        navigation.navigate('ModifierProfil');
       } else {
         console.log('Login failed with message : ', resJson.error);
       }

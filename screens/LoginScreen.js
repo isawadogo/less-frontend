@@ -18,7 +18,7 @@ export default function LoginScreen({ navigation }) {
   useEffect(() => {
     (() => {
       if (user.email) {
-        navigation.navigate('Inscription');
+        navigation.navigate('Dashboard');
       }
     })();
   }, []);
@@ -43,10 +43,15 @@ export default function LoginScreen({ navigation }) {
       const resJson = await conReq.json();
       console.log('connection result : ', resJson);
       if (resJson.result) {
-        dispatch(updateUser({ email: email, id: resJson.id, token: resJson.token}));
-        navigation.navigate('Inscription')
+        // Get User details
+        const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + resJson.id);
+        const json = await response.json();
+        if (json.result) {
+          dispatch(updateUser({ ...json.user, id: resJson.id }));
+        }
         setEmail('');
         setPassword('');
+        navigation.navigate('Dashboard')
       } else {
         console.log('Login failed with message : ', resJson.error);
       }
