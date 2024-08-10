@@ -22,7 +22,8 @@ const store = configureStore({
 const TabNavigator = () => {
  return (
    <Tab.Navigator screenOptions={{ headerShown: false }}>
-     <Tab.Screen name="Home" component={HomeScreen} />
+     <Tab.Screen name="Accueil" component={HomeScreen} />
+     <Tab.Screen name="Profile" component={ProfilScreen} />
      <Tab.Screen name="Courses" component={CoursesScreen} />
      <Tab.Screen name="Livraisons" component={LivraisonsScreen} />
      <Tab.Screen name="Budget" component={BudgetScreen} />

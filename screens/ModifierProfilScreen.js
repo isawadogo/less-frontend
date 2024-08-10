@@ -16,7 +16,6 @@ export default function ModifierProfilScreen({ navigation }) {
 
   const [preferences, setPreferences] = useState(user.preferences);
   const [criteres, setCriteres] = useState({...user.criteres});
-  //const [allergies, setAllergies] = useState(user.allergies);
   const [userAdresses, setUserAdresses] = useState({
     numeroDeRue: user.adresses.length > 0 ? user.adresses[0].numeroDeRue: '',
     nomDeRue: user.adresses.length > 0 ? user.adresses[0].nomDeRue: '',
@@ -82,6 +81,10 @@ export default function ModifierProfilScreen({ navigation }) {
       console.log('Connection to the backend failed');
       console.log(err.stack);
     }
+  }
+
+  const handlePreferences = () => {
+
   }
 
   return (

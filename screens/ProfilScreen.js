@@ -1,5 +1,6 @@
-import { Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+//import { StatusBar } from 'expo-status-bar';
+import { Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+//import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { useState, useEffect } from 'react';
 
@@ -9,7 +10,8 @@ import { updateUser } from '../reducers/user';
 import { frontConfig } from '../modules/config';
 import { checkBody } from '../modules/checkBody';
 
-export default function HomeScreen({ navigation }) {
+export default function ProfilScreen({ navigation }) {
+
   const user = useSelector((state) => state.user.value.userDetails);
 
   useEffect(() => {
@@ -17,21 +19,22 @@ export default function HomeScreen({ navigation }) {
       if (!user.email) {
         navigation.navigate('Login');
       }
+      setUserParams({...userParams, userId: user.id })
     })();
   }, []);
 
-  console.log('Dashboard screen - user details : ', user);
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Text>Hello {user.email}</Text>
-      <Button 
-        title='Modifier mon profil'
-        onPress={() => navigation.navigate('ModifierProfil')}
-      />
-      <Button 
-        title='Commencer'
-      />
-    </KeyboardAvoidingView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+          <Text style={styles.title}>Bienvenue {user.email}</Text>
+          <Text style={styles.title2}>Identité</Text>
+          
+          <Button
+            title="Modifier mes critères"
+          />
+          <StatusBar style="auto" />
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 
@@ -41,13 +44,32 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: StatusBar.currentHeight,
+  },
+  scrollView: {
+    marginHorizontal: 20,
   },
   title: {
-    fontSize: 70,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#ffffff',
     marginBottom: 10,
     textAlign: 'right',
+  },
+  title2: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'right',
+  },
+  infosCon: {
+    width: '75%'
+  },
+  textInput: {
+    borderWidth: 1,
+    width: 300,
+    height: 40,
+    margin: 10,
+    padding: 'auto',
   },
   menu: {
     backgroundColor: '#655074',
@@ -71,7 +93,7 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     width: '100%',
-    height: '100%',
+    height: '50%',
     borderBottomLeftRadius: 160,
     backgroundColor: '#ffffff',
   },
