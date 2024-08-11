@@ -22,7 +22,7 @@ export default function InscriptionScreen({ navigation }) {
   console.log('Inscription screen - user details :', user);
   useEffect(() => {
     (() => {
-      if (user.email) {
+      if (user.id) {
         navigation.navigate('Dashboard');
       }
     })();
@@ -122,40 +122,5 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 10,
     padding: 'auto',
-  },
-  menu: {
-    backgroundColor: '#655074',
-    height: '20%',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    paddingRight: 20,
-    border: 'none',
-  },
-  menuText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginRight: 10,
-    marginBottom: 25,
-  },
-  imageWrapper: {
-    height: '80%',
-    backgroundColor: '#655074',
-    border: 'none',
-  },
-  imageBackground: {
-    width: '100%',
-    height: '50%',
-    borderBottomLeftRadius: 160,
-    backgroundColor: '#ffffff',
-  },
-  iconWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  icon: {
-    color: '#ffffff',
-    position: 'relative',
-    bottom: 2,
   },
 });

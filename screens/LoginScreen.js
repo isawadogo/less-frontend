@@ -1,8 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, TextInput } from 'react-native';
 //import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState, useEffect } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/user';
 
@@ -14,11 +12,14 @@ export default function LoginScreen({ navigation }) {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value.userDetails);
+  const displayWelcome = useSelector((state) => state.user.value.displayWelcome);
 
+  console.log('Login sreen - user details : ', user);
+  console.log('Login sreen - Display welcome: ', displayWelcome);
   useEffect(() => {
     (() => {
       if (user.email) {
-        navigation.navigate('Dashboard');
+        navigation.navigate('TabNavigator');
       }
     })();
   }, []);
@@ -51,7 +52,7 @@ export default function LoginScreen({ navigation }) {
         }
         setEmail('');
         setPassword('');
-        navigation.navigate('Dashboard')
+        navigation.navigate('TabNavigator')
       } else {
         console.log('Login failed with message : ', resJson.error);
       }
@@ -81,7 +82,6 @@ export default function LoginScreen({ navigation }) {
       />
       <Text>ou</Text>
       <Text>Pas encore de compte? <Button title="Créér un compte" onPress={() => navigation.navigate('Inscription')}/></Text>
-      <StatusBar style="auto" />
     </View>
   )
 }
@@ -108,40 +108,5 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 10,
     padding: 'auto',
-  },
-  menu: {
-    backgroundColor: '#655074',
-    height: '20%',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    paddingRight: 20,
-    border: 'none',
-  },
-  menuText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginRight: 10,
-    marginBottom: 25,
-  },
-  imageWrapper: {
-    height: '80%',
-    backgroundColor: '#655074',
-    border: 'none',
-  },
-  imageBackground: {
-    width: '100%',
-    height: '50%',
-    borderBottomLeftRadius: 160,
-    backgroundColor: '#ffffff',
-  },
-  iconWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  icon: {
-    color: '#ffffff',
-    position: 'relative',
-    bottom: 2,
   },
 });

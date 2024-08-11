@@ -19,20 +19,28 @@ export default function ProfilScreen({ navigation }) {
       if (!user.email) {
         navigation.navigate('Login');
       }
-      setUserParams({...userParams, userId: user.id })
+      //setUserParams({...userParams, userId: user.id })
     })();
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-          <Text style={styles.title}>Bienvenue {user.email}</Text>
-          <Text style={styles.title2}>Identité</Text>
-          
+        <Text>{user.prenom} {user.nom}</Text>
+        <Text>{user.email}</Text>
+        <Text>Mes crtières</Text>
+
           <Button
             title="Modifier mes critères"
           />
-          <StatusBar style="auto" />
+          <Button 
+            title='Aide'
+            onPress={() => navigation.navigate('Aide')}
+          />
+          <Button 
+            title='CGU'
+            onPress={() => navigation.navigate('CGU')}
+          />
       </ScrollView>
     </SafeAreaView>
   )

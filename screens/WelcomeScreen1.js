@@ -1,8 +1,69 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+//import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { updateWelcome, updateUser } from '../reducers/user';
+import { updateUserDetails } from '../modules/userFunctions';
+import { frontConfig } from '../modules/config';
 
 export default function WelcomeScreen1({ navigation }) {
+  //const [afficherAccueil, setAfficherAccueil] = useState(true);
+
+  const user = useSelector((state) => state.user.value.userDetails);
+  const displayWelcome = useSelector((state) => state.user.value.displayWelcome);
+
+  const dispacth = useDispatch();
+
+  console.log('Welcome 1 - screen - user details :', user);
+  useEffect(() => {
+    (() => {
+      console.log('Welcome 1 - screen - useEffect - user details :', user);
+      if (user.id && !user.preferences.afficherEcranAccueil) {
+        navigation.navigate('Dashboard');
+      } else if (!displayWelcome) {
+        navigation.navigate('Login');
+      }
+    })();
+  }, []);
+
+  const handleIgnoreWelcome = async () => {
+    // first dispatch and update the reducer
+    if (user.id && !user.preferences.afficherEcranAccueil) {
+      navigation.navigate('Dashboard');
+    //} else if (!displayWelcome) {
+    //  navigation.navigate('Login');
+    }
+    dispacth(updateWelcome(false));
+    // If the user is already connected
+    if (user.id) {
+      const updateData = {
+        ...user,
+        preferences: {
+          ...user.preferences,
+          afficherAccueil: false
+        }
+      }
+
+    const updateRes = await updateUserDetails(user, dataUpdate);
+    if (updateRes === 0) {
+      const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + user.id);
+      const json = await response.json();
+      if (json.result) {
+        console.log('Modifier profil - dispacth to reducer : ', json.user);
+        dispatch(updateUser({ ...json.user, id: user.id }));
+        navigation.navigate('TabNavigator');
+      }
+    }
+    //return;
+      dispacth(updateUser(updateData));
+      // Go to the login page
+      navigation.navigate('Login');
+    } else {
+      navigation.navigate('Login');
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>LESS gère vos courses au quotidien</Text>
@@ -15,8 +76,8 @@ export default function WelcomeScreen1({ navigation }) {
         onPress={() => navigation.navigate('Welcome2')}
       />
       <Button
-        title='Ignorer'
-        onPress={() => navigation.navigate('Login')}
+        title='Ignorer au prochain lancement'
+        onPress={handleIgnoreWelcome}
       />
       <StatusBar style="auto" />
     </View>

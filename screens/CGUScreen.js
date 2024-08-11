@@ -1,17 +1,12 @@
-import { Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { Button, KeyboardAvoidingView, Platform, StyleSheet, Text, View, TextInput } from 'react-native';
+//import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../reducers/user';
 
-import { frontConfig } from '../modules/config';
-import { checkBody } from '../modules/checkBody';
-
-export default function HomeScreen({ navigation }) {
-  const user = useSelector((state) => state.user.value.userDetails);
-
+export default function CGUScreen() {
+  //const user = useSelector((state) => state.user.value.userDetails);
+  /*
   useEffect(() => {
     (() => {
       if (!user.id) {
@@ -19,22 +14,10 @@ export default function HomeScreen({ navigation }) {
       }
     })();
   }, []);
-
-  console.log('Dashboard screen - user details : ', user);
+*/
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Text>{user.prenom} {user.nom}</Text>
-      <Text>{user.email}</Text>
-      <Text>Bonjour {user.prenom}</Text>
-      
-      <Button 
-        title='Modifier mon profil'
-        onPress={() => navigation.navigate('ModifierProfil')}
-      />
-      <Button 
-        title='Commencer'
-      />
-      <Text>Reprendre une liste enregistrée</Text>
+      <Text>Conditions générales d'utilisation</Text>
     </KeyboardAvoidingView>
   )
 }
@@ -89,3 +72,4 @@ const styles = StyleSheet.create({
     bottom: 2,
   },
 });
+

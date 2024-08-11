@@ -1,20 +1,41 @@
-//import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, StatusBar } from 'react-native';
-//import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Pressable, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+//import CheckBox from 'expo-checkbox';
 
 import { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/user';
 
+import { updateUserDetails } from '../modules/userFunctions';
+
 import { frontConfig } from '../modules/config';
-import { checkBody } from '../modules/checkBody';
+//import { checkBody } from '../modules/checkBody';
+
+function LessCheckbox({ onChange, checked }) {
+  return (
+    <Pressable
+      style={[styles.checkboxBase, checked && styles.checkboxChecked]}
+      onPress={onChange}>
+      {checked && <Ionicons name="checkmark" size={24} color="white" />}
+    </Pressable>
+  );
+}
 
 export default function ModifierProfilScreen({ navigation }) {
 
   const user = useSelector((state) => state.user.value.userDetails);
+  useEffect(() => {
+    (() => {
+      if (!user.id) {
+        navigation.navigate('Login');
+      }
+      setUserParams({...userParams, userId: user.id })
+    })();
+  }, []);
 
   const [preferences, setPreferences] = useState(user.preferences);
+  const [allergies, setAllergies] = useState(user.allergies);
   const [criteres, setCriteres] = useState({...user.criteres});
   const [userAdresses, setUserAdresses] = useState({
     numeroDeRue: user.adresses.length > 0 ? user.adresses[0].numeroDeRue: '',
@@ -29,31 +50,38 @@ export default function ModifierProfilScreen({ navigation }) {
     dateDeNaissance: user.dateDeNaissance,
     telephone: user.telephone,
     profilConso: user.profilConso,
+    budget: user.budget,
+    distance: user.distance,
   })
-  console.log('Critere budget : ', criteres.budget);
+  console.log('Critere budget : ', user.budget);
   const dispatch = useDispatch();
 
-  console.log('Modifier profil screen - user details :', user);
+  //console.log('Modifier profil screen - user details :', user);
 
-  useEffect(() => {
-    (() => {
-      if (!user.email) {
-        navigation.navigate('Login');
-      }
-      setUserParams({...userParams, userId: user.id })
-    })();
-  }, []);
 
-  const handleInscription = async() => {
+  const handleUpdateProfile = async() => {
     // Manange with proper message
     const dataUpdate = {
       ...userParams,
       preferences: preferences,
       criteres: {...criteres},
       adresses: [userAdresses],
+      allergies: allergies,
     }
     console.log('Modifier profil - Data to update : ', dataUpdate);
+
+    const updateRes = await updateUserDetails(user, dataUpdate);
+    if (updateRes === 0) {
+      const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + user.id);
+      const json = await response.json();
+      if (json.result) {
+        console.log('Modifier profil - dispacth to reducer : ', json.user);
+        dispatch(updateUser({ ...json.user, id: user.id }));
+        navigation.navigate('TabNavigator');
+      }
+    }
     //return;
+    /*
     try {
       const conReq = await fetch(frontConfig.backendURL + '/utilisateur/update', {
         method: 'POST',
@@ -73,7 +101,7 @@ export default function ModifierProfilScreen({ navigation }) {
           console.log('Modifier profil - dispacth to reducer : ', json.user);
           dispatch(updateUser({ ...json.user, id: user.id }));
         }
-        navigation.navigate('Dashboard');
+        navigation.navigate('TabNavigator');
       } else {
         console.log('Login failed with message : ', resJson.error);
       }
@@ -81,8 +109,22 @@ export default function ModifierProfilScreen({ navigation }) {
       console.log('Connection to the backend failed');
       console.log(err.stack);
     }
+    */
   }
 
+  const updateCritere = (critereName, critereValue) => {
+    setCriteres({
+      ...criteres,
+      [critereName]: !critereValue
+    })
+  }
+
+  const updatePreference= (prefName, prefValue) => {
+    setPreferences({
+      ...preferences,
+      [prefName]: !prefValue
+    })
+  }
   const handlePreferences = () => {
 
   }
@@ -122,24 +164,61 @@ export default function ModifierProfilScreen({ navigation }) {
           </View>
           <Text style={styles.title2}>Mon budget</Text>
           <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setCriteres({ ...criteres, budget: value})} value={criteres.budget} placeholder='Budget' />
+            <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, budget: value})} value={userParams.budget} placeholder='Budget' />
           </View>
           <Text style={styles.title2}>Mon régime de consommation</Text>
-          <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, profilConso: value})} value={userParams.profilConso} placeholder='Profil de consmmation' />
+          <View style={styles.checkBox}>
+            <View >
+              <LessCheckbox checked={criteres.bio} onChange={() => updateCritere('bio', criteres.bio)} />
+              <Text>Bio</Text>
+            </View>
+            <View >
+              <LessCheckbox checked={criteres.vegan} onChange={() => updateCritere('vegan', criteres.vegan)} />
+              <Text>Végan</Text>
+            </View>
+            <View >
+              <LessCheckbox checked={criteres.premierPrix} onChange={() => updateCritere('premierPrix', criteres.premierPrix)} />
+              <Text>Premier prix</Text>
+            </View>
+            <View >
+              <LessCheckbox checked={criteres.vegetarien} onChange={() => updateCritere('vegetarien', criteres.vegetarien)} />
+              <Text>Végétarien</Text>
+            </View>
           </View>
           <Text style={styles.title2}>Mes préférences</Text>
-          <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setCriteres({ ...criteres, budget: value})} value={criteres.budget} placeholder='Budget' />
+          <View style={styles.checkBox}>
+            <View >
+              <LessCheckbox checked={criteres.local} onChange={() => updateCritere('local', criteres.local)} />
+              <Text>Local</Text>
+            </View>
+            <View >
+              <LessCheckbox checked={criteres.faibleEnSucre} onChange={() => updateCritere('faibleEnSucre', criteres.faibleEnSucre)} />
+              <Text>Faible en sucres</Text>
+            </View>
+            <View >
+              <LessCheckbox checked={criteres.faibleEnMatiereGrasse} onChange={() => updateCritere('faibleEnMatiereGrasse', criteres.faibleEnMatiereGrasse)} />
+              <Text>Faible en matière grasse</Text>
+            </View>
           </View>
           <Text style={styles.title2}>Allergies et tolérances</Text>
           <View >
             <TextInput style={styles.textInput} onChangeText={(value) => setCriteres({ ...criteres, budget: value})} value={criteres.budget} placeholder='Budget' />
           </View>
+          <Text style={styles.title2}>Divers</Text>
+          <View>
+            <View >
+              <Text>Recevoir des notifications de bons plans</Text>
+              <LessCheckbox checked={preferences.recevoirNotifications} onChange={() => updatePreference('recevoirNotifications', preferences.recevoirNotifications)} />
+            </View>
+            <View >
+              <Text>Affichier le message d'accueil</Text>
+              <LessCheckbox checked={preferences.afficherEcranAccueil} onChange={() => updatePreference('afficherEcranAccueil', preferences.afficherEcranAccueil)} />
+            </View>
+          </View>
           
           <Button
             title="Appliquer ces critères"
-            onPress={handleInscription}
+            onPress={handleUpdateProfile}
           />
           <StatusBar style="auto" />
       </ScrollView>
@@ -154,6 +233,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: StatusBar.currentHeight,
+  },
+  checkboxBase: {
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: 'coral',
+    backgroundColor: 'transparent',
+  },
+  checkboxChecked: {
+    backgroundColor: 'coral',
+  },
+  checkBox: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
   scrollView: {
     marginHorizontal: 20,
@@ -179,40 +276,5 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 10,
     padding: 'auto',
-  },
-  menu: {
-    backgroundColor: '#655074',
-    height: '20%',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    paddingRight: 20,
-    border: 'none',
-  },
-  menuText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginRight: 10,
-    marginBottom: 25,
-  },
-  imageWrapper: {
-    height: '80%',
-    backgroundColor: '#655074',
-    border: 'none',
-  },
-  imageBackground: {
-    width: '100%',
-    height: '50%',
-    borderBottomLeftRadius: 160,
-    backgroundColor: '#ffffff',
-  },
-  iconWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  icon: {
-    color: '#ffffff',
-    position: 'relative',
-    bottom: 2,
   },
 });

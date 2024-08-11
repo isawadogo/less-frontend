@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   value: { 
       userDetails: {}, 
+      displayWelcome: true,
   },
 };
 
@@ -14,6 +15,9 @@ export const userSlice = createSlice({
       let tempData = { ...state.value.userDetails }
       state.value.userDetails = { ...Object.assign(tempData, action.payload) };
     },
+    updateWelcome: (state, action) => {
+      state.value.displayWelcome = action.payload
+    }
     /*addPlace: (state, action) => {
       state.value.places.push(action.payload);  
     },
@@ -23,5 +27,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { updateUser } = userSlice.actions;
+export const { updateUser, updateWelcome } = userSlice.actions;
 export default userSlice.reducer;
