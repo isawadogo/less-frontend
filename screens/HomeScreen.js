@@ -33,6 +33,7 @@ export default function HomeScreen({ navigation }) {
       />
       <Button 
         title='Commencer'
+        onPress={() => navigation.navigate('CreerListe')}
       />
       <Text>Reprendre une liste enregistrée</Text>
     </KeyboardAvoidingView>

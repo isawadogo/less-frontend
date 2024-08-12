@@ -17,6 +17,7 @@ import HomeScreen from './screens/HomeScreen';
 import ProfilScreen from './screens/ProfilScreen';
 import AideScreen from './screens/AideScreen';
 import CGUScreen from './screens/CGUScreen';
+import CreerListeScreen from './screens/CreerListeScreen';
 
 const store = configureStore({
   reducer: { user },
@@ -53,6 +54,7 @@ export default function App() {
             <Stack.Screen name="Dashboard" component={HomeScreen} />
             <Stack.Screen name="ModifierProfil" component={ModifierProfilScreen} />
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
+            <Stack.Screen name="CreerListe" component={CreerListeScreen} />
           </Stack.Group>
           <Stack.Group screenOptions={{ presentation: 'modal' }}>
             <Stack.Screen name="Aide" component={AideScreen} />

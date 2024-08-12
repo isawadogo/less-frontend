@@ -8,19 +8,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/user';
 
 import { updateUserDetails } from '../modules/userFunctions';
+import { LessCheckbox } from '../modules/components'
 
 import { frontConfig } from '../modules/config';
 //import { checkBody } from '../modules/checkBody';
-
-function LessCheckbox({ onChange, checked }) {
-  return (
-    <Pressable
-      style={[styles.checkboxBase, checked && styles.checkboxChecked]}
-      onPress={onChange}>
-      {checked && <Ionicons name="checkmark" size={24} color="white" />}
-    </Pressable>
-  );
-}
 
 export default function ModifierProfilScreen({ navigation }) {
 
@@ -50,19 +41,19 @@ export default function ModifierProfilScreen({ navigation }) {
     dateDeNaissance: user.dateDeNaissance,
     telephone: user.telephone,
     profilConso: user.profilConso,
-    budget: user.budget,
+    budget: user.budget.toString(),
     distance: user.distance,
   })
-  console.log('Critere budget : ', user.budget);
+
   const dispatch = useDispatch();
 
   //console.log('Modifier profil screen - user details :', user);
-
 
   const handleUpdateProfile = async() => {
     // Manange with proper message
     const dataUpdate = {
       ...userParams,
+      budget: Number(userParams.budget),
       preferences: preferences,
       criteres: {...criteres},
       adresses: [userAdresses],
@@ -80,36 +71,10 @@ export default function ModifierProfilScreen({ navigation }) {
         navigation.navigate('TabNavigator');
       }
     }
-    //return;
-    /*
-    try {
-      const conReq = await fetch(frontConfig.backendURL + '/utilisateur/update', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataUpdate),
-      });
-      if (!conReq.ok) {
-        throw new Error('Connection returned a non 200 http code');
-      }
-      const resJson = await conReq.json();
-      console.log('connection result : ', resJson);
-      if (resJson.result) {
-        // Get User details
-        const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + user.id);
-        const json = await response.json();
-        if (json.result) {
-          console.log('Modifier profil - dispacth to reducer : ', json.user);
-          dispatch(updateUser({ ...json.user, id: user.id }));
-        }
-        navigation.navigate('TabNavigator');
-      } else {
-        console.log('Login failed with message : ', resJson.error);
-      }
-    } catch(err) {
-      console.log('Connection to the backend failed');
-      console.log(err.stack);
-    }
-    */
+  }
+
+  const updateAllergie = (allergie) => {
+
   }
 
   const updateCritere = (critereName, critereValue) => {
@@ -124,9 +89,6 @@ export default function ModifierProfilScreen({ navigation }) {
       ...preferences,
       [prefName]: !prefValue
     })
-  }
-  const handlePreferences = () => {
-
   }
 
   return (
@@ -147,7 +109,12 @@ export default function ModifierProfilScreen({ navigation }) {
             <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, telephone: value})} value={userParams.telephone} placeholder='Numéro de téléphone' />
           </View>
           <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, dateNaissance: value})} value={userParams.dateDeNaissance} placeholder='Date de naissance' />
+            <TextInput 
+              style={styles.textInput} 
+              onChangeText={(value) => setUserParams({ ...userParams, dateNaissance: value})} 
+              value={userParams.dateDeNaissance} 
+              placeholder='Date de naissance' 
+              />
           </View>
           <Text style={styles.title2}>Adresse</Text>
           <View >
@@ -276,5 +243,6 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 10,
     padding: 'auto',
+    color: 'red'
   },
 });
