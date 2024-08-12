@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: { 
-      userDetails: {}, 
-      displayWelcome: true,
+  value: {
+    userDetails: {},
+    displayWelcome: true,
   },
 };
 

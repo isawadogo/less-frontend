@@ -21,18 +21,18 @@ export default function ModifierProfilScreen({ navigation }) {
       if (!user.id) {
         navigation.navigate('Login');
       }
-      setUserParams({...userParams, userId: user.id })
+      setUserParams({ ...userParams, userId: user.id })
     })();
   }, []);
 
   const [preferences, setPreferences] = useState(user.preferences);
   const [allergies, setAllergies] = useState(user.allergies);
-  const [criteres, setCriteres] = useState({...user.criteres});
+  const [criteres, setCriteres] = useState({ ...user.criteres });
   const [userAdresses, setUserAdresses] = useState({
-    numeroDeRue: user.adresses.length > 0 ? user.adresses[0].numeroDeRue: '',
-    nomDeRue: user.adresses.length > 0 ? user.adresses[0].nomDeRue: '',
-    commune: user.adresses.length > 0 ? user.adresses[0].commune: '',
-    codePostal: user.adresses.length > 0 ? user.adresses[0].codePostal: '',
+    numeroDeRue: user.adresses.length > 0 ? user.adresses[0].numeroDeRue : '',
+    nomDeRue: user.adresses.length > 0 ? user.adresses[0].nomDeRue : '',
+    commune: user.adresses.length > 0 ? user.adresses[0].commune : '',
+    codePostal: user.adresses.length > 0 ? user.adresses[0].codePostal : '',
   });
   const [userParams, setUserParams] = useState({
     prefixe: user.prefixe,
@@ -49,13 +49,13 @@ export default function ModifierProfilScreen({ navigation }) {
 
   //console.log('Modifier profil screen - user details :', user);
 
-  const handleUpdateProfile = async() => {
+  const handleUpdateProfile = async () => {
     // Manange with proper message
     const dataUpdate = {
       ...userParams,
       budget: Number(userParams.budget),
       preferences: preferences,
-      criteres: {...criteres},
+      criteres: { ...criteres },
       adresses: [userAdresses],
       allergies: allergies,
     }
@@ -84,7 +84,7 @@ export default function ModifierProfilScreen({ navigation }) {
     })
   }
 
-  const updatePreference= (prefName, prefValue) => {
+  const updatePreference = (prefName, prefValue) => {
     setPreferences({
       ...preferences,
       [prefName]: !prefValue
@@ -94,100 +94,100 @@ export default function ModifierProfilScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-          <Text style={styles.title}>Créér votre profil consommateur</Text>
-          <Text style={styles.title2}>Identité</Text>
-          <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, prefixe: value})} value={userParams.prefixe} placeholder='Civilité' />
-          </View>
-          <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, nom: value})} value={userParams.nom} placeholder='Nom' />
-          </View>
-          <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, prenom: value})} value={userParams.prenom} placeholder='Prénom' />
-          </View>
-          <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, telephone: value})} value={userParams.telephone} placeholder='Numéro de téléphone' />
-          </View>
-          <View >
-            <TextInput 
-              style={styles.textInput} 
-              onChangeText={(value) => setUserParams({ ...userParams, dateNaissance: value})} 
-              value={userParams.dateDeNaissance} 
-              placeholder='Date de naissance' 
-              />
-          </View>
-          <Text style={styles.title2}>Adresse</Text>
-          <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setUserAdresses({ ...userAdresses, numeroDeRue: value})} value={userAdresses.numeroDeRue} placeholder='Numéro de rue' />
-          </View>
-          <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setUserAdresses({ ...userAdresses, nomDeRue: value})} value={userAdresses.nomDeRue} placeholder='Nom de rue' />
-          </View>
-          <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setUserAdresses({ ...userAdresses, commune: value})} value={userAdresses.commune} placeholder='Ville' />
-          </View>
-          <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setUserAdresses({ ...userAdresses, codePostal: value})} value={userAdresses.codePostal} placeholder='Code postal' />
-          </View>
-          <Text style={styles.title2}>Mon budget</Text>
-          <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, budget: value})} value={userParams.budget} placeholder='Budget' />
-          </View>
-          <Text style={styles.title2}>Mon régime de consommation</Text>
-          <View style={styles.checkBox}>
-            <View >
-              <LessCheckbox checked={criteres.bio} onChange={() => updateCritere('bio', criteres.bio)} />
-              <Text>Bio</Text>
-            </View>
-            <View >
-              <LessCheckbox checked={criteres.vegan} onChange={() => updateCritere('vegan', criteres.vegan)} />
-              <Text>Végan</Text>
-            </View>
-            <View >
-              <LessCheckbox checked={criteres.premierPrix} onChange={() => updateCritere('premierPrix', criteres.premierPrix)} />
-              <Text>Premier prix</Text>
-            </View>
-            <View >
-              <LessCheckbox checked={criteres.vegetarien} onChange={() => updateCritere('vegetarien', criteres.vegetarien)} />
-              <Text>Végétarien</Text>
-            </View>
-          </View>
-          <Text style={styles.title2}>Mes préférences</Text>
-          <View style={styles.checkBox}>
-            <View >
-              <LessCheckbox checked={criteres.local} onChange={() => updateCritere('local', criteres.local)} />
-              <Text>Local</Text>
-            </View>
-            <View >
-              <LessCheckbox checked={criteres.faibleEnSucre} onChange={() => updateCritere('faibleEnSucre', criteres.faibleEnSucre)} />
-              <Text>Faible en sucres</Text>
-            </View>
-            <View >
-              <LessCheckbox checked={criteres.faibleEnMatiereGrasse} onChange={() => updateCritere('faibleEnMatiereGrasse', criteres.faibleEnMatiereGrasse)} />
-              <Text>Faible en matière grasse</Text>
-            </View>
-          </View>
-          <Text style={styles.title2}>Allergies et tolérances</Text>
-          <View >
-            <TextInput style={styles.textInput} onChangeText={(value) => setCriteres({ ...criteres, budget: value})} value={criteres.budget} placeholder='Budget' />
-          </View>
-          <Text style={styles.title2}>Divers</Text>
-          <View>
-            <View >
-              <Text>Recevoir des notifications de bons plans</Text>
-              <LessCheckbox checked={preferences.recevoirNotifications} onChange={() => updatePreference('recevoirNotifications', preferences.recevoirNotifications)} />
-            </View>
-            <View >
-              <Text>Affichier le message d'accueil</Text>
-              <LessCheckbox checked={preferences.afficherEcranAccueil} onChange={() => updatePreference('afficherEcranAccueil', preferences.afficherEcranAccueil)} />
-            </View>
-          </View>
-          
-          <Button
-            title="Appliquer ces critères"
-            onPress={handleUpdateProfile}
+        <Text style={styles.title}>Créér votre profil consommateur</Text>
+        <Text style={styles.title2}>Identité</Text>
+        <View >
+          <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, prefixe: value })} value={userParams.prefixe} placeholder='Civilité' />
+        </View>
+        <View >
+          <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, nom: value })} value={userParams.nom} placeholder='Nom' />
+        </View>
+        <View >
+          <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, prenom: value })} value={userParams.prenom} placeholder='Prénom' />
+        </View>
+        <View >
+          <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, telephone: value })} value={userParams.telephone} placeholder='Numéro de téléphone' />
+        </View>
+        <View >
+          <TextInput
+            style={styles.textInput}
+            onChangeText={(value) => setUserParams({ ...userParams, dateNaissance: value })}
+            value={userParams.dateDeNaissance}
+            placeholder='Date de naissance'
           />
-          <StatusBar style="auto" />
+        </View>
+        <Text style={styles.title2}>Adresse</Text>
+        <View >
+          <TextInput style={styles.textInput} onChangeText={(value) => setUserAdresses({ ...userAdresses, numeroDeRue: value })} value={userAdresses.numeroDeRue} placeholder='Numéro de rue' />
+        </View>
+        <View >
+          <TextInput style={styles.textInput} onChangeText={(value) => setUserAdresses({ ...userAdresses, nomDeRue: value })} value={userAdresses.nomDeRue} placeholder='Nom de rue' />
+        </View>
+        <View >
+          <TextInput style={styles.textInput} onChangeText={(value) => setUserAdresses({ ...userAdresses, commune: value })} value={userAdresses.commune} placeholder='Ville' />
+        </View>
+        <View >
+          <TextInput style={styles.textInput} onChangeText={(value) => setUserAdresses({ ...userAdresses, codePostal: value })} value={userAdresses.codePostal} placeholder='Code postal' />
+        </View>
+        <Text style={styles.title2}>Mon budget</Text>
+        <View >
+          <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, budget: value })} value={userParams.budget} placeholder='Budget' />
+        </View>
+        <Text style={styles.title2}>Mon régime de consommation</Text>
+        <View style={styles.checkBox}>
+          <View >
+            <LessCheckbox checked={criteres.bio} onChange={() => updateCritere('bio', criteres.bio)} />
+            <Text>Bio</Text>
+          </View>
+          <View >
+            <LessCheckbox checked={criteres.vegan} onChange={() => updateCritere('vegan', criteres.vegan)} />
+            <Text>Végan</Text>
+          </View>
+          <View >
+            <LessCheckbox checked={criteres.premierPrix} onChange={() => updateCritere('premierPrix', criteres.premierPrix)} />
+            <Text>Premier prix</Text>
+          </View>
+          <View >
+            <LessCheckbox checked={criteres.vegetarien} onChange={() => updateCritere('vegetarien', criteres.vegetarien)} />
+            <Text>Végétarien</Text>
+          </View>
+        </View>
+        <Text style={styles.title2}>Mes préférences</Text>
+        <View style={styles.checkBox}>
+          <View >
+            <LessCheckbox checked={criteres.local} onChange={() => updateCritere('local', criteres.local)} />
+            <Text>Local</Text>
+          </View>
+          <View >
+            <LessCheckbox checked={criteres.faibleEnSucre} onChange={() => updateCritere('faibleEnSucre', criteres.faibleEnSucre)} />
+            <Text>Faible en sucres</Text>
+          </View>
+          <View >
+            <LessCheckbox checked={criteres.faibleEnMatiereGrasse} onChange={() => updateCritere('faibleEnMatiereGrasse', criteres.faibleEnMatiereGrasse)} />
+            <Text>Faible en matière grasse</Text>
+          </View>
+        </View>
+        <Text style={styles.title2}>Allergies et tolérances</Text>
+        <View >
+          <TextInput style={styles.textInput} onChangeText={(value) => setCriteres({ ...criteres, budget: value })} value={criteres.budget} placeholder='Budget' />
+        </View>
+        <Text style={styles.title2}>Divers</Text>
+        <View>
+          <View >
+            <Text>Recevoir des notifications de bons plans</Text>
+            <LessCheckbox checked={preferences.recevoirNotifications} onChange={() => updatePreference('recevoirNotifications', preferences.recevoirNotifications)} />
+          </View>
+          <View >
+            <Text>Affichier le message d'accueil</Text>
+            <LessCheckbox checked={preferences.afficherEcranAccueil} onChange={() => updatePreference('afficherEcranAccueil', preferences.afficherEcranAccueil)} />
+          </View>
+        </View>
+
+        <Button
+          title="Appliquer ces critères"
+          onPress={handleUpdateProfile}
+        />
+        <StatusBar style="auto" />
       </ScrollView>
     </SafeAreaView>
   )
