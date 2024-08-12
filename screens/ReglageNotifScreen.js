@@ -1,4 +1,4 @@
-import { ScrollView, CheckBox, View, Text } from 'react-native';
+import { ScrollView, CheckBox, View, Text, StyleSheet } from 'react-native';
 import { useState } from 'react';
 
 

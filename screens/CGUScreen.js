@@ -1,4 +1,4 @@
-import { Title, View } from 'react-native';
+import { Title, View, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 export default function CGUScreen({ navigation }) {
@@ -39,33 +39,33 @@ export default function CGUScreen({ navigation }) {
 
 }
 
-
-const styles = StyleSheet.create({})
-
-
-import { Button, KeyboardAvoidingView, Platform, StyleSheet, Text, View, TextInput } from 'react-native';
-//import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+// // 
+// const styles = StyleSheet.create({})
 
 
-export default function CGUScreen() {
-  //const user = useSelector((state) => state.user.value.userDetails);
-  /*
-  useEffect(() => {
-    (() => {
-      if (!user.id) {
-        navigation.navigate('Login');
-      }
-    })();
-  }, []);
+// import { Button, KeyboardAvoidingView, Platform, StyleSheet, Text, View, TextInput } from 'react-native';
+// //import Ionicons from 'react-native-vector-icons/Ionicons';
+// import { useState, useEffect } from 'react';
+// import { useSelector } from 'react-redux';
+
+
+// export default function CGUScreen() {
+//const user = useSelector((state) => state.user.value.userDetails);
+/*
+useEffect(() => {
+  (() => {
+    if (!user.id) {
+      navigation.navigate('Login');
+    }
+  })();
+}, []);
 */
-  return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Text>Conditions générales d'utilisation</Text>
-    </KeyboardAvoidingView>
-  )
-}
+//   return (
+//     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+//       <Text>Conditions générales d'utilisation</Text>
+//     </KeyboardAvoidingView>
+//   )
+// }
 
 const styles = StyleSheet.create({
   container: {

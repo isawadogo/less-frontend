@@ -18,6 +18,8 @@ import AideScreen from './screens/AideScreen';
 import ReglageNotifScreen from './screens/ReglageNotifScreen'
 import LanguesScreen from './screens/LanguesScreen';
 import CGUScreen from './screens/CGUScreen';
+import HomeScreen from './screens/HomeScreen';
+import CreerListeScreen from './screens/CreerListeScreen';
 
 
 
