@@ -14,7 +14,7 @@ const parametre = [
 
 
 export default function ProfilScreen({ navigation }) {
-    // Pas fini de rajouter les prenom nom, email et critères de l'utilisateur
+    // Pas réussi à rajouter les prenom nom, email et critères de l'utilisateur
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value.userDetails);
 
@@ -26,7 +26,7 @@ export default function ProfilScreen({ navigation }) {
             <View>
                 <Text>{user.prenom}{user.nom}</Text>
                 <Text>{user.email}</Text>
-                <Text>Mes critères</Text>
+                <Text>{user.criteres}</Text>
                 <Text></Text>
                 <View>
                     {parametre.map((item, index) => (
