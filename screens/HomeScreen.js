@@ -26,12 +26,13 @@ export default function HomeScreen({ navigation }) {
       <Text>{user.prenom} {user.nom}</Text>
       <Text>{user.email}</Text>
       <Text>Bonjour {user.prenom}</Text>
-      
-      <Button 
+
+
+      <Button
         title='Modifier mon profil'
         onPress={() => navigation.navigate('ModifierProfil')}
       />
-      <Button 
+      <Button
         title='Commencer'
         onPress={() => navigation.navigate('CreerListe')}
       />

@@ -24,25 +24,28 @@ export default function ProfilScreen({ navigation }) {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <Text>{user.prenom} {user.nom}</Text>
-        <Text>{user.email}</Text>
-        <Text>Mes crtières</Text>
+    <View>
+      <Text>Page profil</Text>
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.scrollView}>
+          <Text>{user.prenom} {user.nom}</Text>
+          <Text>{user.email}</Text>
+          <Text>Mes crtières</Text>
 
-        <Button
-          title="Modifier mes critères"
-        />
-        <Button
-          title='Aide'
-          onPress={() => navigation.navigate('Aide')}
-        />
-        <Button
-          title='CGU'
-          onPress={() => navigation.navigate('CGU')}
-        />
-      </ScrollView>
-    </SafeAreaView>
+          <Button
+            title="Modifier mes critères"
+          />
+          <Button
+            title='Aide'
+            onPress={() => navigation.navigate('Aide')}
+          />
+          <Button
+            title='CGU'
+            onPress={() => navigation.navigate('CGU')}
+          />
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   )
 }
 
