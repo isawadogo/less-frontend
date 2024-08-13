@@ -18,7 +18,7 @@ export default function WelcomeScreen2({ navigation }) {
   useEffect(() => {
     (() => {
       if (user.id && !user.preferences.afficherEcranAccueil) {
-        navigation.navigate('Dashboard');
+        navigation.navigate('TabNavigator');
       } else if (!displayWelcome) {
         navigation.navigate('Login');
       }
@@ -27,7 +27,7 @@ export default function WelcomeScreen2({ navigation }) {
 
   const handleIgnoreWelcome = async () => {
     if (user.id && !user.preferences.afficherEcranAccueil) {
-      navigation.navigate('Dashboard');
+      navigation.navigate('TabNavigator');
     }
     // first dispatch and update the reducer
     dispacth(updateWelcome(false));

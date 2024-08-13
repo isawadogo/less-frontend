@@ -117,6 +117,9 @@ import InscriptionScreen from './screens/InscriptionScreen';
 
 import { Provider } from 'react-redux';
 import user from './reducers/user';
+import HomeScreen from './screens/HomeScreen';
+
+import CreerListeScreen from './screens/CreerListeScreen';
 
 const store = configureStore({
   reducer: { user },
@@ -126,47 +129,40 @@ const store = configureStore({
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const ProfilStack = createNativeStackNavigator();
 
 function ProfilStackScreen() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Profil" component={ProfilScreen} />
-      <Stack.Screen name="Aide" component={AideScreen} />
-      <Stack.Screen name="Réglage des notifications" component={ReglageNotifScreen} />
-      <Stack.Screen name="Langue" component={LanguesScreen} />
-      <Stack.Screen name="Conditions Générales" component={CGUScreen} />
-
-    </Stack.Navigator>
+    <ProfilStack.Navigator>
+      <ProfilStack.Screen name="Profil" component={ProfilScreen} />
+      <ProfilStack.Screen name="Aide" component={AideScreen} />
+      <ProfilStack.Screen name="Réglage des notifications" component={ReglageNotifScreen} />
+      <ProfilStack.Screen name="Langue" component={LanguesScreen} />
+      <ProfilStack.Screen name="Conditions Générales" component={CGUScreen} />
+      <ProfilStack.Screen name="ModifierProfil" component={ModifierProfilScreen} />
+    </ProfilStack.Navigator>
   )
 }
-
 
 const TabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Profil" component={ProfilStackScreen} />
-      <Tab.Screen name="Courses" component={CoursesScreen} />
-      <Tab.Screen name="Livraisons" component={LivraisonsScreen} />
-      <Tab.Screen name="Budget" component={BudgetScreen} />
+      <Tab.Screen name="Accueil" component={HomeScreen} />
+      <Tab.Screen name="ProfilHome" component={ProfilStackScreen} />
     </Tab.Navigator>
   );
-
 }
 
-
 export default function App() {
-
   return (
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-
           <Stack.Screen name="Welcome1" component={WelcomeScreen1} />
           <Stack.Screen name="Welcome2" component={WelcomeScreen2} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Inscription" component={InscriptionScreen} />
-          <Stack.Screen name="ModiferProfil" component={ModifierProfilScreen} />
-          <Stack.Screen name="Profil" component={ProfilScreen} />
+          <Stack.Screen name="CreerListe" component={CreerListeScreen} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>

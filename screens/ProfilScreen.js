@@ -24,16 +24,16 @@ export default function ProfilScreen({ navigation }) {
   }, []);
 
   return (
-    <View>
-      <Text>Page profil</Text>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
+          <Text>Page profil</Text>
           <Text>{user.prenom} {user.nom}</Text>
           <Text>{user.email}</Text>
           <Text>Mes crtières</Text>
 
           <Button
-            title="Modifier mes critères"
+            title="Modifier mon profil"
+            onPress={() => navigation.navigate('ModifierProfil')}
           />
           <Button
             title='Aide'
@@ -45,7 +45,6 @@ export default function ProfilScreen({ navigation }) {
           />
         </ScrollView>
       </SafeAreaView>
-    </View>
   )
 }
 
