@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/user';
-import { LessCheckBox } from '../modules/components';
+import LessCheckbox from '../modules/LessCheckbox';
 
 import { frontConfig } from '../modules/config';
 
@@ -35,11 +35,11 @@ export default function CreerListeScreen({ navigation }) {
         const resJson = await conReq.json();
         console.log('connection result : ', resJson);
         if (resJson.result) {
-            return 0;
+          return 0;
         } else {
           console.log('Failed to get categories list from the backend : ', resJson.error);
         }
-      } catch(err) {
+      } catch (err) {
         console.log('Connection to the backend failed');
         console.log(err.stack);
       }
@@ -52,12 +52,12 @@ export default function CreerListeScreen({ navigation }) {
       <Text>{user.prenom} {user.nom}</Text>
       <Text>{user.email}</Text>
       <Text>Bonjour {user.prenom}</Text>
-      
+
       <View >
         <TextInput style={styles.textInput} onChangeText={(value) => setNomListe(value)} value={nomListe} placeholder='Ma super liste' />
       </View>
       <Text>Reprendre une liste</Text>
-      <Button 
+      <Button
         title='Commencer'
       />
       <Text>Reprendre une liste enregistrée</Text>

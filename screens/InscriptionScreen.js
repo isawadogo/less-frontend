@@ -28,13 +28,13 @@ export default function InscriptionScreen({ navigation }) {
     })();
   }, []);
 
-  const handleInscription = async() => {
+  const handleInscription = async () => {
     // Manange with proper message
-    if (email.length === 0 || password1.length === 0 || password2.length === 0) {
+    if (email.length === 0 || password1.length === 0 || password2.length === 0) {
       return
     }
     // Manange with proper message
-    if ( password1 !== password2 ) {
+    if (password1 !== password2) {
       return
     }
     try {
@@ -62,11 +62,11 @@ export default function InscriptionScreen({ navigation }) {
         setEmail('');
         setPassword1('');
         setPassword2('');
-        navigation.navigate('ModifierProfil');
+        navigation.navigate('ModifierProfilScreen');
       } else {
         console.log('Login failed with message : ', resJson.error);
       }
-    } catch(err) {
+    } catch (err) {
       console.log('Connection to the backend failed');
       console.log(err.stack);
     }
@@ -76,7 +76,7 @@ export default function InscriptionScreen({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.title}>S'enregistrer maintenant</Text>
       <Text style={styles.infosCon}>
-       Enregistrez-vous avec votre adresse email et un mot de passe pour continuer. 
+        Enregistrez-vous avec votre adresse email et un mot de passe pour continuer.
       </Text>
 
       <View >
@@ -88,13 +88,13 @@ export default function InscriptionScreen({ navigation }) {
       <View >
         <TextInput style={styles.textInput} onChangeText={(value) => setPassword2(value)} value={password2} placeholder='Confirmer mot de passe' secureTextEntry={true} />
       </View>
-      
+
       <Button
         title="S'enregistrer"
         onPress={handleInscription}
       />
       <Text>ou</Text>
-      <Text>Vous avez déjà un compte? <Button title="Se connecter" onPress={() => navigation.navigate('Login')}/></Text>
+      <Text>Vous avez déjà un compte? <Button title="Se connecter" onPress={() => navigation.navigate('Login')} /></Text>
       <StatusBar style="auto" />
     </View>
   )

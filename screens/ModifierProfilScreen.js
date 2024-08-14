@@ -1,19 +1,20 @@
 import { Pressable, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 //import CheckBox from 'expo-checkbox';
-
+import Slider from '@react-native-community/slider';
 import { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/user';
 
 import { updateUserDetails } from '../modules/userFunctions';
-import { LessCheckbox } from '../modules/components'
+import LessCheckbox from '../modules/LessCheckbox';
 
 import { frontConfig } from '../modules/config';
 //import { checkBody } from '../modules/checkBody';
 
 export default function ModifierProfilScreen({ navigation }) {
+
 
   const user = useSelector((state) => state.user.value.userDetails);
   useEffect(() => {
@@ -24,7 +25,7 @@ export default function ModifierProfilScreen({ navigation }) {
       setUserParams({ ...userParams, userId: user.id })
     })();
   }, []);
-
+  const [budget, setBudget] = useState(null)
   const [preferences, setPreferences] = useState(user.preferences);
   const [allergies, setAllergies] = useState(user.allergies);
   const [criteres, setCriteres] = useState({ ...user.criteres });
@@ -131,7 +132,16 @@ export default function ModifierProfilScreen({ navigation }) {
         </View>
         <Text style={styles.title2}>Mon budget</Text>
         <View >
-          <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, budget: value })} value={userParams.budget} placeholder='Budget' />
+          <Slider
+            style={{ width: 200, height: 40 }}
+            minimumValue={25}
+            maximumValue={1000}
+            minimumTrackTintColor="#FFFFFF"
+            maximumTrackTintColor="#000000"
+            onValueChange={(value) => setBudget(Math.round(value))}
+
+          />
+          <Text>{budget}</Text>
         </View>
         <Text style={styles.title2}>Mon régime de consommation</Text>
         <View style={styles.checkBox}>

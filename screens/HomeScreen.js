@@ -12,20 +12,29 @@ import { checkBody } from '../modules/checkBody';
 export default function HomeScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
 
+  const [nom, setNom] = useState(user.nom);
+  const [prenom, setPrenom] = useState(user.prenom);
+  const [email, setEmail] = useState(user.email)
+
   useEffect(() => {
     (() => {
       if (!user.id) {
         navigation.navigate('Login');
+      } else {
+        setEmail(user.email)
+        setPrenom(user.prenom);
+        setNom(user.nom);
       }
     })();
-  }, []);
+  }, [user]);
 
   console.log('Dashboard screen - user details : ', user);
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Text>{user.prenom} {user.nom}</Text>
-      <Text>{user.email}</Text>
+      <Text>{nom}</Text>
+      <Text>{email}</Text>
       <Text>Bonjour {user.prenom}</Text>
+
 
       <Button
         title='Commencer'

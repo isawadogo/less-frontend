@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, LayoutAnimation, StyleSheet, ScrollView } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import TouchFAQ from '../modules/TouchFAQ';
 
 
-const faqData = {
+const faqDatas = {
   titre: "FAQ",
   row: [
     {
       id: 0,
       show: false,
       questionText: "comment fonctionne LE$$ ?",
-      responseText:
+      reponseText:
         `
         1. Création de vos critères
         Vous avez le droit à la sélection de 3 critères lors de votre inscription et par la suite modifiable dans "Editer profil".Le premier critère se choisit dans la section 'Mon régime de consommation'.
@@ -57,14 +59,14 @@ const faqData = {
         `Non, l'application n'est pas payante, si vous sélectionnez une liste dans la section" Résultat de comparaison" et que vous la commandez  vous serez redirigez sur l'enseigne en question avec cette liste  présente automatiquement dans le panier de cette enseigne. `,
     },
     {
-      id: 4,
+      id: 5,
       show: false,
       questionText: "Avec quelle enseigne travaillez vous? ",
       reponseText:
         `Monoprix, Leclerc, Naturalia et Leader Price. Nous tenterons dans l'avenir de vous  proposer  plus d'enseigne`
     },
     {
-      id: 5,
+      id: 6,
       show: false,
       questionText: "Quel est minimum et le maximum autorisés pour une course?",
       reponseText:
@@ -72,33 +74,51 @@ const faqData = {
     }]
 }
 
-const TouchFAQ = ({ questionText, reponseText }) => {
-  const [show, setShow] = useState(false);
-  const clickShow = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setShow(!show);
-    return (
-      <View>
-        <TouchableOpacity onPress={clickShow}>
-          <Text>{questionText}</Text>
-        </TouchableOpacity>
-        {show && (
-          <View>
-            <Text>{reponseText}</Text>
-          </View>
-        )}
-      </View>
-    )
-  }
-}
+
 
 export default function AideScreen({ navigation }) {
   return (
-    <ScrollView>
-      <FontAwesomeIcon onPress={navigation.goBack()} icon={faCircleArrowLeft} />
-      {faqData.row.map((item) => (<TouchFAQ key={item.id} questionText={item.questionText} reponseText={item.reponseText} />))}
+    <ScrollView style={styles.container}>
+      <FontAwesomeIcon onPress={() => navigation.goBack()} icon={faCircleArrowLeft} style={styles.backButton} />
+      <Text style={styles.title}>{faqDatas.titre}</Text>
+      {faqDatas.row.map((faqData) => (
+        <TouchFAQ
+          key={faqData.id}
+          questionText={faqData.questionText}
+          reponseText={faqData.reponseText}
+        />
+      ))}
     </ScrollView>
-  )
+  );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  backButton: {
+    margin: 16
+  },
+  faqItem: {
+    marginBottom: 16,
+  },
+
+  questionButton: {
+    padding: 16,
+    backgroundColor: 'black'
+
+
+
+  },
+  questionText: {
+
+  },
+  responseContainer: {
+
+  },
+  responseText: {
+
+  },
+})

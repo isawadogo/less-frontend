@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 
-Langues = [
+
+const Langues = [
     { langue: "Français", on: true },
     { langue: "English", on: false },
     { langue: "Español", on: false },
@@ -16,11 +16,12 @@ Langues = [
 
 ]
 
-export default function LanguesScreen({ navigation }) {
+export default function LangueScreen({ navigation }) {
 
     return (
         <View>
-            <FontAwesomeIcon onPress={navigation.goBack()} icon="arrow-left" />
+            <TouchableOpacity onPress={() => navigation.goBack}>
+            </TouchableOpacity>
 
             {Langues.map((item, index) => (
                 <TouchableOpacity key={index}>
@@ -31,4 +32,9 @@ export default function LanguesScreen({ navigation }) {
     )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    langueOn: {
+    },
+    langue: {
+    },
+})
