@@ -32,48 +32,31 @@ export default function ProfilScreen({ navigation }) {
         <Text>{user.email}</Text>
         <Text>Mes crtières</Text>
 
-<<<<<<< HEAD
         <Button
           title="Modifier mon profil"
-          onPress={() => navigation.navigate('ModifierProfil')}
+          onPress={() => navigation.navigate('Profile', { screen: 'ModifierProfil'})}
         />
         <Button
           title='Reglage Notifications'
-          onPress={() => navigation.navigate('Reglage des notifications')}
+          onPress={() => navigation.navigate('Profile', { screen: 'Reglage des notifications'})}
         />
 
         <Button
           title='Aide'
-          onPress={() => navigation.navigate('Aide')}
+          onPress={() => navigation.navigate('Profile', { screen: 'Aide'})}
         />
         <Button
           title='CGU'
-          onPress={() => navigation.navigate('Conditions Générales')}
+          onPress={() => navigation.navigate('Profile', { screen: 'Conditions Générales'})}
         />
         <Button
           title='Langue'
-          onPress={() => navigation.navigate('Langue')}
+          onPress={() => navigation.navigate('Profile', { screen: 'Langue'})}
         />
 
 
       </ScrollView>
     </SafeAreaView>
-=======
-          <Button
-            title="Modifier mon profil"
-            onPress={() => navigation.navigate('Profile', { screen: 'ModifierProfil'})}
-          />
-          <Button
-            title='Aide'
-            onPress={() => navigation.navigate('Aide')}
-          />
-          <Button
-            title='CGU'
-            onPress={() => navigation.navigate('CGU')}
-          />
-        </ScrollView>
-      </SafeAreaView>
->>>>>>> liste-sprint1
   )
 }
 

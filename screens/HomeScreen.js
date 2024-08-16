@@ -13,10 +13,6 @@ export default function HomeScreen({ navigation }) {
     (() => {
       if (!user.id) {
         navigation.navigate('Login');
-      } else {
-        setEmail(user.email)
-        setPrenom(user.prenom);
-        setNom(user.nom);
       }
     })();
   }, [user]);
@@ -29,8 +25,8 @@ export default function HomeScreen({ navigation }) {
   console.log('Dashboard screen - user details : ', user);
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Text>{nom}</Text>
-      <Text>{email}</Text>
+      <Text>{user.nom}</Text>
+      <Text>{user.email}</Text>
       <Text>Bonjour {user.prenom}</Text>
 
 

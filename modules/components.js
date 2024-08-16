@@ -150,7 +150,7 @@ function ProduitRecapComponent({categorie, onDecrease, onIncrease}) {
   console.log('Recap liste : produit selected: ', produitsSelected);
   console.log('Recap liste : produit to display : ', produitsTodisplay );
   return(
-    <View style={{flex: 1}}>
+    <View key={categorie} style={{flex: 1}}>
       <Text style={{fontWeight: 'bold'}}>{categorie}</Text>
       {produitsTodisplay.map((p) => 
         { return(

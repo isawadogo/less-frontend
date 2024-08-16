@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/user';
 
 import { updateUserDetails } from '../modules/userFunctions';
-import LessCheckbox from '../modules/LessCheckbox';
+import {LessCheckbox} from '../modules/components';
 
 import { frontConfig } from '../modules/config';
 
