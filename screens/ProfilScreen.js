@@ -32,6 +32,7 @@ export default function ProfilScreen({ navigation }) {
         <Text>{user.email}</Text>
         <Text>Mes crtières</Text>
 
+<<<<<<< HEAD
         <Button
           title="Modifier mon profil"
           onPress={() => navigation.navigate('ModifierProfil')}
@@ -57,6 +58,22 @@ export default function ProfilScreen({ navigation }) {
 
       </ScrollView>
     </SafeAreaView>
+=======
+          <Button
+            title="Modifier mon profil"
+            onPress={() => navigation.navigate('Profile', { screen: 'ModifierProfil'})}
+          />
+          <Button
+            title='Aide'
+            onPress={() => navigation.navigate('Aide')}
+          />
+          <Button
+            title='CGU'
+            onPress={() => navigation.navigate('CGU')}
+          />
+        </ScrollView>
+      </SafeAreaView>
+>>>>>>> liste-sprint1
   )
 }
 
