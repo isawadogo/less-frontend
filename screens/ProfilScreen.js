@@ -33,7 +33,7 @@ export default function ProfilScreen({ navigation }) {
 
           <Button
             title="Modifier mon profil"
-            onPress={() => navigation.navigate('ModifierProfil')}
+            onPress={() => navigation.navigate('Profile', { screen: 'ModifierProfil'})}
           />
           <Button
             title='Aide'

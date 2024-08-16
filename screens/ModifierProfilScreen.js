@@ -1,8 +1,14 @@
 import { Pressable, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {Picker} from '@react-native-picker/picker';
 //import CheckBox from 'expo-checkbox';
 
 import { useState, useEffect } from 'react';
+import { Formik, Field } from 'formik';
+import * as Yup from 'yup';
+
+import LessFormikInput from '../composant/LessFormikInput';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/user';
@@ -11,10 +17,8 @@ import { updateUserDetails } from '../modules/userFunctions';
 import { LessCheckbox } from '../modules/components'
 
 import { frontConfig } from '../modules/config';
-//import { checkBody } from '../modules/checkBody';
 
 export default function ModifierProfilScreen({ navigation }) {
-
   const user = useSelector((state) => state.user.value.userDetails);
   useEffect(() => {
     (() => {
@@ -25,38 +29,99 @@ export default function ModifierProfilScreen({ navigation }) {
     })();
   }, []);
 
+  const initialValues = { 
+    nom: user.nom || '', 
+    prenom: user.prenom || '', 
+    telephone: user.telephone || '', 
+    nomDeRue: user.adresses.length > 0 ? user.adresses[0].nomDeRue : '', 
+    numeroDeRue: user.adresses.length > 0 ? user.adresses[0].numeroDeRue : '', 
+    commune: user.adresses.length > 0 ? user.adresses[0].commune : '', 
+    codePostal: user.adresses.length > 0 ? user.adresses[0].codePostal : '', 
+    budget: user.budget.toString() || '0', 
+  };
+  const validationSchema = Yup.object({
+  nom: Yup
+    .string()
+    .required("Veuillez saisir votre nom"),
+  prenom: Yup
+    .string()
+    .required("Veuillez saisir votre prenom"),
+  telephone: Yup
+    .string()
+    .required("Veuillez saisir votre numéro de téléphone"),
+  nomDeRue: Yup
+    .string()
+    .required("Veuillez saisir le nom de votre rue"),
+  numeroDeRue: Yup
+    .string()
+    .required("Veuillez saisir le numéro de votre rue"),
+  codePostal: Yup
+    .string()
+    .required("Veuillez saisir votre code postal"),
+  commune: Yup
+    .string()
+    .required("Veuillez saisir le nom de votre ville"),
+  budget: Yup
+    .number()
+    .required("Veuillez votre budget"),
+  });
+  
   const [preferences, setPreferences] = useState(user.preferences);
   const [allergies, setAllergies] = useState(user.allergies);
   const [criteres, setCriteres] = useState({ ...user.criteres });
-  const [userAdresses, setUserAdresses] = useState({
+  /*const [userAdresses, setUserAdresses] = useState({
     numeroDeRue: user.adresses.length > 0 ? user.adresses[0].numeroDeRue : '',
     nomDeRue: user.adresses.length > 0 ? user.adresses[0].nomDeRue : '',
     commune: user.adresses.length > 0 ? user.adresses[0].commune : '',
     codePostal: user.adresses.length > 0 ? user.adresses[0].codePostal : '',
-  });
+  });*/
+  const dateNais = new Date(user.dateDeNaissance);
   const [userParams, setUserParams] = useState({
     prefixe: user.prefixe,
-    nom: user.nom,
-    prenom: user.prenom,
+    //nom: user.nom,
+    //prenom: user.prenom,
     dateDeNaissance: user.dateDeNaissance,
-    telephone: user.telephone,
+    //telephone: user.telephone,
     profilConso: user.profilConso,
-    budget: user.budget.toString(),
+    //budget: user.budget.toString(),
     distance: user.distance,
   })
+  const [dateN, setDateN] = useState(new Date(user.dateDeNaissance));
+  const [show, setShow] = useState(false);
+
+  //const [selectedLanguage, setSelectedLanguage] = useState();
+
+  const onChange = (event, selectedDate) => {
+    console.log('selected date : ', selectedDate);
+    setShow(false);
+    setDateN(selectedDate);
+    setUserParams({ ...userParams, dateDeNaissance: selectedDate.toLocaleString() });
+  };
 
   const dispatch = useDispatch();
 
   //console.log('Modifier profil screen - user details :', user);
 
-  const handleUpdateProfile = async () => {
+  const handleUpdateProfile = async (values) => {
     // Manange with proper message
+    const allUserParams = {...Object.assign(userParams, {
+      nom: values.nom,
+      prenom: values.prenom,
+      budget: Number(values.budget),
+      telephone: values.telephone,
+    })}
+
+    const addresses = {
+      numeroDeRue: values.numeroDeRue,
+      nomDeRue: values.nomDeRue,
+      commune: values.commune,
+      codePostal: values.codePostal,
+    }
     const dataUpdate = {
       ...userParams,
-      budget: Number(userParams.budget),
       preferences: preferences,
       criteres: { ...criteres },
-      adresses: [userAdresses],
+      adresses: [addresses],
       allergies: allergies,
     }
     console.log('Modifier profil - Data to update : ', dataUpdate);
@@ -96,42 +161,81 @@ export default function ModifierProfilScreen({ navigation }) {
       <ScrollView style={styles.scrollView}>
         <Text style={styles.title}>Créér votre profil consommateur</Text>
         <Text style={styles.title2}>Identité</Text>
-        <View >
-          <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, prefixe: value })} value={userParams.prefixe} placeholder='Civilité' />
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleUpdateProfile}
+          >
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+        <>
+        <View>
+        <Picker
+          selectedValue={userParams.prefixe}
+          onValueChange={(itemValue, itemIndex) =>
+            setUserParams({ ...userParams, prefixe: itemValue})
+          }>
+          <Picker.Item label="M." value="M." />
+          <Picker.Item label="Mme" value="Mme" />
+        </Picker>
         </View>
+        <Field
+          component={LessFormikInput}
+          name="nom"
+          placeholder="Votre nom"
+        />
+        <Field
+          component={LessFormikInput}
+          name="prenom"
+          placeholder="Votre prénom"
+        />
+        <Field
+          component={LessFormikInput}
+          name="telephone"
+          placeholder="Numéro de téléphone"
+        />
         <View >
-          <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, nom: value })} value={userParams.nom} placeholder='Nom' />
-        </View>
-        <View >
-          <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, prenom: value })} value={userParams.prenom} placeholder='Prénom' />
-        </View>
-        <View >
-          <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, telephone: value })} value={userParams.telephone} placeholder='Numéro de téléphone' />
-        </View>
-        <View >
-          <TextInput
-            style={styles.textInput}
-            onChangeText={(value) => setUserParams({ ...userParams, dateNaissance: value })}
-            value={userParams.dateDeNaissance}
-            placeholder='Date de naissance'
-          />
+          <Pressable style={styles.textInput} onPress={() => setShow(true)} >
+            <Text>{dateN.getDate()}/{dateN.getMonth()}/{dateN.getFullYear()}</Text>
+          </Pressable>
+          {show && (
+            <DateTimePicker
+              value={dateN}
+              mode='date'
+              is24Hour={true}
+              onChange={onChange}
+            />
+          )}
         </View>
         <Text style={styles.title2}>Adresse</Text>
-        <View >
-          <TextInput style={styles.textInput} onChangeText={(value) => setUserAdresses({ ...userAdresses, numeroDeRue: value })} value={userAdresses.numeroDeRue} placeholder='Numéro de rue' />
-        </View>
-        <View >
-          <TextInput style={styles.textInput} onChangeText={(value) => setUserAdresses({ ...userAdresses, nomDeRue: value })} value={userAdresses.nomDeRue} placeholder='Nom de rue' />
-        </View>
-        <View >
-          <TextInput style={styles.textInput} onChangeText={(value) => setUserAdresses({ ...userAdresses, commune: value })} value={userAdresses.commune} placeholder='Ville' />
-        </View>
-        <View >
-          <TextInput style={styles.textInput} onChangeText={(value) => setUserAdresses({ ...userAdresses, codePostal: value })} value={userAdresses.codePostal} placeholder='Code postal' />
-        </View>
+        <Field
+          component={LessFormikInput}
+          name="numeroDeRue"
+          placeholder="Numéro de rue"
+        />
+        <Field
+          component={LessFormikInput}
+          name="nomDeRue"
+          placeholder="Nom de rue"
+        />
+        <Field
+          component={LessFormikInput}
+          name="commune"
+          placeholder="ville"
+        />
+        <Field
+          component={LessFormikInput}
+          name="codePostal"
+          placeholder="Code postal"
+          keyboardType='numeric'
+        />
         <Text style={styles.title2}>Mon budget</Text>
+        <Field
+          component={LessFormikInput}
+          name="budget"
+          placeholder="Budget"
+          keyboardType='numeric'
+        />
         <View >
-          <TextInput style={styles.textInput} onChangeText={(value) => setUserParams({ ...userParams, budget: value })} value={userParams.budget} placeholder='Budget' />
         </View>
         <Text style={styles.title2}>Mon régime de consommation</Text>
         <View style={styles.checkBox}>
@@ -182,12 +286,13 @@ export default function ModifierProfilScreen({ navigation }) {
             <LessCheckbox checked={preferences.afficherEcranAccueil} onChange={() => updatePreference('afficherEcranAccueil', preferences.afficherEcranAccueil)} />
           </View>
         </View>
-
-        <Button
-          title="Appliquer ces critères"
-          onPress={handleUpdateProfile}
-        />
-        <StatusBar style="auto" />
+          <Button
+            title="Appliquer ces critères"
+            onPress={handleSubmit}
+          />
+          </>
+          )}
+        </Formik>
       </ScrollView>
     </SafeAreaView>
   )
