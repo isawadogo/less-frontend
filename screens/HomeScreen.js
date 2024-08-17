@@ -1,38 +1,32 @@
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../reducers/user';
-
-import { frontConfig } from '../modules/config';
-import { checkBody } from '../modules/checkBody';
+import { updateUser, logoutUser } from '../reducers/user';
 
 export default function HomeScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
 
-  const [nom, setNom] = useState(user.nom);
-  const [prenom, setPrenom] = useState(user.prenom);
-  const [email, setEmail] = useState(user.email)
-
+  const dispacth = useDispatch();
   useEffect(() => {
     (() => {
       if (!user.id) {
         navigation.navigate('Login');
-      } else {
-        setEmail(user.email)
-        setPrenom(user.prenom);
-        setNom(user.nom);
       }
     })();
   }, [user]);
 
+  const handleDeconnection = () => {
+    dispacth(logoutUser());
+    navigation.navigate('Login');
+
+  }
   console.log('Dashboard screen - user details : ', user);
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Text>{nom}</Text>
-      <Text>{email}</Text>
+      <Text>{user.nom}</Text>
+      <Text>{user.email}</Text>
       <Text>Bonjour {user.prenom}</Text>
 
 
@@ -41,6 +35,10 @@ export default function HomeScreen({ navigation }) {
         onPress={() => navigation.navigate('CreerListe')}
       />
       <Text>Reprendre une liste enregistrée</Text>
+      <Button
+        title='Deconnexion'
+        onPress={handleDeconnection}
+      />
     </KeyboardAvoidingView>
   )
 }

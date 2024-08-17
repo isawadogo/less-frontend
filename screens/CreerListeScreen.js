@@ -1,21 +1,22 @@
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
-//import { Pressable, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, StatusBar } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import { useState, useEffect } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../reducers/user';
-import LessCheckbox from '../modules/LessCheckbox';
+import { updateListeName } from '../reducers/user';
 
-import { frontConfig } from '../modules/config';
+import { Formik, Field } from 'formik';
+import * as Yup from 'yup';
+import LessFormikInput from '../composant/LessFormikInput';
 
-const API_KEY = 'a800a7fd-33ef-4eba-9b70-2e846cae67a5'
+//import { frontConfig } from '../modules/config';
 
 export default function CreerListeScreen({ navigation }) {
+
   const user = useSelector((state) => state.user.value.userDetails);
-  const [categories, setCategories] = useState([]);
-  const [nomListe, setNomListe] = useState('');
+  //const [categories, setCategories] = useState([]);
+  //const [nomListe, setNomListe] = useState();
+  const listeName = useSelector((state) => state.user.value.currentListeName);
+
+  const dispacth = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -23,11 +24,12 @@ export default function CreerListeScreen({ navigation }) {
         navigation.navigate('Login');
       }
       // Get categories
-
+      //setNomListe(listeName)
+      /*
       try {
         const conReq = await fetch(frontConfig.backendURL + '/produits/categories', {
           method: 'GET',
-          headers: { "Content-Type": "application/json", "authorization": API_KEY },
+          headers: { "Content-Type": "application/json", "authorization": user.token },
         });
         if (!conReq.ok) {
           throw new Error('Connection returned a non 200 http code');
@@ -43,23 +45,50 @@ export default function CreerListeScreen({ navigation }) {
         console.log('Connection to the backend failed');
         console.log(err.stack);
       }
+      */
     })();
   }, []);
+
+  const initialValues = { nomListe: listeName || '' };
+  const validationSchema = Yup.object({
+    nomListe: Yup
+      .string()
+      .required("Vous devez choisir un nom pour votre liste"),
+  });
+
+  const handleValider = (values) => {
+    dispacth(updateListeName(values.nomListe));
+    navigation.navigate('ChoisirListeProduits');
+  }
 
   console.log('Creer liste screen - user details : ', user);
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <Button title='retour' onPress={() => navigation.goBack()} />
       <Text>{user.prenom} {user.nom}</Text>
       <Text>{user.email}</Text>
       <Text>Bonjour {user.prenom}</Text>
-
-      <View >
-        <TextInput style={styles.textInput} onChangeText={(value) => setNomListe(value)} value={nomListe} placeholder='Ma super liste' />
-      </View>
-      <Text>Reprendre une liste</Text>
-      <Button
-        title='Commencer'
-      />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleValider}
+       >
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+          <>
+            <Field
+              component={LessFormikInput}
+              name="nomListe"
+              placeholder="Votre liste"
+            />
+          <Button
+            title='Commencer'
+            onPress={handleSubmit}
+            disabled={!isValid}
+          />
+          </>
+          )}
+        </Formik>
+      <Text></Text>
       <Text>Reprendre une liste enregistrée</Text>
     </KeyboardAvoidingView>
   )

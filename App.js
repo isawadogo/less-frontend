@@ -2,6 +2,13 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 
+
+// import { NavigationContainer } from '@react-navigation/native';
+// // import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -13,18 +20,19 @@ import AideScreen from './screens/AideScreen';
 import ReglageNotifScreen from './screens/ReglageNotifScreen'
 import LangueScreen from './screens/LangueScreen';
 import CGUScreen from './screens/CGUScreen';
-import { configureStore } from '@reduxjs/toolkit';
 
 import WelcomeScreen1 from './screens/WelcomeScreen1';
 import LoginScreen from './screens/LoginScreen';
 import WelcomeScreen2 from './screens/WelcomeScreen2';
 import InscriptionScreen from './screens/InscriptionScreen';
 
-import { Provider } from 'react-redux';
 import user from './reducers/user';
 import HomeScreen from './screens/HomeScreen';
 
 import CreerListeScreen from './screens/CreerListeScreen';
+import ChoisirListeProduitsScreen from './screens/ChoisirListeProduitsScreen';
+import RecapListeProduitsScreen from './screens/RecapListeProduitsScreen';
+import ResultatComparaisonScreen from './screens/ResultatComparaisonScreen';
 
 const store = configureStore({
   reducer: { user },
@@ -39,7 +47,6 @@ const ProfilStack = createNativeStackNavigator();
 function ProfilStackScreen() {
   return (
     <ProfilStack.Navigator>
-      <ProfilStack.Screen name="Profil" component={ProfilScreen} />
       <ProfilStack.Screen name="Aide" component={AideScreen} />
       <ProfilStack.Screen name="Reglage des notifications" component={ReglageNotifScreen} />
       <ProfilStack.Screen name="Langue" component={LangueScreen} />
@@ -53,7 +60,7 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Accueil" component={HomeScreen} />
-      <Tab.Screen name="ProfilHome" component={ProfilStackScreen} />
+      <Tab.Screen name="ProfilHome" component={ProfilScreen} />
     </Tab.Navigator>
   );
 }
@@ -68,10 +75,13 @@ export default function App() {
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Inscription" component={InscriptionScreen} />
           <Stack.Screen name="CreerListe" component={CreerListeScreen} />
+          <Stack.Screen name='ChoisirListeProduits' component={ChoisirListeProduitsScreen} />
+          <Stack.Screen name='RecapListeProduits' component={RecapListeProduitsScreen} />
+          <Stack.Screen name='ResultatComparaison' component={ResultatComparaisonScreen} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
+          <Stack.Screen name="Profile" component={ProfilStackScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
-
   )
 }
