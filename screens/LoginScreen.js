@@ -1,27 +1,14 @@
-import React from 'react';
 import { Button, StyleSheet, Text, View, TextInput } from 'react-native';
+//import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/user';
 
-import { Formik, Field } from 'formik';
-import * as Yup from 'yup';
-
-import LessFormikInput from '../composant/LessFormikInput';
-
 import { frontConfig } from '../modules/config';
 
 export default function LoginScreen({ navigation }) {
-  const initialValues = { email: '', password: '' };
-  const validationSchema = Yup.object({
-    email: Yup
-      .string()
-      .email("L'email n'est pas valid")
-      .required("L'email est requis"),
-    password: Yup
-      .string()
-      .required("Le mot de passe est requis")
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value.userDetails);
@@ -43,8 +30,8 @@ export default function LoginScreen({ navigation }) {
     }
     try {
       loginPayload = {
-        email: values.email,
-        password: values.password
+        email,
+        password
       }
       const conReq = await fetch(frontConfig.backendURL + '/utilisateur/signup', {
         method: 'POST',
@@ -63,6 +50,8 @@ export default function LoginScreen({ navigation }) {
         if (json.result) {
           dispatch(updateUser({ ...json.user, id: resJson.id }));
         }
+        setEmail('');
+        setPassword('');
         navigation.navigate('TabNavigator')
       } else {
         console.log('Login failed with message : ', resJson.error);
