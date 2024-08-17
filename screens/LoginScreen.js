@@ -25,7 +25,7 @@ export default function LoginScreen({ navigation }) {
   }, []);
 
   const handleConnect = async () => {
-    if (email.length === 0 || password.length === 0) {
+    if (email.length === 0 || password.length === 0) {
       return
     }
     try {
@@ -56,7 +56,7 @@ export default function LoginScreen({ navigation }) {
       } else {
         console.log('Login failed with message : ', resJson.error);
       }
-    } catch(err) {
+    } catch (err) {
       console.log('Connection to the backend failed');
       console.log(err.stack);
     }
@@ -75,13 +75,13 @@ export default function LoginScreen({ navigation }) {
       <View >
         <TextInput style={styles.textInput} onChangeText={(value) => setPassword(value)} value={password} placeholder='Mot de passe' secureTextEntry={true} />
       </View>
-      
+
       <Button
         title='Se connecter'
         onPress={handleConnect}
       />
       <Text>ou</Text>
-      <Text>Pas encore de compte? <Button title="Créér un compte" onPress={() => navigation.navigate('Inscription')}/></Text>
+      <Text>Pas encore de compte? <Button title="Créér un compte" onPress={() => navigation.navigate('Inscription')} /></Text>
     </View>
   )
 }
