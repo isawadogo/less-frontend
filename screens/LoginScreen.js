@@ -37,10 +37,7 @@ export default function LoginScreen({ navigation }) {
     })();
   }, []);
 
-  const handleConnect = async () => {
-    if (email.length === 0 || password.length === 0) {
-      return
-    }
+  const handleConnect = async (values) => {
     try {
       loginPayload = {
         email: values.email,
@@ -67,7 +64,7 @@ export default function LoginScreen({ navigation }) {
       } else {
         console.log('Login failed with message : ', resJson.error);
       }
-    } catch (err) {
+    } catch(err) {
       console.log('Connection to the backend failed');
       console.log(err.stack);
     }
@@ -79,20 +76,35 @@ export default function LoginScreen({ navigation }) {
       <Text style={styles.infosCon}>
         Accéder à votre compte en renseignant votre email et votre de mot de passe
       </Text>
-
-      <View >
-        <TextInput style={styles.textInput} onChangeText={(value) => setEmail(value)} value={email} placeholder='Email' inputMode='email' />
-      </View>
-      <View >
-        <TextInput style={styles.textInput} onChangeText={(value) => setPassword(value)} value={password} placeholder='Mot de passe' secureTextEntry={true} />
-      </View>
-
-      <Button
-        title='Se connecter'
-        onPress={handleConnect}
-      />
-      <Text>ou</Text>
-      <Text>Pas encore de compte? <Button title="Créér un compte" onPress={() => navigation.navigate('Inscription')} /></Text>
+      <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleConnect}
+       >
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+          <>
+            <Field
+              component={LessFormikInput}
+              name="email"
+              placeholder="email"
+              keyboardType='email-address'
+            />
+            <Field
+              component={LessFormikInput}
+              name="password"
+              placeholder='Mot de passe' 
+              secureTextEntry={true} 
+            />
+          <Button
+            title='Se connecter'
+            onPress={handleSubmit}
+            disabled={!isValid}
+          />
+          <Text>ou</Text>
+          <Text>Pas encore de compte? <Button title="Créér un compte" onPress={() => navigation.navigate('Inscription')}/></Text>
+          </>
+          )}
+        </Formik>
     </View>
   )
 }
