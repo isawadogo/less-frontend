@@ -1,19 +1,17 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
-
-
-// import { NavigationContainer } from '@react-navigation/native';
-// // import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
+/* NAVIGATION */
+
+// importation des modules react-navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-
+// importation des screens
 import ModifierProfilScreen from './screens/ModifierProfilScreen';
 import ProfilScreen from './screens/ProfilScreen';
 import AideScreen from './screens/AideScreen';
@@ -33,16 +31,19 @@ import CreerListeScreen from './screens/CreerListeScreen';
 import ChoisirListeProduitsScreen from './screens/ChoisirListeProduitsScreen';
 import RecapListeProduitsScreen from './screens/RecapListeProduitsScreen';
 import ResultatComparaisonScreen from './screens/ResultatComparaisonScreen';
+import BudgetScreen from './screens/BudgetScreen';
+
+// création de la navigation par Stack et Tab
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+const ProfilStack = createNativeStackNavigator();
+
 
 const store = configureStore({
   reducer: { user },
 });
 
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-const ProfilStack = createNativeStackNavigator();
 
 function ProfilStackScreen() {
   return (
@@ -61,6 +62,7 @@ const TabNavigator = () => {
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Accueil" component={HomeScreen} />
       <Tab.Screen name="ProfilHome" component={ProfilScreen} />
+      <Tab.Screen name="Budget" component={BudgetScreen} />
     </Tab.Navigator>
   );
 }
