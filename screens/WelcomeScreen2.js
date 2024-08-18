@@ -7,9 +7,15 @@ import { useEffect } from 'react';
 import { updateWelcome, updateUser } from '../reducers/user';
 import { updateUserDetails } from '../modules/userFunctions';
 import { frontConfig } from '../modules/config';
-import MyCarousel from '../modules/MyCarousel';
+import MyCarousel from '../composant/MyCarousel';
+import TouchableButton from '../composant/TouchableButton';
 
 export default function WelcomeScreen2({ navigation }) {
+
+  const buttonPosition = {
+    bottom: 8,
+
+  }
   const user = useSelector((state) => state.user.value.userDetails);
   const displayWelcome = useSelector((state) => state.user.value.displayWelcome);
 
@@ -76,12 +82,8 @@ export default function WelcomeScreen2({ navigation }) {
           <Text style={styles.lessDesc}>
             Vous rentrez votre liste d'achat.{'\n'} LE$$ compare où vous ferez les meilleures économies.{'\n'} LE$$ vous renverrons le ticket de course avec toutes les références qui respectent vos critères.
           </Text>
-          <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.buttonText1}>Suivant</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('Welcome1')}>
-            <Text style={styles.buttonText1}>Précédent</Text>
-          </TouchableOpacity>
+          <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Login')} title="SUIVANT" position={buttonPosition}></TouchableButton>
+          <TouchableButton st color="#7CD6C1" onPress={() => navigation.navigate('Welcome1')} title="PRECEDENT" position={buttonPosition}></TouchableButton>
           <StatusBar style="auto" />
         </View>
       </ImageBackground>
@@ -105,8 +107,7 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
     textAlign: 'center',
     color: 'white',
-    fontWeight: 'bold',
-    paddingLeft: 10,
+    paddingLeft: 20,
     marginBottom: 0,
     fontSize: 13,
     paddingBottom: 11,
@@ -119,32 +120,18 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 15,
     paddingLeft: 20,
     color: 'white',
   },
-  button1: {
-    width: 160,
-    height: 27,
-    backgroundColor: '#7CD6C1',
-    left: 113,
-    marginBottom: 12,
-    borderRadius: 15,
-  },
-  buttonText1: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    margin: 5,
-  },
-
   logo: {
-    width: 130,
-    height: 130,
-    left: 130,
-  }
+    width: 135,
+    height: 135,
+    left: 120,
+    top: 5,
+  },
 
 });

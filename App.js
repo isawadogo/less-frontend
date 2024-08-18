@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { useFonts } from 'expo-font';
+import { ActivityIndicator, Text } from 'react-native'
 
 
 
@@ -66,6 +68,13 @@ const TabNavigator = () => {
 }
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    RalewayRegular: require('./assets/fonts/RalewayRegular.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return <ActivityIndicator style={styles.loading} />;
+  }
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -85,3 +94,14 @@ export default function App() {
     </Provider>
   )
 }
+
+const styles = StyleSheet.create({
+  text: {
+    fontFamily: 'RalewayRegular',
+    fontSize: 20,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+})

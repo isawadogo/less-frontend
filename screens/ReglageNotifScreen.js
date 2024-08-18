@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import CheckBoxReglage from '../modules/CheckBoxReglage'
+import CheckBoxReglage from '../composant/CheckBoxReglage';
 
 
 

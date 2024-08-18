@@ -6,9 +6,14 @@ import { useState, useEffect } from 'react';
 import { updateWelcome, updateUser } from '../reducers/user';
 import { updateUserDetails } from '../modules/userFunctions';
 import { frontConfig } from '../modules/config';
-import MyCarousel from '../modules/MyCarousel';
+import MyCarousel from '../composant/MyCarousel';
+import TouchableButton from '../composant/TouchableButton';
 
 export default function WelcomeScreen1({ navigation }) {
+  const buttonPosition = {
+    bottom: 58,
+
+  }
   //const [afficherAccueil, setAfficherAccueil] = useState(true);
 
   const user = useSelector((state) => state.user.value.userDetails);
@@ -82,11 +87,9 @@ export default function WelcomeScreen1({ navigation }) {
           <Text style={styles.lessDesc}>
             Vos courses reviennent moins cher.{'\n'} Votre temps devant l'écran sera réduit.{'\n'}Votre impact environnemental baissera.
           </Text>
-          <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('Welcome2')}>
-            <Text style={styles.buttonText1}>Suivant</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate('LoginS')}>
-            <Text style={styles.buttonText2}>Ignorer au prochain lancement</Text>
+          <TouchableButton style={styles.touchable} color="#7CD6C1" page="Welcome2" onPress={() => navigation.navigate('Welcome2')} title="SUIVANT" position={buttonPosition}></TouchableButton>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.buttonText}>Ignorer au prochain lancement</Text>
           </TouchableOpacity>
           <StatusBar style="auto" />
         </View>
@@ -111,7 +114,6 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
     textAlign: 'center',
     color: 'white',
-    fontWeight: 'bold',
     paddingLeft: 45,
     marginBottom: 20,
     fontSize: 15,
@@ -125,41 +127,29 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 15,
-    paddingLeft: 33,
+    marginBottom: 17,
+    paddingLeft: 45,
     color: 'white',
   },
-  button1: {
-    width: 160,
-    height: 27,
-    backgroundColor: '#7CD6C1',
-    left: 113,
-    bottom: 40,
-    borderRadius: 15,
-  },
-  buttonText1: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    margin: 5,
-  },
-  button2: {
+
+  button: {
     color: 'white',
     fontSize: 11,
-    left: 115,
-    bottom: 20,
+    marginLeft: 108,
+    bottom: 25,
   },
-  buttonText2: {
+  buttonText: {
     color: 'white',
     fontSize: 11,
-    marginBottom: 45,
+    bottom: 25,
   },
   logo: {
     width: 135,
     height: 135,
     left: 130,
-  }
+    bottom: 9,
+  },
 });

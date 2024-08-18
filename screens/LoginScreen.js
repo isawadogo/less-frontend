@@ -1,8 +1,11 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View, TextInput } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, TextInput, ImageBackground } from 'react-native';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/user';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCircleArrowLeft, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import TouchableButton from '../composant/TouchableButton';
 
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
@@ -11,7 +14,19 @@ import LessFormikInput from '../composant/LessFormikInput';
 
 import { frontConfig } from '../modules/config';
 
+const Ligne = () => {
+  return <View style={styles.ligne} />
+}
+
+
 export default function LoginScreen({ navigation }) {
+
+  const buttonPosition = {
+    right: 20,
+    bottom: 20,
+  }
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const initialValues = { email: '', password: '' };
   const validationSchema = Yup.object({
     email: Yup
@@ -43,8 +58,8 @@ export default function LoginScreen({ navigation }) {
     }
     try {
       loginPayload = {
-        email: values.email,
-        password: values.password
+        email: email,
+        password: password,
       }
       const conReq = await fetch(frontConfig.backendURL + '/utilisateur/signup', {
         method: 'POST',
@@ -75,49 +90,114 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Content de vous revoir</Text>
-      <Text style={styles.infosCon}>
-        Accéder à votre compte en renseignant votre email et votre de mot de passe
-      </Text>
+      <ImageBackground source={require('../assets/back.png')} style={styles.imageBackground}>
 
-      <View >
-        <TextInput style={styles.textInput} onChangeText={(value) => setEmail(value)} value={email} placeholder='Email' inputMode='email' />
-      </View>
-      <View >
-        <TextInput style={styles.textInput} onChangeText={(value) => setPassword(value)} value={password} placeholder='Mot de passe' secureTextEntry={true} />
-      </View>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
+          <FontAwesomeIcon icon={faCircleArrowLeft} style={styles.backButton} />
+        </TouchableOpacity>
 
-      <Button
-        title='Se connecter'
-        onPress={handleConnect}
-      />
-      <Text>ou</Text>
-      <Text>Pas encore de compte? <Button title="Créér un compte" onPress={() => navigation.navigate('Inscription')} /></Text>
-    </View>
+        <Text style={styles.title}>Content de vous revoir 😍 </Text>
+        <Text style={styles.infosCon}>
+          Accédez à votre compte ! {'\n'} Renseignez votre email et votre de mot de passe.
+        </Text>
+
+        <View >
+          <TextInput style={styles.textInput} onChangeText={(value) => setEmail(value)} value={email} placeholder='✉️ Email' inputMode='email' />
+        </View>
+        <View >
+          <TextInput style={styles.textInput} onChangeText={(value) => setPassword(value)} value={password} placeholder=' 🔒 Mot de passe' secureTextEntry={true} />
+        </View>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
+          <Text style={styles.oublie}>Mot de passe oublié ?</Text>
+        </TouchableOpacity>
+        <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Inscription')} title="SE CONNECTER" position={buttonPosition} />
+        <View style={styles.row}>
+          <Ligne />
+          <Text>ou</Text>
+          <Ligne />
+        </View>
+
+        <Text>Pas encore de compte? <TouchableOpacity onPress={() => navigation.navigate('Inscription')}></TouchableOpacity></Text>
+      </ImageBackground>
+    </View >
+
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+
+  },
+  imageBackground: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  backButtonContainer: {
+    position: 'absolute',
+    top: 100,
+
+  },
+  backButton: {
+    paddingBottom: 25,
+    paddingStart: 80,
+    color: 'white',
+
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'right',
+    color: 'white',
+    bottom: 130,
+    paddingStart: 60,
+    marginTop: 80,
+
   },
   infosCon: {
-    width: '75%'
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'white',
+    padding: 15,
+    bottom: 90,
+  },
+  oublie: {
+    color: 'white',
+    top: 380,
+    paddingStart: 230
   },
   textInput: {
-    borderWidth: 1,
-    width: 300,
-    height: 40,
-    margin: 10,
-    padding: 'auto',
+    backgroundColor: '#F3F3F3',
+    margin: 13,
+    padding: 17,
+    bottom: 80,
+    borderRadius: 30,
   },
-});
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  button1: {
+    width: 160,
+    height: 35,
+    backgroundColor: '#7CD6C1',
+    left: 113,
+    marginBottom: 12,
+    borderRadius: 15,
+  },
+  buttonText1: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 15,
+    textAlign: 'center',
+    marginTop: 8,
+  },
+
+  ligne: {
+    height: 3,
+    width: 180,
+    margin: 20,
+    backgroundColor: 'white',
+
+  }
+})
