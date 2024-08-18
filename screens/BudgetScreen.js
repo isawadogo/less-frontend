@@ -1,4 +1,5 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
+import CircularProgress from 'react-native-circular-progress-indicator';
 import { object } from 'yup';
 
 export default function BudgetScreen({ navigation }) {
@@ -6,27 +7,27 @@ export default function BudgetScreen({ navigation }) {
     const categorySpent = [
         {
             category: "Epricerie",
-            amount: 175,
+            amount: 75,
         },
         {
             category: "Légumes",
-            amount: 175,
+            amount: 15,
         },
         {
             category: "Fruits",
-            amount: 175,
+            amount: 25,
         },
         {
             category: "Crémerie",
-            amount: 175,
+            amount: 15,
         },
         {
             category: "Boucherie",
-            amount: 175,
+            amount: 35,
         },
         {
             category: "Divers",
-            amount: 175,
+            amount: 15,
         },
     
     ];
@@ -40,10 +41,12 @@ export default function BudgetScreen({ navigation }) {
     });
 
     // calcul du reste à dépenser
-    const Budget = 100;
-    const Spent = 75;
-    const leftToSpend = Budget - Spent;
-    const percentageSpent = `${(100 * Spent)/Budget}%`
+    const budget = 300;
+    const amounts = categorySpent.map ((category) => category.amount)
+    const spent = amounts.reduce((acc, curr) => acc + curr)
+    
+    const leftToSpend = budget - spent;
+    const percentageSpent = `${(100 * spent)/budget}%`
 
     // calcul des dépenses du mois précédents
     const budgetData = [
@@ -87,9 +90,9 @@ export default function BudgetScreen({ navigation }) {
             
             <View style={styles.container}>
                 <Text style={styles.sectionTitle}>Mois en cours</Text>
-                    <View>
-                        <Text>Progress Bar</Text>
-                        {spentByCategory}
+                    <View style={styles.listContainer}>
+                        <CircularProgress value={spent}/>
+                        <View>{spentByCategory}</View>
                     </View>
                     
                 <Text style={styles.sectionTitle}>Reste {leftToSpend}€ à dépenser</Text>
@@ -145,6 +148,11 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginVertical: 25,
+    },
+
+    listContainer: {
+        flexDirection: "row",
+        justifyContent: "space-around",
     },
 
     barContainer: {
