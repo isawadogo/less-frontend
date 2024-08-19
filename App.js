@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { useFonts } from 'expo-font';
+import { ActivityIndicator, Text } from 'react-native'
 
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
@@ -52,7 +54,7 @@ function ProfilStackScreen() {
       <ProfilStack.Screen name="Reglage des notifications" component={ReglageNotifScreen} />
       <ProfilStack.Screen name="Langue" component={LangueScreen} />
       <ProfilStack.Screen name="Conditions Générales" component={CGUScreen} />
-      <ProfilStack.Screen name="ModifierProfil" component={ModifierProfilScreen} />
+      <ProfilStack.Screen name="ModifierProfil" component={ModifierProfilScreen} option={{ title: 'modifier notre Profil' }} />
     </ProfilStack.Navigator>
   )
 }
@@ -68,6 +70,13 @@ const TabNavigator = () => {
 }
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    RalewayRegular: require('./assets/fonts/RalewayRegular.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return <ActivityIndicator style={styles.loading} />;
+  }
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -87,3 +96,14 @@ export default function App() {
     </Provider>
   )
 }
+
+const styles = StyleSheet.create({
+  text: {
+    fontFamily: 'RalewayRegular',
+    fontSize: 20,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+})

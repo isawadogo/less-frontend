@@ -79,7 +79,9 @@ const faqDatas = {
 export default function AideScreen({ navigation }) {
   return (
     <ScrollView style={styles.container}>
-      <FontAwesomeIcon onPress={() => navigation.goBack()} icon={faCircleArrowLeft} style={styles.backButton} />
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <FontAwesomeIcon icon={faCircleArrowLeft} style={styles.backButton} />
+      </TouchableOpacity>
       <Text style={styles.title}>{faqDatas.titre}</Text>
       {faqDatas.row.map((faqData) => (
         <TouchFAQ

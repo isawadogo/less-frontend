@@ -1,13 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Button, StyleSheet, Text, SafeAreaView, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
 //import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { updateWelcome, updateUser } from '../reducers/user';
 import { updateUserDetails } from '../modules/userFunctions';
 import { frontConfig } from '../modules/config';
+import MyCarousel from '../composant/MyCarousel';
+import TouchableButton from '../composant/TouchableButton';
 
 export default function WelcomeScreen1({ navigation }) {
+  const buttonPosition = {
+    bottom: 58,
+
+  }
   //const [afficherAccueil, setAfficherAccueil] = useState(true);
 
   const user = useSelector((state) => state.user.value.userDetails);
@@ -20,7 +26,7 @@ export default function WelcomeScreen1({ navigation }) {
     (() => {
       console.log('Welcome 1 - screen - useEffect - user details :', user);
       if (user.id && !user.preferences.afficherEcranAccueil) {
-        navigation.navigate('TabNavigator');
+        navigation.navigate('Dashboard');
       } else if (!displayWelcome) {
         navigation.navigate('Login');
       }
@@ -30,9 +36,9 @@ export default function WelcomeScreen1({ navigation }) {
   const handleIgnoreWelcome = async () => {
     // first dispatch and update the reducer
     if (user.id && !user.preferences.afficherEcranAccueil) {
-      navigation.navigate('TabNavigator');
-    //} else if (!displayWelcome) {
-    //  navigation.navigate('Login');
+      navigation.navigate('Dashboard');
+      //} else if (!displayWelcome) {
+      //  navigation.navigate('Login');
     }
     dispacth(updateWelcome(false));
     // If the user is already connected
@@ -45,17 +51,17 @@ export default function WelcomeScreen1({ navigation }) {
         }
       }
 
-    const updateRes = await updateUserDetails(user, dataUpdate);
-    if (updateRes === 0) {
-      const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + user.id);
-      const json = await response.json();
-      if (json.result) {
-        console.log('Modifier profil - dispacth to reducer : ', json.user);
-        dispatch(updateUser({ ...json.user, id: user.id }));
-        navigation.navigate('TabNavigator');
+      const updateRes = await updateUserDetails(user, dataUpdate);
+      if (updateRes === 0) {
+        const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + user.id);
+        const json = await response.json();
+        if (json.result) {
+          console.log('Modifier profil - dispacth to reducer : ', json.user);
+          dispatch(updateUser({ ...json.user, id: user.id }));
+          navigation.navigate('TabNavigator');
+        }
       }
-    }
-    //return;
+      //return;
       dispacth(updateUser(updateData));
       // Go to the login page
       navigation.navigate('Login');
@@ -63,79 +69,88 @@ export default function WelcomeScreen1({ navigation }) {
       navigation.navigate('Login');
     }
   }
+  const carouseldata = [
+    { image: require('../assets/fruit.png') },
+    { image: require('../assets/producteurs_locaux.png') },
+    { image: require('../assets/vegan.png') },
+  ];
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>LESS gère vos courses au quotidien</Text>
-      <Text style={styles.lessDesc}>
-        Less c'est moins cher sur vos achats. Less C'est moins de temps devant l'écran. Less c'est moins de pollution et de gaspillage
-      </Text>
-
-      <Button
-        title='Suivant'
-        onPress={() => navigation.navigate('Welcome2')}
-      />
-      <Button
-        title='Ignorer au prochain lancement'
-        onPress={handleIgnoreWelcome}
-      />
-      <StatusBar style="auto" />
-    </View>
+      <ImageBackground source={require('../assets/back.png')}>
+        <View style={styles.onlycarousel}>
+          <MyCarousel data={carouseldata} style={styles.carousel} />
+        </View>
+        <View style={styles.welcome}>
+          <Image source={require('../assets/Logo.png')} style={styles.logo} />
+          <Text style={styles.title}> SYSTEME DE COMPARAISON {'\n'} POUR VOS COURSES QUOTIDIENNES </Text>
+          <Text style={styles.lessDesc}>
+            Vos courses reviennent moins cher.{'\n'} Votre temps devant l'écran sera réduit.{'\n'}Votre impact environnemental baissera.
+          </Text>
+          <TouchableButton style={styles.touchable} color="#7CD6C1" page="Welcome2" onPress={() => navigation.navigate('Welcome2')} title="SUIVANT" position={buttonPosition}></TouchableButton>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.buttonText}>Ignorer au prochain lancement</Text>
+          </TouchableOpacity>
+          <StatusBar style="auto" />
+        </View>
+      </ImageBackground>
+    </View >
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  lessDesc: {
-    width: "70%",
-    padding: 'auto',
-    paddingBottom: 40,
-    paddingTop: 20
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  menu: {
-    backgroundColor: '#655074',
-    height: '20%',
-    alignItems: 'flex-end',
+  onlycarousel: {
+    backgroundColor: 'white',
+    flex: 1,
     justifyContent: 'center',
-    paddingRight: 20,
-    border: 'none',
+    paddingTop: 90,
   },
-  menuText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginRight: 10,
-    marginBottom: 25,
+  lessDesc: {
+    paddingBottom: 50,
+    textAlign: 'center',
+    color: 'white',
+    paddingLeft: 45,
+    marginBottom: 20,
+    fontSize: 13,
   },
-  imageWrapper: {
-    height: '80%',
-    backgroundColor: '#655074',
-    border: 'none',
-  },
-  imageBackground: {
+
+  welcome: {
     width: '100%',
-    height: '50%',
-    borderBottomLeftRadius: 160,
-    backgroundColor: '#ffffff',
+    marginTop: 76,
+    flex: 1,
+    justifyContent: 'center',
   },
-  iconWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
+
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 17,
+    paddingLeft: 45,
+    color: 'white',
   },
-  icon: {
-    color: '#ffffff',
-    position: 'relative',
+
+  button: {
+    color: 'white',
+    fontSize: 11,
+    marginLeft: 108,
+    bottom: 25,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 11,
     bottom: 2,
+    left: 7,
+  },
+  logo: {
+    width: 135,
+    height: 135,
+    left: 130,
+    bottom: 13,
   },
 });

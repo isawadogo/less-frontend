@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Image, TouchableOpacity, ImageBackground, StyleSheet, Text, View } from 'react-native';
 //import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,8 +7,15 @@ import { useEffect } from 'react';
 import { updateWelcome, updateUser } from '../reducers/user';
 import { updateUserDetails } from '../modules/userFunctions';
 import { frontConfig } from '../modules/config';
+import MyCarousel from '../composant/MyCarousel';
+import TouchableButton from '../composant/TouchableButton';
 
 export default function WelcomeScreen2({ navigation }) {
+
+  const buttonPosition = {
+    bottom: 8,
+
+  }
   const user = useSelector((state) => state.user.value.userDetails);
   const displayWelcome = useSelector((state) => state.user.value.displayWelcome);
 
@@ -41,42 +48,45 @@ export default function WelcomeScreen2({ navigation }) {
         }
       }
 
-    const updateRes = await updateUserDetails(user, dataUpdate);
-    if (updateRes === 0) {
-      const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + user.id);
-      const json = await response.json();
-      if (json.result) {
-        console.log('Modifier profil - dispacth to reducer : ', json.user);
-        dispatch(updateUser({ ...json.user, id: user.id }));
-        navigation.navigate('TabNavigator');
+      const updateRes = await updateUserDetails(user, dataUpdate);
+      if (updateRes === 0) {
+        const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + user.id);
+        const json = await response.json();
+        if (json.result) {
+          console.log('Modifier profil - dispacth to reducer : ', json.user);
+          dispatch(updateUser({ ...json.user, id: user.id }));
+          navigation.navigate('TabNavigator');
+        }
       }
-    }
-    //return;
+      //return;
       dispacth(updateUser(updateData));
       // Go to the login page
       navigation.navigate('Login');
     }
   }
+  const carouseldata = [
+    { image: require('../assets/fruit.png') },
+    { image: require('../assets/producteurs_locaux.png') },
+    { image: require('../assets/vegan.png') },
+  ];
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>LESS gère vos courses au quotidien</Text>
-      <Text style={styles.lessDesc}>
-        Vous rentrez votre liste d'achat. LESS compare où vous ferez les meilleures économies. Nous vous renverrons le ticket de course avec toutes les références et qui respecte vos critères.
-        </Text>
-      <Button
-        title='Suivant'
-        onPress={() => navigation.navigate('Login')}
-      />
-      <Button
-        title='Précédent'
-        onPress={() => navigation.goBack()}
-      />
-      <Button
-        title='Ignorer'
-        onPress={handleIgnoreWelcome}
-      />
-      <StatusBar style="auto" />
+      <ImageBackground source={require('../assets/back.png')}>
+        <View style={styles.onlycarousel}>
+          <MyCarousel data={carouseldata} style={styles.carousel} backendURL />
+        </View>
+        <View style={styles.welcome}>
+          <Image source={require('../assets/Logo.png')} style={styles.logo} />
+          <Text style={styles.title}>SYSTEME DE COMPARAISON {'\n'} POUR VOS COURSES QUOTIDIENNES</Text>
+          <Text style={styles.lessDesc}>
+            Vous rentrez votre liste d'achat.{'\n'} LE$$ compare où vous ferez les meilleures économies.{'\n'} LE$$ vous renverrons le ticket de course avec toutes les références qui respectent vos critères.
+          </Text>
+          <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Login')} title="SUIVANT" position={buttonPosition}></TouchableButton>
+          <TouchableButton st color="#7CD6C1" onPress={() => navigation.navigate('Welcome1')} title="PRECEDENT" position={buttonPosition}></TouchableButton>
+          <StatusBar style="auto" />
+        </View>
+      </ImageBackground>
     </View>
   )
 }
@@ -84,49 +94,44 @@ export default function WelcomeScreen2({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'right',
-  },
-  menu: {
-    backgroundColor: '#655074',
-    height: '20%',
-    alignItems: 'flex-end',
+  onlycarousel: {
+    backgroundColor: 'white',
+    flex: 1,
     justifyContent: 'center',
-    paddingRight: 20,
-    border: 'none',
+    paddingTop: 90,
   },
-  menuText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginRight: 10,
-    marginBottom: 25,
+  lessDesc: {
+    paddingBottom: 50,
+    textAlign: 'center',
+    color: 'white',
+    paddingLeft: 15,
+    marginBottom: 0,
+    fontSize: 13,
+    paddingBottom: 17,
   },
-  imageWrapper: {
-    height: '80%',
-    backgroundColor: '#655074',
-    border: 'none',
-  },
-  imageBackground: {
+  welcome: {
     width: '100%',
-    height: '50%',
-    borderBottomLeftRadius: 160,
-    backgroundColor: '#ffffff',
+    paddingBottom: 11,
+    flex: 1,
+    justifyContent: 'center',
   },
-  iconWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
+
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 15,
+    paddingLeft: 20,
+    color: 'white',
   },
-  icon: {
-    color: '#ffffff',
-    position: 'relative',
-    bottom: 2,
+  logo: {
+    width: 135,
+    height: 135,
+    left: 130,
+    top: 5,
   },
+
 });
