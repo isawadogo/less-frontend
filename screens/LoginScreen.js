@@ -93,7 +93,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../assets/back.png')} style={styles.imageBackground}>
+      <ImageBackground source={require('../assets/back.png')} style={styles.imageBackground} >
 
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
           <FontAwesomeIcon icon={faCircleArrowLeft} style={styles.backButton} />
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
     bottom: 130,
     paddingStart: 60,
     marginTop: 130,
+    bottom: 100,
 
   },
   infosCon: {
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 17,
     top: 9,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   inscription: {
     color: 'white',

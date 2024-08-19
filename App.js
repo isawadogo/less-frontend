@@ -53,7 +53,7 @@ function ProfilStackScreen() {
       <ProfilStack.Screen name="Reglage des notifications" component={ReglageNotifScreen} />
       <ProfilStack.Screen name="Langue" component={LangueScreen} />
       <ProfilStack.Screen name="Conditions Générales" component={CGUScreen} />
-      <ProfilStack.Screen name="ModifierProfil" component={ModifierProfilScreen} />
+      <ProfilStack.Screen name="ModifierProfil" component={ModifierProfilScreen} option={{ title: 'modifier notre Profil' }} />
     </ProfilStack.Navigator>
   )
 }

@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 11,
-    bottom: 28,
+    bottom: 2,
     left: 7,
   },
   logo: {
