@@ -20,7 +20,7 @@ export default function LoginScreen({ navigation }) {
 
   const buttonPosition1 = {
     right: 0,
-    bottom: 5,
+    bottom: 25,
   }
 
   const buttonPosition2 = {
@@ -111,7 +111,7 @@ export default function LoginScreen({ navigation }) {
           <TextInput style={styles.textInput} onChangeText={(value) => setPassword(value)} value={password} placeholder=' 🔒 Mot de passe' secureTextEntry={true} />
         </View>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
-          <Text style={styles.oublie}>Mot de passe oublié ?</Text>
+          <Text style={styles.oublie}>Mot de passe oublié</Text>
         </TouchableOpacity>
         <TouchableButton color="#7CD6C1" onPress={handleConnect} title="SE CONNECTER" position={buttonPosition1} />
         <View style={styles.row}>
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     color: 'white',
     bottom: 130,
     paddingStart: 60,
-    marginTop: 80,
+    marginTop: 130,
 
   },
   infosCon: {
@@ -168,37 +168,22 @@ const styles = StyleSheet.create({
   oublie: {
     color: 'white',
     fontWeight: 'bold',
-    top: 335,
+    top: 360,
     paddingStart: 230,
 
   },
   textInput: {
     backgroundColor: '#F3F3F3',
-    margin: 13,
-    padding: 17,
-    bottom: 80,
-    borderRadius: 30,
+    width: '85%',
+    margin: 10,
+    padding: 15,
+    bottom: 67,
+    left: 24,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'center'
   },
-  button1: {
-    width: 160,
-    height: 35,
-    backgroundColor: '#7CD6C1',
-    left: 113,
-    marginBottom: 12,
-    borderRadius: 15,
-  },
-  buttonText1: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 15,
-    textAlign: 'center',
-    marginTop: 8,
-  },
-
   ligne: {
     height: 3,
     width: 160,
@@ -209,6 +194,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 17,
     top: 9,
+    fontWeight: 'bold',
   },
   inscription: {
     color: 'white',

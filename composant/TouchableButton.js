@@ -22,7 +22,7 @@ const TouchableButton = ({ color, page, onPress, title, position }) => {
             color: 'white',
             fontWeight: 'bold',
             textAlign: 'center',
-            margin: 7.5,
+            margin: 6.5,
             paddingStart: 0,
 
         },

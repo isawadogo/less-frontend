@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, TextInput } from 'react-native';
+import { ImageBackground, Button, StyleSheet, Text, View, TextInput } from 'react-native';
+import TouchableButton from '../composant/TouchableButton';
 
 import { useState, useEffect } from 'react';
 
@@ -14,25 +15,35 @@ import LessFormikInput from '../composant/LessFormikInput';
 import { frontConfig } from '../modules/config';
 
 export default function InscriptionScreen({ navigation }) {
-  
+
+  const buttonPosition1 = {
+    bottom: 55,
+  }
+
+  const buttonPosition2 = {
+    right: 0,
+    top: 25,
+  }
+
+
   const initialValues = { email: '', password: '', confirmPassword: '' };
   const validationSchema = Yup.object({
-  email: Yup
-    .string()
-    .email("L'email n'est pas valid")
-    .required('Le mot de passe est requis'),
-  password: Yup
-    .string()
-    .matches(/\w*[a-z]\w*/,  "Le mot de passe doit contenir au moins une lettre minuscule ")
-    .matches(/\w*[A-Z]\w*/,  "e mot de passe doit contenir au moins une lettre majuscule")
-    .matches(/\d/, "e mot de passe doit contenir au moins un chiffre")
-    .matches(/[!@#$%^&*()\-_=+{}; :,<.>]/, "e mot de passe doit contenir au moins un caractère spécial parmis : !@#$%^&*()\-_=+{}; :,<.>")
-    .min(8, ({ min }) => `Le doit avoir au moins ${min} characters`)
-    .required('Le mot de passe est requis'),
-  confirmPassword: Yup
-    .string()
-    .oneOf([Yup.ref('password')], 'Les mots de passes ne correspondent pas')
-    .required('Confirmez votre de passe'),
+    email: Yup
+      .string()
+      .email("L'email n'est pas valid")
+      .required('Le mot de passe est requis'),
+    password: Yup
+      .string()
+      .matches(/\w*[a-z]\w*/, "Le mot de passe doit contenir au moins une lettre minuscule ")
+      .matches(/\w*[A-Z]\w*/, "Le mot de passe doit contenir au moins une lettre majuscule")
+      .matches(/\d/, "Le mot de passe doit contenir au moins un chiffre")
+      .matches(/[!@#$%^&*()\-_=+{}; :,<.>]/, "e mot de passe doit contenir au moins un caractère spécial parmis : !@#$%^&*()\-_=+{}; :,<.>")
+      .min(8, ({ min }) => `Le mot de passe doit avoir au moins ${min} characters`)
+      .required('Le mot de passe est requis'),
+    confirmPassword: Yup
+      .string()
+      .oneOf([Yup.ref('password')], 'Les mots de passes ne correspondent pas')
+      .required('Confirmez votre de passe'),
   })
 
   const dispatch = useDispatch();
@@ -41,12 +52,12 @@ export default function InscriptionScreen({ navigation }) {
   useEffect(() => {
     (() => {
       if (user.id) {
-        navigation.navigate('Profile', {screen :'Accueil'});
+        navigation.navigate('Profile', { screen: 'Accueil' });
       }
     })();
   }, []);
 
-  const handleInscription = async(values) => {
+  const handleInscription = async (values) => {
     // Manange with proper message
     try {
       signinPayload = {
@@ -70,7 +81,7 @@ export default function InscriptionScreen({ navigation }) {
         if (json.result) {
           dispatch(updateUser({ ...json.user, id: resJson.id }));
         }
-        navigation.navigate('Profile', {screen: 'ModifierProfil'});
+        navigation.navigate('Profile', { screen: 'ModifierProfil' });
       } else {
         console.log('Login failed with message : ', resJson.error);
       }
@@ -82,14 +93,15 @@ export default function InscriptionScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>S'enregistrer maintenant</Text>
-      <Text style={styles.infosCon}>
-        Enregistrez-vous avec votre adresse email et un mot de passe pour continuer.
-      </Text>
-      <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleInscription}
+      <ImageBackground source={require('../assets/back.png')} style={styles.imageBackground}>
+        <Text style={styles.title}>S'enregistrer maintenant ! 🏁</Text>
+        <Text style={styles.infosCon}>
+          Enregistrez-vous avec votre adresse email et un mot de passe pour continuer.
+        </Text>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleInscription}
         >
           {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
             <>
@@ -102,26 +114,30 @@ export default function InscriptionScreen({ navigation }) {
               <Field
                 component={LessFormikInput}
                 name="password"
-                placeholder='Mot de passe' 
-                secureTextEntry={true} 
+                placeholder='Mot de passe'
+                secureTextEntry={true}
               />
               <Field
                 component={LessFormikInput}
                 name="confirmPassword"
-                placeholder='Confirmer votre mot de passe' 
-                secureTextEntry={true} 
+                placeholder='Confirmer votre mot de passe'
+                secureTextEntry={true}
               />
-            <Button
-              title="S'enregistrer"
-              onPress={handleSubmit}
-              disabled={!isValid}
-            />
+
+              <TouchableButton color="#7CD6C1" onPress={handleSubmit} title="S'ENREGISTRER" position={buttonPosition1}></TouchableButton>
             </>
-            )}
+          )}
         </Formik>
-      <Text>ou</Text>
-      <Text>Vous avez déjà un compte? <Button title="Se connecter" onPress={() => navigation.navigate('Login')} /></Text>
-      <StatusBar style="auto" />
+        <View style={styles.row}>
+          <Text style={styles.ligne} />
+          <Text style={styles.ou}>ou</Text>
+          <Text style={styles.ligne} />
+        </View>
+        <Text style={styles.inscription}>Vous avez déjà un compte? </Text>
+        <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Login')} title="SE CONNECTER" position={buttonPosition2}></TouchableButton>
+
+        <StatusBar style="auto" />
+      </ImageBackground>
     </View>
   )
 }
@@ -129,24 +145,53 @@ export default function InscriptionScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+
+
+  },
+  imageBackground: {
+    heigth: '100%',
+    flex: 1,
+    justifyContent: 'center'
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'right',
+    color: 'white',
+    bottom: 130,
+    paddingStart: 40,
+    marginTop: 130,
+
   },
   infosCon: {
-    width: '75%'
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'white',
+    padding: 15,
+    bottom: 90,
+
   },
-  textInput: {
-    borderWidth: 1,
-    width: 300,
-    height: 40,
-    margin: 10,
-    padding: 'auto',
+  ligne: {
+    height: 3,
+    width: 160,
+    margin: 20,
+    backgroundColor: 'white',
   },
-});
+  ou: {
+    color: 'white',
+    fontSize: 17,
+    fontWeight: 'bold',
+    top: 9,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  inscription: {
+    color: 'white',
+    left: 100,
+    top: 20,
+    fontWeight: 'bold',
+
+  }
+})

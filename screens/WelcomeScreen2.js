@@ -107,10 +107,10 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
     textAlign: 'center',
     color: 'white',
-    paddingLeft: 20,
+    paddingLeft: 15,
     marginBottom: 0,
     fontSize: 13,
-    paddingBottom: 11,
+    paddingBottom: 17,
   },
   welcome: {
     width: '100%',
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 135,
     height: 135,
-    left: 120,
+    left: 130,
     top: 5,
   },
 

@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     color: 'white',
     paddingLeft: 45,
     marginBottom: 20,
-    fontSize: 15,
+    fontSize: 13,
   },
 
   welcome: {
@@ -144,12 +144,13 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 11,
-    bottom: 25,
+    bottom: 28,
+    left: 7,
   },
   logo: {
     width: 135,
     height: 135,
     left: 130,
-    bottom: 9,
+    bottom: 13,
   },
 });
