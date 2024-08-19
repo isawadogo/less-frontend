@@ -14,16 +14,19 @@ import LessFormikInput from '../composant/LessFormikInput';
 
 import { frontConfig } from '../modules/config';
 
-const Ligne = () => {
-  return <View style={styles.ligne} />
-}
 
 
 export default function LoginScreen({ navigation }) {
 
-  const buttonPosition = {
-    right: 20,
-    bottom: 20,
+  const buttonPosition1 = {
+    right: 0,
+    bottom: 5,
+  }
+
+  const buttonPosition2 = {
+    right: 100,
+    top: 70,
+
   }
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -110,14 +113,15 @@ export default function LoginScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
           <Text style={styles.oublie}>Mot de passe oublié ?</Text>
         </TouchableOpacity>
-        <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Inscription')} title="SE CONNECTER" position={buttonPosition} />
+        <TouchableButton color="#7CD6C1" onPress={handleConnect} title="SE CONNECTER" position={buttonPosition1} />
         <View style={styles.row}>
-          <Ligne />
-          <Text>ou</Text>
-          <Ligne />
+          <Text style={styles.ligne} />
+          <Text style={styles.ou}>ou</Text>
+          <Text style={styles.ligne} />
         </View>
 
-        <Text>Pas encore de compte? <TouchableOpacity onPress={() => navigation.navigate('Inscription')}></TouchableOpacity></Text>
+        <Text style={styles.inscription}>Pas encore de compte? </Text>
+        <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Inscription')} title="S'INSCRIRE" position={buttonPosition2}></TouchableButton>
       </ImageBackground>
     </View >
 
@@ -163,8 +167,10 @@ const styles = StyleSheet.create({
   },
   oublie: {
     color: 'white',
-    top: 380,
-    paddingStart: 230
+    fontWeight: 'bold',
+    top: 335,
+    paddingStart: 230,
+
   },
   textInput: {
     backgroundColor: '#F3F3F3',
@@ -195,9 +201,20 @@ const styles = StyleSheet.create({
 
   ligne: {
     height: 3,
-    width: 180,
+    width: 160,
     margin: 20,
     backgroundColor: 'white',
+  },
+  ou: {
+    color: 'white',
+    fontSize: 17,
+    top: 9,
+  },
+  inscription: {
+    color: 'white',
+    left: 120,
+    top: 50,
+    fontWeight: 'bold',
+  },
 
-  }
 })
