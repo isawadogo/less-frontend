@@ -7,6 +7,7 @@ import Slider from '@react-native-community/slider';
 import { useState, useEffect } from 'react';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
+import { globalStyles } from '../globalStyles';
 
 import LessFormikInput from '../composant/LessFormikInput';
 
@@ -163,7 +164,7 @@ export default function ModifierProfilScreen({ navigation }) {
       <ImageBackground source={require('../assets/back.png')} style={styles.imageBackground} >
         <ScrollView style={styles.scrollView}>
           <Text style={styles.title1}>Créér votre profil consommateur</Text>
-          <Text style={styles.title2}>Identité</Text>
+          <Text style={[globalStyles.title, { top: 65, right: 105 }]}>Identité</Text>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -171,12 +172,15 @@ export default function ModifierProfilScreen({ navigation }) {
           >
             {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
               <>
-                <View>
+                <View style={styles.pickerBox}>
                   <Picker
+                    style={{ color: 'white' }}
                     selectedValue={userParams.prefixe}
                     onValueChange={(itemValue, itemIndex) =>
                       setUserParams({ ...userParams, prefixe: itemValue })
+
                     }>
+                    /
                     <Picker.Item label="M." value="M." />
                     <Picker.Item label="Mme" value="Mme" />
                   </Picker>
@@ -209,7 +213,7 @@ export default function ModifierProfilScreen({ navigation }) {
                     />
                   )}
                 </View>
-                <Text style={styles.title2}>Adresse</Text>
+                <Text style={globalStyles.title}>Adresse</Text>
                 <Field
                   component={LessFormikInput}
                   name="numeroDeRue"
@@ -231,7 +235,7 @@ export default function ModifierProfilScreen({ navigation }) {
                   placeholder="Code postal"
                   keyboardType='numeric'
                 />
-                <Text style={styles.title2}>Mon budget</Text>
+                <Text style={globalStyles.title}>Mon budget</Text>
                 <Field
                   component={LessFormikInput}
                   name="budget"
@@ -240,7 +244,7 @@ export default function ModifierProfilScreen({ navigation }) {
                 />
                 <View >
                 </View>
-                <Text style={styles.title2}>Mon régime de consommation</Text>
+                <Text style={globalStyles.title}>Mon régime de consommation</Text>
                 <View style={styles.checkBox}>
                   <View >
                     <LessCheckbox checked={criteres.bio} onChange={() => updateCritere('bio', criteres.bio)} />
@@ -259,7 +263,7 @@ export default function ModifierProfilScreen({ navigation }) {
                     <Text>Végétarien</Text>
                   </View>
                 </View>
-                <Text style={styles.title2}>Mes préférences</Text>
+                <Text style={globalStyles.title}>Mes préférences</Text>
                 <View style={styles.checkBox}>
                   <View >
                     <LessCheckbox checked={criteres.local} onChange={() => updateCritere('local', criteres.local)} />
@@ -274,11 +278,11 @@ export default function ModifierProfilScreen({ navigation }) {
                     <Text>Faible en matière grasse</Text>
                   </View>
                 </View>
-                <Text style={styles.title2}>Allergies et tolérances</Text>
+                <Text style={globalStyles.title}>Allergies et tolérances</Text>
                 <View >
                   <TextInput style={styles.textInput} onChangeText={(value) => setCriteres({ ...criteres, budget: value })} value={criteres.budget} placeholder='Budget' />
                 </View>
-                <Text style={styles.title2}>Divers</Text>
+                <Text style={globalStyles.title}>Divers</Text>
                 <View>
                   <View >
                     <Text>Recevoir des notifications de bons plans</Text>
@@ -315,6 +319,14 @@ const styles = StyleSheet.create({
     width: '100%',
 
   },
+  pickerBox: {
+
+
+  },
+  picker: {
+    width: 150,
+    color: 'white',
+  },
   checkboxBase: {
     width: 24,
     height: 24,
@@ -346,18 +358,11 @@ const styles = StyleSheet.create({
   title2: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: 'white',
     marginBottom: 10,
     textAlign: 'right',
   },
   infosCon: {
     width: '75%'
-  },
-  textInput: {
-    borderWidth: 1,
-    width: 300,
-    height: 40,
-    margin: 10,
-    padding: 'auto',
-    color: 'red'
   },
 });

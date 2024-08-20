@@ -40,6 +40,8 @@ const styles = StyleSheet.create({
     left: 24,
   },
   errorText: {
+    bottom: 65,
+    left: 37,
     fontSize: 10,
     color: 'red',
   },

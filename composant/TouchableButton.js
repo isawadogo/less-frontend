@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, ScrollView } from 'react-native';
 
 
-const TouchableButton = ({ color, page, onPress, title, position }) => {
+const TouchableButton = ({ color, onPress, title, position }) => {
     const styles = StyleSheet.create({
 
         button: {
