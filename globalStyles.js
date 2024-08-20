@@ -9,7 +9,6 @@ export const globalStyles = StyleSheet.create({
         textAlign: 'center',
 
     },
-
     textInput: {
         top: 15,
         backgroundColor: 'white',

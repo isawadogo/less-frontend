@@ -2,9 +2,13 @@ import { ImageBackground, Pressable, Button, StyleSheet, Text, View, TextInput, 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNPickerSelect from 'react-native-picker-select';
+import Slider from '@react-native-community/slider';
+import DateDeNaissance from '../composant/DateDeNaissance';
+
+
 import { Picker } from '@react-native-picker/picker';
 //import CheckBox from 'expo-checkbox';
-import Slider from '@react-native-community/slider';
+
 import { useState, useEffect } from 'react';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
@@ -67,6 +71,9 @@ export default function ModifierProfilScreen({ navigation }) {
       .number()
       .required("Veuillez votre budget"),
   });
+
+  const [budget, setBudget] = useState(null)
+
 
   const [preferences, setPreferences] = useState(user.preferences);
   const [allergies, setAllergies] = useState(user.allergies);
@@ -165,7 +172,7 @@ export default function ModifierProfilScreen({ navigation }) {
       <ImageBackground source={require('../assets/back.png')} style={styles.imageBackground} >
         <ScrollView style={styles.scrollView}>
           <Text style={styles.title1}>Créér votre profil consommateur</Text>
-          <Text style={[globalStyles.title, { top: 25, right: 105 }]}>Identité</Text>
+          <Text style={[globalStyles.title, { top: 25, right: 110 }]}>Identité</Text>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -209,19 +216,11 @@ export default function ModifierProfilScreen({ navigation }) {
                   errorTextStyle={{ top: 8 }}
                 />
                 <View >
-                  <Pressable style={styles.dateDeNaissance} onPress={() => setShow(true)} >
-                    <Text>{dateN.getDate()}/{dateN.getMonth()}/{dateN.getFullYear()}</Text>
-                  </Pressable>
-                  {show && (
-                    <DateTimePicker
-                      value={dateN}
-                      mode='date'
-                      is24Hour={true}
-                      onChange={onChange}
-                    />
-                  )}
+                  <DateDeNaissance />
+
+
                 </View>
-                <Text style={globalStyles.title}>Adresse</Text>
+                <Text style={[globalStyles.title, { top: 15, right: 110 }]}>Adresse</Text>
                 <Field
                   style={globalStyles.textInput}
                   component={LessFormikInput}
@@ -251,16 +250,21 @@ export default function ModifierProfilScreen({ navigation }) {
                   keyboardType='numeric'
                   errorTextStyle={{ top: 8 }}
                 />
-                <Text style={globalStyles.title}>Mon budget</Text>
-                <Field
-                  component={LessFormikInput}
-                  name="budget"
-                  placeholder="Budget"
-                  keyboardType='numeric'
+                <Text style={[globalStyles.title, { top: 15, right: 110 }]}>Mon budget</Text>
+                <Slider
+                  style={{ marginTop: 25, start: 35, width: 300, height: 40, }}
+                  minimumValue={25}
+                  maximumValue={1500}
+                  minimumTrackTintColor="#FFFFFF"
+                  maximumTrackTintColor="#000000"
+                  onValueChange={(value) => setBudget(Math.round(value))}
+                  thumbTintColor="#7CD6C1"
+
                 />
+                <Text style={{ start: '45%', color: 'white' }}>{budget}</Text>
                 <View >
                 </View>
-                <Text style={globalStyles.title}>Mon régime de consommation</Text>
+                <Text >Mon régime de consommation</Text>
                 <View style={styles.checkBox}>
                   <View >
                     <LessCheckbox checked={criteres.bio} onChange={() => updateCritere('bio', criteres.bio)} />
@@ -391,4 +395,9 @@ const styles = StyleSheet.create({
   infosCon: {
     width: '75%'
   },
+
+  dateDeNaissance: {
+    color: ' white',
+  }
+
 });

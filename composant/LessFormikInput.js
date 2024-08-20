@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 10,
     color: 'red',
-    bottom: 63,
+    bottom: 57,
     left: 37,
   },
   errorInput: {
