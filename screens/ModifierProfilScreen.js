@@ -1,6 +1,7 @@
 import { ImageBackground, Pressable, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import RNPickerSelect from 'react-native-picker-select';
 import { Picker } from '@react-native-picker/picker';
 //import CheckBox from 'expo-checkbox';
 import Slider from '@react-native-community/slider';
@@ -164,44 +165,51 @@ export default function ModifierProfilScreen({ navigation }) {
       <ImageBackground source={require('../assets/back.png')} style={styles.imageBackground} >
         <ScrollView style={styles.scrollView}>
           <Text style={styles.title1}>Créér votre profil consommateur</Text>
-          <Text style={[globalStyles.title, { top: 65, right: 105 }]}>Identité</Text>
+          <Text style={[globalStyles.title, { top: 25, right: 105 }]}>Identité</Text>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleUpdateProfile}
+            errorTextStyle={{ bottom: 10 }}
           >
             {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
               <>
-                <View style={styles.pickerBox}>
-                  <Picker
-                    style={{ color: 'white' }}
-                    selectedValue={userParams.prefixe}
-                    onValueChange={(itemValue, itemIndex) =>
+                <View>
+                  <RNPickerSelect
+                    value={userParams.prefixe}
+                    onValueChange={(itemValue) =>
                       setUserParams({ ...userParams, prefixe: itemValue })
-
-                    }>
-                    /
-                    <Picker.Item label="M." value="M." />
-                    <Picker.Item label="Mme" value="Mme" />
-                  </Picker>
+                    } items={[
+                      { label: 'M.', value: 'M.' },
+                      { label: 'Mme.', value: 'Mme.' }
+                    ]}
+                    style={pickerSelectStyles}
+                    placeholder={{ label: 'Genre', value: null }}
+                  />
                 </View>
                 <Field
+                  style={globalStyles.textInput}
                   component={LessFormikInput}
                   name="nom"
                   placeholder="Votre nom"
+                  errorTextStyle={{ top: 8 }}
                 />
                 <Field
+                  style={globalStyles.textInput}
                   component={LessFormikInput}
                   name="prenom"
                   placeholder="Votre prénom"
+                  errorTextStyle={{ top: 8 }}
                 />
                 <Field
+                  style={globalStyles.textInput}
                   component={LessFormikInput}
                   name="telephone"
                   placeholder="Numéro de téléphone"
+                  errorTextStyle={{ top: 8 }}
                 />
                 <View >
-                  <Pressable style={styles.textInput} onPress={() => setShow(true)} >
+                  <Pressable style={styles.dateDeNaissance} onPress={() => setShow(true)} >
                     <Text>{dateN.getDate()}/{dateN.getMonth()}/{dateN.getFullYear()}</Text>
                   </Pressable>
                   {show && (
@@ -215,25 +223,33 @@ export default function ModifierProfilScreen({ navigation }) {
                 </View>
                 <Text style={globalStyles.title}>Adresse</Text>
                 <Field
+                  style={globalStyles.textInput}
                   component={LessFormikInput}
                   name="numeroDeRue"
                   placeholder="Numéro de rue"
+                  errorTextStyle={{ top: 8 }}
                 />
                 <Field
+                  style={globalStyles.textInput}
                   component={LessFormikInput}
                   name="nomDeRue"
                   placeholder="Nom de rue"
+                  errorTextStyle={{ top: 8 }}
                 />
                 <Field
+                  style={globalStyles.textInput}
                   component={LessFormikInput}
                   name="commune"
                   placeholder="ville"
+                  errorTextStyle={{ top: 8 }}
                 />
                 <Field
+                  style={globalStyles.textInput}
                   component={LessFormikInput}
                   name="codePostal"
                   placeholder="Code postal"
                   keyboardType='numeric'
+                  errorTextStyle={{ top: 8 }}
                 />
                 <Text style={globalStyles.title}>Mon budget</Text>
                 <Field
@@ -302,10 +318,26 @@ export default function ModifierProfilScreen({ navigation }) {
           </Formik>
         </ScrollView>
       </ImageBackground>
-    </View>
+    </View >
   )
 }
-
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    width: 95,
+    height: 30,
+    backgroundColor: 'white',
+    color: 'grey',
+    fontSize: 17,
+    paddingStart: 25,
+    start: 35,
+    marginTop: 40,
+  },
+  inputAndroid: {
+    color: 'white',
+    fontSize: 17,
+    paddingStart: 35,
+  }
+})
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -317,15 +349,9 @@ const styles = StyleSheet.create({
   imageBackground: {
     flex: 1,
     width: '100%',
-
-  },
-  pickerBox: {
-
-
   },
   picker: {
-    width: 150,
-    color: 'white',
+    color: "white",
   },
   checkboxBase: {
     width: 24,

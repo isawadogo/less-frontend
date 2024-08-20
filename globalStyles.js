@@ -11,11 +11,12 @@ export const globalStyles = StyleSheet.create({
     },
 
     textInput: {
-        backgroundColor: '#F3F3F3',
+        top: 15,
+        backgroundColor: 'white',
         width: '85%',
         margin: 10,
         padding: 15,
-        bottom: 67,
+        marginBottom: 15,
         left: 24,
     },
 

@@ -5,6 +5,7 @@ const LessFormikInput = (props) => {
   const {
     field: { name, onBlur, onChange, value },
     form: { errors, touched, setFieldTouched },
+    errorTextStyle,
     ...inputProps
   } = props
 
@@ -25,25 +26,25 @@ const LessFormikInput = (props) => {
         }}
         {...inputProps}
       />
-      {hasError && <Text style={styles.errorText}>{errors[name]}</Text>}
+      {hasError && <Text style={[styles.errorText, errorTextStyle]}>{errors[name]}</Text>}
     </>
   )
 }
 
 const styles = StyleSheet.create({
   textInput: {
-    backgroundColor: '#F3F3F3',
-    width: '85%',
+    backgroundColor: 'white',
+    width: '83%',
     margin: 10,
     padding: 15,
-    bottom: 64,
+    bottom: 54,
     left: 24,
   },
   errorText: {
-    bottom: 65,
-    left: 37,
     fontSize: 10,
     color: 'red',
+    bottom: 63,
+    left: 37,
   },
   errorInput: {
     borderColor: 'red',
