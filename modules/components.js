@@ -7,7 +7,7 @@ import { frontConfig } from '../modules/config';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-function LessButtonTouchable({label, onChange}) {
+function LessButtonTouchable({ label, onChange }) {
   return (
     <TouchableOpacity style={styles.btnTouchableStyle} activeOpacity={0.7} onPress={onPress} >
       <Text style={styles.btnTouchableTextStyle}>
@@ -42,12 +42,12 @@ function LessCheckbox({ onChange, checked }) {
     <Pressable
       style={[styles.checkboxBase, checked && styles.checkboxChecked]}
       onPress={onChange}>
-      {checked && <Ionicons name="checkmark" size={24} color="white" />}
+      {checked && <Ionicons name="checkmark" size={20} color="white" />}
     </Pressable>
   );
 }
 
-function LessButton({onChange, pressed, texte}) {
+function LessButton({ onChange, pressed, texte }) {
   console.log(`in less button - Pressed = ${pressed}, categorie: ${texte}`)
 
   return (
@@ -58,33 +58,33 @@ function LessButton({onChange, pressed, texte}) {
   );
 }
 
-function ProduitsComponent({categorie, onDecrease, onIncrease}) {
+function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
   const user = useSelector((state) => state.user.value.userDetails);
   const [listProd, setListProd] = useState([]);
   const [isReady, setIsReady] = useState(false);
   console.log('Cat loading : ', categorie);
   useEffect(() => {
     (async () => {
-    fetch(frontConfig.backendURL + '/produits/categories/' + categorie, {
+      fetch(frontConfig.backendURL + '/produits/categories/' + categorie, {
         method: 'GET',
         headers: { "Content-Type": "application/json", "authorization": user.token },
       }).then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          //console.log(' Choisir liste produit - produits par categorie - jsonres : ', data);
-          if (data.produits) {
-            setListProd(data.produits);
-            setIsReady(true);
-          } else {
-            console.log(`Issue with produits fetch for categorie : ${categorie}`)
+        .then((data) => {
+          if (data.result) {
+            //console.log(' Choisir liste produit - produits par categorie - jsonres : ', data);
+            if (data.produits) {
+              setListProd(data.produits);
+              setIsReady(true);
+            } else {
+              console.log(`Issue with produits fetch for categorie : ${categorie}`)
+            }
           }
-        }
-      });
+        });
     })();
   }, []);
-  
+
   if (!isReady) {
-    return(
+    return (
       <Text>Still Loading ...</Text>
     )
   }
@@ -96,19 +96,19 @@ function ProduitsComponent({categorie, onDecrease, onIncrease}) {
   const decreaseNumber = (value) => {
     onDecrease(value);
   }
-  
-  return(
+
+  return (
     <View style={styles.produitContainer}>
-      {listProd.map((p) => 
-        { return(
+      {listProd.map((p) => {
+        return (
           <View style={styles.produitItem} key={p._id}>
-            <Image 
+            <Image
               style={styles.produitImage}
               source={require('../assets/fruits.png')}
             />
             <Text style={styles.itemPrix}>{p.nom}</Text>
             <Text>{p.prix}</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 10}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 10 }}>
               <Pressable onPress={(value) => onIncrease(p)}>
                 <AntDesign name='pluscircleo' size={15} color='green' />
               </Pressable>
@@ -116,14 +116,15 @@ function ProduitsComponent({categorie, onDecrease, onIncrease}) {
                 <AntDesign name='minuscircleo' size={15} color='red' />
               </Pressable>
             </View>
-          </View>  
-        ) }
-      )} 
+          </View>
+        )
+      }
+      )}
     </View>
   )
 }
 
-function ProduitRecapComponent({categorie, onDecrease, onIncrease}) {
+function ProduitRecapComponent({ categorie, onDecrease, onIncrease }) {
   const produitsSelected = useSelector((state) => state.user.value.selectedProduits);
   //const user = useSelector((state) => state.user.value.userDetails);
 
@@ -134,10 +135,10 @@ function ProduitRecapComponent({categorie, onDecrease, onIncrease}) {
   const decreaseNumber = (value) => {
     onDecrease(value);
   }
-  
+
   const produitsTodisplay = []
   produitsSelected.map((p) => {
-    if (p.produit.categorieDeProduit === categorie) { 
+    if (p.produit.categorieDeProduit === categorie) {
       produitsTodisplay.push(p);
     }
   });
@@ -148,21 +149,21 @@ function ProduitRecapComponent({categorie, onDecrease, onIncrease}) {
   }
   console.log('Recap liste : categorie selected: ', categorie)
   console.log('Recap liste : produit selected: ', produitsSelected);
-  console.log('Recap liste : produit to display : ', produitsTodisplay );
-  return(
-    <View key={categorie} style={{flex: 1}}>
-      <Text style={{fontWeight: 'bold'}}>{categorie}</Text>
-      {produitsTodisplay.map((p) => 
-        { return(
+  console.log('Recap liste : produit to display : ', produitsTodisplay);
+  return (
+    <View key={categorie} style={{ flex: 1 }}>
+      <Text style={{ fontWeight: 'bold' }}>{categorie}</Text>
+      {produitsTodisplay.map((p) => {
+        return (
           <View key={p._id} >
-            <Image 
+            <Image
               style={{ height: 40, width: 40 }}
               source={require('../assets/fruits.png')}
             />
             <Text >{p.produit.nom}</Text>
-            <Text style={{padding: 5}}>{p.count}</Text>
+            <Text style={{ padding: 5 }}>{p.count}</Text>
             <Text>{p.produit.prix}</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 10}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 10 }}>
               <Pressable onPress={(value) => onIncrease(p.produit)}>
                 <AntDesign name='pluscircleo' size={15} color='green' />
               </Pressable>
@@ -170,9 +171,10 @@ function ProduitRecapComponent({categorie, onDecrease, onIncrease}) {
                 <AntDesign name='minuscircleo' size={15} color='red' />
               </Pressable>
             </View>
-          </View>  
-        ) }
-      )} 
+          </View>
+        )
+      }
+      )}
     </View>
   )
 }
@@ -195,18 +197,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#e94832'
   },
   btnTouchableTextStyle: {
-    fontSize: 18, 
-    color: 'white', 
-    textTransform: 'uppercase' 
+    fontSize: 18,
+    color: 'white',
+    textTransform: 'uppercase'
   },
   produitContainer: {
-    flex: 1, 
-    flexDirection: 'row', 
+    flex: 1,
+    flexDirection: 'row',
     flexWrap: 'wrap',
   },
   produitItem: {
-    height: 140, 
-    width: 80, 
+    height: 140,
+    width: 80,
     backgroundColor: '#b7a8a8',
     margin: 2,
   },
@@ -224,7 +226,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 2,
     borderRadius: 20,
-    borderColor: 'coral',
     backgroundColor: 'transparent',
     //backgroundColor: '#fff',
     //color: '#000',
@@ -236,15 +237,13 @@ const styles = StyleSheet.create({
   checkboxBase: {
     width: 24,
     height: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: 'coral',
+    borderColor: '#BB8E51',
     backgroundColor: 'transparent',
   },
   checkboxChecked: {
-    backgroundColor: 'coral',
+    backgroundColor: '#BB8E51',
   },
   checkBox: {
     flex: 1,
@@ -253,10 +252,10 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = { 
+module.exports = {
   LessInputText,
-  LessCheckbox, 
-  LessButton, 
+  LessCheckbox,
+  LessButton,
   ProduitsComponent,
   ProduitRecapComponent,
- };
+};

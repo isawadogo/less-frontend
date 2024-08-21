@@ -23,7 +23,7 @@ const DateDeNaissance = () => {
         setCalendarVisible(false);
     };
     const handleConfirm = (date) => {
-        console.log("Date selectionné: e", date)
+        console.log("Date selectionnée:", date)
         setSelectedDate(date);
         hideDatePicker();
     }
@@ -44,6 +44,7 @@ const DateDeNaissance = () => {
                 mode="date"
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
+
             />
         </View>
     )

@@ -12,12 +12,15 @@ export const globalStyles = StyleSheet.create({
     textInput: {
         top: 15,
         backgroundColor: 'white',
-        width: '85%',
+        width: '80%',
+        height: 35,
         margin: 10,
         padding: 15,
         marginBottom: 15,
+        borderRadius: 5,
         left: 24,
     },
+
 
 
 })

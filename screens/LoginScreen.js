@@ -97,7 +97,7 @@ export default function LoginScreen({ navigation }) {
 
         <Text style={styles.title}>Content de vous revoir 😍 </Text>
         <Text style={styles.infosCon}>
-          Accédez à votre compte ! {'\n'} Renseignez votre email et votre de mot de passe.
+          Accédez à votre compte ! {'\n'} Renseignez votre email et votre mot de passe.
         </Text>
         <Formik
           initialValues={initialValues}
