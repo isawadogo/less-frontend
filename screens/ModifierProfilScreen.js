@@ -47,7 +47,7 @@ const data = [
 ]
 
 export default function ModifierProfilScreen({ navigation }) {
-  // Style du bouton APPLIQUER LES CRITERES
+  // Style du bouton "APPLIQUER LES CRITERES"
   const buttonPosition = {
     width: 220,
     start: 13,
@@ -60,7 +60,7 @@ export default function ModifierProfilScreen({ navigation }) {
   const [prefs, setPrefs] = useState(initialPreferences)
   const [selected, setSelected] = React.useState("");
 
-  const handleChexBox = (index) => {
+  const handleCheckBox = (index) => {
     setPrefs(beforePrefs => beforePrefs.map((pref, i) =>
       i === index ? { ...pref, checked: !pref.checked } : pref));
 
@@ -294,7 +294,7 @@ export default function ModifierProfilScreen({ navigation }) {
                   keyboardType='numeric'
                   errorTextStyle={{ top: 8 }}
                 />
-                <Text style={[globalStyles.title, { marginTop: 60, right: 85 }]}>MON BUDGET</Text>
+                <Text style={[globalStyles.title, { marginTop: 65, right: 85 }]}>MON BUDGET</Text>
                 <View style={styles.budget}>
                   <Slider
                     style={{ marginTop: 15, start: 30, width: 248, height: 40, }}
@@ -347,7 +347,7 @@ export default function ModifierProfilScreen({ navigation }) {
                         <View key={index} style={styles.checkBoxRow}>
                           <Checkbox
                             status={pref.checked ? 'checked' : 'unchecked'}
-                            onPress={() => handleChexBox(index)}
+                            onPress={() => handleCheckBox(index)}
                             color='white' />
                           <Text style={styles.checkBoxText}>{pref.label}</Text>
 
