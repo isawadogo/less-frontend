@@ -11,7 +11,7 @@ import { Checkbox, Provider as PaperProvider } from 'react-native-paper';
 import { globalStyles } from '../globalStyles';
 import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import LessFormikInput from '../composant/LessFormikInput';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 
 
 
