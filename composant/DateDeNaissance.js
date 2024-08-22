@@ -35,7 +35,7 @@ const DateDeNaissance = () => {
     return (
         <View>
             <TouchableOpacity onPress={showDatePicker}>
-                <Text style={globalStyles.textInput}>{correctDate(selectedDate)}</Text>
+                <Text style={[globalStyles.textInput, { padding: 13 }]} >{correctDate(selectedDate)}</Text>
             </TouchableOpacity>
             <DateTimePickerModal
                 date={selectedDate || new Date()}

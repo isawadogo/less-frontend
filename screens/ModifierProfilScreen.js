@@ -1,5 +1,5 @@
-
-import { ImageBackground, Pressable, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import React from 'react';
+import { ImageBackground, Pressable, Button, StyleSheet, Text, View, ScrollView, StatusBar } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -7,9 +7,15 @@ import RNPickerSelect from 'react-native-picker-select';
 import Slider from '@react-native-community/slider';
 import DateDeNaissance from '../composant/DateDeNaissance';
 import { RadioButton } from 'react-native-paper';
+import { Checkbox, Provider as PaperProvider } from 'react-native-paper';
 import { globalStyles } from '../globalStyles';
+import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import LessFormikInput from '../composant/LessFormikInput';
-import React from 'react';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
+
+
+
 
 
 
@@ -27,13 +33,40 @@ import { updateUser } from '../reducers/user';
 import { updateUserDetails } from '../modules/userFunctions';
 import { LessCheckbox } from '../modules/components';
 import { frontConfig } from '../modules/config';
+import TouchableButton from '../composant/TouchableButton';
 
 
 const RegimeConso = [{ value: 'Bio' }, { value: 'Vegan' }, { value: 'Premier prix' }, { value: 'Végétarien' }]
+const initialPreferences = [{ label: 'Local', checked: false }, { label: 'Faible en sucres', checked: false }, { label: 'Faible en matière grasse', checked: false }]
+const data = [
+  { key: '1', value: 'Arachide', disabled: false },
+  { key: '2', value: 'Fruit de mer', disabled: false },
+  { key: '3', value: 'Oeuf', disabled: false },
+  { key: '4', value: 'Lait', disabled: false },
+  { key: '5', value: 'Soja', disabled: false },
+]
 
 export default function ModifierProfilScreen({ navigation }) {
+  // Style du bouton APPLIQUER LES CRITERES
+  const buttonPosition = {
+    width: 220,
+    start: 13,
+    margin: 50,
+    paddingStart: 5,
+
+  }
+
+  const [checked, setChecked] = React.useState('Premier prix')
+  const [prefs, setPrefs] = useState(initialPreferences)
+  const [selected, setSelected] = React.useState("");
+
+  const handleChexBox = (index) => {
+    setPrefs(beforePrefs => beforePrefs.map((pref, i) =>
+      i === index ? { ...pref, checked: !pref.checked } : pref));
+
+  }
   const user = useSelector((state) => state.user.value.userDetails);
-  const [checked, setChecked] = React.useState('')
+
   useEffect(() => {
     (() => {
       if (!user.id) {
@@ -181,7 +214,7 @@ export default function ModifierProfilScreen({ navigation }) {
       <ImageBackground source={require('../assets/back.png')} style={styles.imageBackground} >
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           <Text style={styles.title1}>Créér votre profil consommateur</Text>
-          <Text style={[globalStyles.title, { top: 25, right: 110 }]}>Identité</Text>
+          <Text style={[globalStyles.title, { top: 30, right: 105 }]}>IDENTITE</Text>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -222,6 +255,7 @@ export default function ModifierProfilScreen({ navigation }) {
                   component={LessFormikInput}
                   name="telephone"
                   placeholder="Numéro de téléphone"
+                  keyboardType='numeric'
                   errorTextStyle={{ top: 8 }}
                 />
                 <View >
@@ -229,12 +263,13 @@ export default function ModifierProfilScreen({ navigation }) {
 
 
                 </View>
-                <Text style={[globalStyles.title, { top: 15, right: 110 }]}>Adresse</Text>
+                <Text style={[globalStyles.title, { top: 15, right: 105 }]}>ADRESSE</Text>
                 <Field
                   style={globalStyles.textInput}
                   component={LessFormikInput}
                   name="numeroDeRue"
                   placeholder="Numéro de rue"
+                  keyboardType='numeric'
                   errorTextStyle={{ top: 8 }}
                 />
                 <Field
@@ -248,7 +283,7 @@ export default function ModifierProfilScreen({ navigation }) {
                   style={globalStyles.textInput}
                   component={LessFormikInput}
                   name="commune"
-                  placeholder="ville"
+                  placeholder="Ville"
                   errorTextStyle={{ top: 8 }}
                 />
                 <Field
@@ -259,36 +294,36 @@ export default function ModifierProfilScreen({ navigation }) {
                   keyboardType='numeric'
                   errorTextStyle={{ top: 8 }}
                 />
-                <Text style={[globalStyles.title, { top: 18, right: 90 }]}>Mon budget</Text>
+                <Text style={[globalStyles.title, { marginTop: 60, right: 85 }]}>MON BUDGET</Text>
                 <View style={styles.budget}>
                   <Slider
-                    style={{ marginTop: 25, start: 30, width: 235, height: 40, }}
+                    style={{ marginTop: 15, start: 30, width: 248, height: 40, }}
                     minimumValue={25}
                     maximumValue={1500}
                     minimumTrackTintColor="#FFFFFF"
                     onValueChange={(value) => setBudget(Math.round(value))}
                     thumbTintColor="#BB8E1"
                   />
-                  <Text style={{ start: '55%', color: 'white', marginTop: 35, fontWeight: 'bold' }}>{budget}€</Text>
+                  <Text style={{ start: '55%', color: 'white', marginTop: 25, fontWeight: 'bold' }}>{budget}€</Text>
                 </View>
-                <Text style={globalStyles.title} >Mon régime de consommation</Text>
-                <View>
+                <Text style={[globalStyles.title, { marginTop: 25, right: 30 }]}>MON REGIME ALIMENTAIRE</Text>
+                <View style={styles.radioButton}>
 
                   {RegimeConso.map((element) => (
+                    <View style={styles.radioContainer}>
+                      <RadioButton
+                        value={element.value}
+                        status={checked === element.value ? "checked" : "unchecked"}
+                        onPress={() => setChecked(element.value)}
+                        disabled={false}
+                        color='white'
+                        uncheckedColor='yellow'
+                      />
+                      <Text style={styles.radioText}>{element.value}</Text>
+                    </View>
+                  ))}
 
-                    <RadioButton
-                      key={element.value}
-                      value={element.value}
-                      status={checked === element.value ? "checked" : "unchecked"}
-                      onPress={() => setChecked(element.value)}
-                      disabled={false}
-
-                    />))}
-
-                </View>
-
-
-                {/* <View >
+                  {/* <View >
                     <LessCheckbox checked={criteres.bio} onChange={() => updateCritere('bio', criteres.bio)} />
                     <Text style={styles.option}>Bio</Text>
                   </View>
@@ -304,10 +339,24 @@ export default function ModifierProfilScreen({ navigation }) {
                     <LessCheckbox checked={criteres.vegetarien} onChange={() => updateCritere('vegetarien', criteres.vegetarien)} />
                     <Text style={styles.option}>Végétarien</Text>
                   </View> */}
-                {/* </View> */}
-                <Text style={globalStyles.title}>Mes préférences</Text>
-                <View style={styles.checkBox}>
-                  <View >
+                  {/* </View> */}
+                  <Text style={[globalStyles.title, { marginTop: 15, bottom: 10, right: 60 }]} >MES PREFERENCES</Text>
+                  <PaperProvider>
+                    <View style={styles.checkBoxContainer}>
+                      {prefs.map((pref, index) => (
+                        <View key={index} style={styles.checkBoxRow}>
+                          <Checkbox
+                            status={pref.checked ? 'checked' : 'unchecked'}
+                            onPress={() => handleChexBox(index)}
+                            color='white' />
+                          <Text style={styles.checkBoxText}>{pref.label}</Text>
+
+                        </View>
+                      ))}
+                    </View>
+                  </PaperProvider>
+
+                  {/* <View >
                     <LessCheckbox checked={criteres.local} onChange={() => updateCritere('local', criteres.local)} />
                     <Text style={styles.option}>Local</Text>
                   </View>
@@ -318,26 +367,42 @@ export default function ModifierProfilScreen({ navigation }) {
                   <View >
                     <LessCheckbox checked={criteres.faibleEnMatiereGrasse} onChange={() => updateCritere('faibleEnMatiereGrasse', criteres.faibleEnMatiereGrasse)} />
                     <Text style={styles.option}>Faible en matière grasse</Text>
-                  </View>
+                  </View> */}
                 </View>
-                <Text style={globalStyles.title}>Allergies et tolérances</Text>
-                <View >
+                <Text style={[globalStyles.title, { marginTop: 13, marginBottom: 25, right: 90 }]} >ALLERGIES</Text>
+
+                <View style={{ alignSelf: 'center' }}>
+                  {<MultipleSelectList
+                    setSelected={(val) => setSelected(val)}
+                    data={data}
+                    save='value'
+                    placeholder='Ajouter une allergie'
+                    boxStyles={{ backgroundColor: 'white', width: 300 }}
+                    dropdownStyles={{ backgroundColor: 'white' }}
+
+
+                  />
+                  }
+                </View>
+                {/* <View >
+            
                   <TextInput style={styles.textInput} onChangeText={(value) => setCriteres({ ...criteres, budget: value })} value={criteres.budget} placeholder='Budget' />
+                </View> */}
+                <Text style={[globalStyles.title, { marginTop: 35, marginBottom: 15, right: 100 }]} > DIVERS</Text>
+                <View style={styles.message}>
+                  <Text style={styles.option}>Afficher le message d'accueil</Text>
+                  <LessCheckbox checked={preferences.afficherEcranAccueil} onChange={() => updatePreference('afficherEcranAccueil', preferences.afficherEcranAccueil)} />
+
                 </View>
-                <Text style={globalStyles.title}>Divers</Text>
-                <View>
-                  <View >
-                    <Text style={styles.option}>Afficher le message d'accueil</Text>
-                    <LessCheckbox checked={preferences.afficherEcranAccueil} onChange={() => updatePreference('afficherEcranAccueil', preferences.afficherEcranAccueil)} />
-                  </View>
-                </View>
-                <Button
-                  title="Appliquer ces critères"
-                  onPress={handleSubmit}
-                />
+                <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Accueil')} title="APPLIQUER LES CRITERES" position={buttonPosition}></TouchableButton>
+
+
+
+
               </>
             )}
           </Formik>
+
         </ScrollView>
       </ImageBackground>
     </View >
@@ -404,7 +469,46 @@ const styles = StyleSheet.create({
   },
   budget: {
     flexDirection: 'row',
+  },
+  radioContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    top: 5,
+    padding: 5,
+    marginBottom: 10
+  },
+  radioText: {
+    color: 'white',
+    fontWeight: 'bold',
+    left: 15,
+  },
+  checkBoxText: {
+    color: 'white',
+    fontWeight: 'bold',
+    left: 60,
+    bottom: 27,
+  },
+  checkBoxContainer: {
+
+    margin: 5,
+
+  },
+  message: {
+    flexDirection: 'row',
+    marginRight: 18,
+    alignItems: 'center',
+
+
+
+
+  },
+  option: {
+    color: 'white',
+    fontWeight: 'bold',
+    marginRight: 85,
+    start: 25,
   }
+
 
 
 

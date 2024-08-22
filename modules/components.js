@@ -239,11 +239,8 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: '#BB8E51',
+    borderColor: 'white',
     backgroundColor: 'transparent',
-  },
-  checkboxChecked: {
-    backgroundColor: '#BB8E51',
   },
   checkBox: {
     flex: 1,
