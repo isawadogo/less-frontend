@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, LayoutAnimation, StyleSheet, ScrollView } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 import TouchFAQ from '../composant/TouchFAQ';
 
 
@@ -79,9 +78,6 @@ const faqDatas = {
 export default function AideScreen({ navigation }) {
   return (
     <ScrollView style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <FontAwesomeIcon icon={faCircleArrowLeft} style={styles.backButton} />
-      </TouchableOpacity>
       <Text style={styles.title}>{faqDatas.titre}</Text>
       {faqDatas.row.map((faqData) => (
         <TouchFAQ

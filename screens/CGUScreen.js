@@ -1,15 +1,11 @@
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 
 export default function CGUScreen({ navigation }) {
 
   return (
     <View>
       <View>
-        <TouchableOpacity onPress={() => navigation.goBack()} >
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </TouchableOpacity>
         <Text style={styles.sectionTitle}>Conditions Générales</Text>
 
         <View>

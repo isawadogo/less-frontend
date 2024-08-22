@@ -34,6 +34,7 @@ import ChoisirListeProduitsScreen from './screens/ChoisirListeProduitsScreen';
 import RecapListeProduitsScreen from './screens/RecapListeProduitsScreen';
 import ResultatComparaisonScreen from './screens/ResultatComparaisonScreen';
 import BudgetScreen from './screens/BudgetScreen';
+import Header from './composant/Header';
 
 // création de la navigation par Stack et Tab
 const Stack = createNativeStackNavigator();
@@ -49,7 +50,8 @@ const store = configureStore({
 
 function ProfilStackScreen() {
   return (
-    <ProfilStack.Navigator>
+    <ProfilStack.Navigator screenOptions={{ header: (props) => <Header {...props} /> }}>
+
       <ProfilStack.Screen name="Aide" component={AideScreen} />
       <ProfilStack.Screen name="Reglage des notifications" component={ReglageNotifScreen} />
       <ProfilStack.Screen name="Langue" component={LangueScreen} />
@@ -70,13 +72,13 @@ const TabNavigator = () => {
 }
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    RalewayRegular: require('./assets/fonts/RalewayRegular.ttf'),
-  });
+  // const [fontsLoaded] = useFonts({
+  //   RalewayRegular: require('./assets/fonts/RalewayRegular.ttf'),
+  // });
 
-  if (!fontsLoaded) {
-    return <ActivityIndicator style={styles.loading} />;
-  }
+  // if (!fontsLoaded) {
+  //   return <ActivityIndicator style={styles.loading} />;
+  // }
   return (
     <Provider store={store}>
       <NavigationContainer>

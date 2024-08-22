@@ -2,8 +2,6 @@ import React from 'react';
 
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import CheckBoxReglage from '../composant/CheckBoxReglage';
 
 
@@ -57,9 +55,6 @@ export default function ReglageNotifScreen({ navigation }) {
     return (
         <ScrollView style={styles.container}>
             <View>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <FontAwesomeIcon icon={faArrowLeft} />
-                </TouchableOpacity>
 
                 {data.map(element => (
                     <CheckBoxReglage key={element.id} data={element} />
