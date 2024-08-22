@@ -1,5 +1,6 @@
 import React from 'react';
 import { ImageBackground, Pressable, Button, StyleSheet, Text, View, ScrollView, StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -14,15 +15,11 @@ import LessFormikInput from '../composant/LessFormikInput';
 
 
 
-
-
-
-
-
 import { Picker } from '@react-native-picker/picker';
 //import CheckBox from 'expo-checkbox';
 
 import { useState, useEffect } from 'react';
+
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
@@ -210,11 +207,12 @@ export default function ModifierProfilScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <ImageBackground source={require('../assets/back.png')} style={styles.imageBackground} >
+
+    < SafeAreaView style={styles.container}>
+      <View style={styles.color} >
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           <Text style={styles.title1}>Créér votre profil consommateur</Text>
-          <Text style={[globalStyles.title, { top: 30, right: 105 }]}>IDENTITE</Text>
+          <Text style={[globalStyles.title, { right: 105 }]}>IDENTITE</Text>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -378,7 +376,7 @@ export default function ModifierProfilScreen({ navigation }) {
                     save='value'
                     placeholder='Ajouter une allergie'
                     boxStyles={{ backgroundColor: 'white', width: 300 }}
-                    dropdownStyles={{ backgroundColor: 'white' }}
+                    dropdownStyles={{ backgroundColor: '#2B0D35' }}
 
 
                   />
@@ -404,8 +402,8 @@ export default function ModifierProfilScreen({ navigation }) {
           </Formik>
 
         </ScrollView>
-      </ImageBackground>
-    </View >
+      </View>
+    </SafeAreaView >
   )
 }
 const pickerSelectStyles = StyleSheet.create({
@@ -457,13 +455,13 @@ const styles = StyleSheet.create({
     marginTop: 30,
     textAlign: 'center',
   },
-  title2: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 10,
-    textAlign: 'right',
-  },
+  // title2: {
+  //   fontSize: 16,
+  //   fontWeight: 'bold',
+  //   color: 'white',
+  //   marginBottom: 10,
+  //   textAlign: 'right',
+  // },
   option: {
     color: 'white',
   },

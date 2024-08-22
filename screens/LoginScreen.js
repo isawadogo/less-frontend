@@ -90,12 +90,12 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../assets/back.png')} style={styles.imageBackground} >
+      <View style={styles.imageBackground} >
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
           <FontAwesomeIcon icon={faCircleArrowLeft} style={styles.backButton} />
         </TouchableOpacity>
 
-        <Text style={styles.title}>Content de vous revoir 😍 </Text>
+        <Text style={styles.title}>Content de vous revoir 🤩 </Text>
         <Text style={styles.infosCon}>
           Accédez à votre compte ! {'\n'} Renseignez votre email et votre mot de passe.
         </Text>
@@ -129,7 +129,7 @@ export default function LoginScreen({ navigation }) {
         </View>
         <Text style={styles.inscription}>Pas encore de compte? </Text>
         <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Inscription')} title="S'INSCRIRE" position={buttonPosition2}></TouchableButton>
-      </ImageBackground >
+      </View>
     </View >
   )
 }
@@ -137,6 +137,7 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#2B0D35"
 
   },
   imageBackground: {

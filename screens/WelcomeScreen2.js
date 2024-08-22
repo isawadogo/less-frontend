@@ -72,7 +72,7 @@ export default function WelcomeScreen2({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../assets/back.png')}>
+      <View style={styles.color}>
         <View style={styles.onlycarousel}>
           <MyCarousel data={carouseldata} style={styles.carousel} backendURL />
         </View>
@@ -86,12 +86,15 @@ export default function WelcomeScreen2({ navigation }) {
           <TouchableButton st color="#7CD6C1" onPress={() => navigation.navigate('Welcome1')} title="PRECEDENT" position={buttonPosition}></TouchableButton>
           <StatusBar style="auto" />
         </View>
-      </ImageBackground>
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  color: {
+    backgroundColor: "#2B0D35"
+  },
   container: {
     flex: 1,
     alignItems: 'center',

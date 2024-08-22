@@ -77,7 +77,7 @@ export default function WelcomeScreen1({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../assets/back.png')}>
+      <View style={styles.color}>
         <View style={styles.onlycarousel}>
           <MyCarousel data={carouseldata} style={styles.carousel} />
         </View>
@@ -93,7 +93,7 @@ export default function WelcomeScreen1({ navigation }) {
           </TouchableOpacity>
           <StatusBar style="auto" />
         </View>
-      </ImageBackground>
+      </View>
     </View >
   )
 }
@@ -103,6 +103,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  color: {
+    backgroundColor: "#2B0D35"
   },
   onlycarousel: {
     backgroundColor: 'white',

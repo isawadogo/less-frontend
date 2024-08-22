@@ -1,10 +1,11 @@
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default function CGUScreen({ navigation }) {
 
   return (
-    <View>
+    <SafeAreaView>
       <View>
         <Text style={styles.sectionTitle}>Conditions Générales</Text>
 
@@ -49,7 +50,8 @@ export default function CGUScreen({ navigation }) {
 
         </View>
       </View>
-    </View>
+    </SafeAreaView>
+
   )
 }
 

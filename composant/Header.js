@@ -30,8 +30,9 @@ export default function Header({ navigation }) {
 const styles = StyleSheet.create({
     container:
     {
+
         paddingLeft: 18,
-        backgroundColor: "#25000B",
+        backgroundColor: "#2B0D35",
     },
     touche: {
         flexDirection: 'row',

@@ -93,7 +93,7 @@ export default function InscriptionScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../assets/back.png')} style={styles.imageBackground}>
+      <View style={styles.color}>
         <Text style={styles.title}>S'enregistrer maintenant ! 🏁</Text>
         <Text style={styles.infosCon}>
           Enregistrez-vous avec votre adresse email et un mot de passe pour continuer.
@@ -137,7 +137,7 @@ export default function InscriptionScreen({ navigation }) {
         <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Login')} title="SE CONNECTER" position={buttonPosition2}></TouchableButton>
 
         <StatusBar style="auto" />
-      </ImageBackground>
+      </View>
     </View>
   )
 }
@@ -148,9 +148,10 @@ const styles = StyleSheet.create({
 
 
   },
-  imageBackground: {
+  color: {
     heigth: '100%',
     flex: 1,
+    backgroundColor: "#2B0D35",
     justifyContent: 'center'
   },
   title: {
