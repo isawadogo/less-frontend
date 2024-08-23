@@ -22,7 +22,7 @@ export default function HomeScreen({ navigation }) {
     navigation.navigate('Login');
 
   }
-  console.log('Dashboard screen - user details : ', user);
+  //console.log('Dashboard screen - user details : ', user);
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Text>{user.nom}</Text>

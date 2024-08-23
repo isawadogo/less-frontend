@@ -25,6 +25,7 @@ import WelcomeScreen2 from './screens/WelcomeScreen2';
 import InscriptionScreen from './screens/InscriptionScreen';
 
 import user from './reducers/user';
+import liste from './reducers/liste';
 import HomeScreen from './screens/HomeScreen';
 
 import CreerListeScreen from './screens/CreerListeScreen';
@@ -40,7 +41,7 @@ const ProfilStack = createNativeStackNavigator();
 
 
 const store = configureStore({
-  reducer: { user },
+  reducer: { user, liste },
 });
 
 

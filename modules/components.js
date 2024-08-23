@@ -48,7 +48,7 @@ function LessCheckbox({ onChange, checked }) {
 }
 
 function LessButton({onChange, pressed, texte}) {
-  console.log(`in less button - Pressed = ${pressed}, categorie: ${texte}`)
+  //console.log(`in less button - Pressed = ${pressed}, categorie: ${texte}`)
 
   return (
     <Pressable style={[styles.buttonBase, pressed && styles.buttonPressed]}
@@ -62,10 +62,11 @@ function ProduitsComponent({categorie, onDecrease, onIncrease}) {
   const user = useSelector((state) => state.user.value.userDetails);
   const [listProd, setListProd] = useState([]);
   const [isReady, setIsReady] = useState(false);
-  console.log('Cat loading : ', categorie);
+  //console.log('Cat loading : ', categorie);
   useEffect(() => {
     (async () => {
-    fetch(frontConfig.backendURL + '/produits/categories/' + categorie, {
+    //fetch(frontConfig.backendURL + '/produits/produitsNom/' + categorie, {
+    fetch(frontConfig.backendURL + '/produits/categories/produitsNom/' + categorie, {
         method: 'GET',
         headers: { "Content-Type": "application/json", "authorization": user.token },
       }).then((response) => response.json())
@@ -101,13 +102,12 @@ function ProduitsComponent({categorie, onDecrease, onIncrease}) {
     <View style={styles.produitContainer}>
       {listProd.map((p) => 
         { return(
-          <View style={styles.produitItem} key={p._id}>
+          <View style={styles.produitItem} key={p.nom}>
             <Image 
               style={styles.produitImage}
               source={require('../assets/fruits.png')}
             />
             <Text style={styles.itemPrix}>{p.nom}</Text>
-            <Text>{p.prix}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 10}}>
               <Pressable onPress={(value) => onIncrease(p)}>
                 <AntDesign name='pluscircleo' size={15} color='green' />
@@ -137,7 +137,7 @@ function ProduitRecapComponent({categorie, onDecrease, onIncrease}) {
   
   const produitsTodisplay = []
   produitsSelected.map((p) => {
-    if (p.produit.categorieDeProduit === categorie) { 
+    if (p.produit.categorie === categorie) { 
       produitsTodisplay.push(p);
     }
   });
@@ -146,21 +146,21 @@ function ProduitRecapComponent({categorie, onDecrease, onIncrease}) {
       <Text>Prouits ...</Text>
     )
   }
-  console.log('Recap liste : categorie selected: ', categorie)
-  console.log('Recap liste : produit selected: ', produitsSelected);
-  console.log('Recap liste : produit to display : ', produitsTodisplay );
+  //console.log('Recap liste : categorie selected: ', categorie)
+  //console.log('Recap liste : produit selected: ', produitsSelected);
+  //console.log('Recap liste : produit to display : ', produitsTodisplay );
   return(
-    <View key={categorie} style={{flex: 1}}>
+    <View style={{flex: 1}}>
       <Text style={{fontWeight: 'bold'}}>{categorie}</Text>
       {produitsTodisplay.map((p) => 
         { return(
-          <View key={p._id} >
+          <View >
             <Image 
               style={{ height: 40, width: 40 }}
               source={require('../assets/fruits.png')}
             />
-            <Text >{p.produit.nom}</Text>
-            <Text style={{padding: 5}}>{p.count}</Text>
+            <Text style={{ textTransform: 'uppercase'}}>{p.produit.nom}</Text>
+            <Text style={{padding: 5}}>quantité : {p.count}</Text>
             <Text>{p.produit.prix}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 10}}>
               <Pressable onPress={(value) => onIncrease(p.produit)}>

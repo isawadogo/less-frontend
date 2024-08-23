@@ -10,6 +10,7 @@ const initialState = {
     displayWelcome: true,
     currentListeName: '',
     selectedProduits: [],
+    resultatsListe: {},
   },
 };
 
@@ -23,6 +24,7 @@ export const userSlice = createSlice({
         displayWelcome: true,
         currentListeName: '',
         selectedProduits: [],
+        resultatsListe: {},
       };
     },
     updateUser: (state, action) => {
@@ -35,11 +37,28 @@ export const userSlice = createSlice({
     updateListeName: (state, action) => {
       state.value.currentListeName = action.payload
     },
+    addListeResultat: (state, action) => {
+      //state.value.resultatsListe = {...state.value.resultatsListe, action.payload}
+    },
+    updateListeResultat: (state, action) => {
+      let tempData = { ...state.value.resultatsListe}
+      state.value.resultatsListe = { ...Object.assign(tempData, action.payload) };
+      /*state.value.resultatsListe =  state.value.resultatsListe.map((l) => {
+        if (l.listeName === action.payload.listeName) {
+          return action.payload
+        } else {
+          return l
+        }
+      })*/
+    },
+    removeListesResultat: (state, action) => {
+      state.value.resultatsListe = state.value.resultatsListe((l) => l.listeName !== action.payload)
+    },
     addProduit: (state, action) => {
-      if (state.value.selectedProduits.some((p) => p.produit._id === action.payload._id)) {
-        const produitCount = state.value.selectedProduits.find((p) => p.produit._id === action.payload._id).count;
+      if (state.value.selectedProduits.some((p) => p.produit.nom === action.payload.nom)) {
+        const produitCount = state.value.selectedProduits.find((p) => p.produit.nom === action.payload.nom).count;
         state.value.selectedProduits = state.value.selectedProduits.map((e) => {
-          if (e.produit._id === action.payload._id) {
+          if (e.produit.nom === action.payload.nom) {
             return { produit: e.produit, count: produitCount + 1}
           } else {
             return e
@@ -52,15 +71,15 @@ export const userSlice = createSlice({
       }
     },
     removeProduit: (state, action) => {
-      const produitIndex = state.value.selectedProduits.findIndex((e) => e.produit._id === action.payload._id);
+      const produitIndex = state.value.selectedProduits.findIndex((e) => e.produit.nom === action.payload.nom);
       if ( produitIndex !== -1) {
-        const produitCount = state.value.selectedProduits.find((p) => p.produit._id === action.payload._id).count;
+        const produitCount = state.value.selectedProduits.find((p) => p.produit.nom === action.payload.nom).count;
         if (produitCount - 1 === 0) {
         // last produit
           state.value.selectedProduits = state.value.selectedProduits.slice(0, produitIndex).concat(state.value.selectedProduits.slice(produitIndex+1));
         } else {
           state.value.selectedProduits = state.value.selectedProduits.map((e) => {
-            if (e.produit._id === action.payload._id) {
+            if (e.produit.nom === action.payload.nom ) {
               return { produit: e.produit, count: produitCount - 1}
             } else {
               return e
@@ -78,7 +97,10 @@ export const {
   updateWelcome, 
   updateListeName,
   addProduit,
-  removeProduit, 
+  removeProduit,
+  addListeResultat,
+  updateListeResultat,
+  removeListesResultat,
 } = userSlice.actions;
 
 export default userSlice.reducer;

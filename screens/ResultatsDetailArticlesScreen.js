@@ -6,11 +6,7 @@ import { evaluateCritere, getEnseignesList } from '../modules/listesFunctions';
 import { addListeResultat} from '../reducers/user';
 import { addListe } from '../reducers/liste';
 
-function ResultaComponenti({ resultat }) {
-
-}
-
-export default function ResultatComparaisonScreen({ navigation }) {
+export default function ResultasDetailArticles({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
   const resultatComp = useSelector((state) => state.liste.value.liste);
   const produitsSelected = useSelector((state) => state.user.value.selectedProduits);
