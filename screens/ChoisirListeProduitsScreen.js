@@ -35,9 +35,9 @@ export default function CreerListeScreen({ navigation }) {
           throw new Error('Connection returned a non 200 http code');
         }
         const resJson = await conReq.json();
-        console.log('connection result : ', resJson);
+        //console.log('connection result : ', resJson);
         if (resJson.result) {
-            console.log(' Choisir liste produit - categories - jsonres : ', resJson);
+            //console.log(' Choisir liste produit - categories - jsonres : ', resJson);
             //setCategories(resJson.categories);
             setCategories(resJson.categories.map((c,i) => {
               return {nom: c, id: i}
@@ -70,11 +70,11 @@ export default function CreerListeScreen({ navigation }) {
     }
   }
 
-  console.log(' Choisir liste produit - user details : ', user);
-  console.log('Choisir liste produits - categories : ', categories);
-  console.log('Choisir liste produits - selected categorie : ', selectedCat);
-  console.log('Choisir liste produits - selected Produits : ', produitsSelected);
-  if (!selectedCat) {
+  //console.log(' Choisir liste produit - user details : ', user);
+  //console.log('Choisir liste produits - categories : ', categories);
+  //console.log('Choisir liste produits - selected categorie : ', selectedCat);
+  //console.log('Choisir liste produits - selected Produits : ', produitsSelected);
+  if (!selectedCat || selectedCat === undefined) {
     return(
       <SafeAreaView style={styles.container}>
         <Text style={{fontWeight: 'bold'}}>Retrieving categories ...</Text>
