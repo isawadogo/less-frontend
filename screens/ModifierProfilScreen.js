@@ -212,7 +212,7 @@ export default function ModifierProfilScreen({ navigation }) {
       <View style={styles.color} >
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           <Text style={styles.title1}>Créér votre profil consommateur</Text>
-          <Text style={[globalStyles.title, { right: 105 }]}>IDENTITE</Text>
+          <Text style={[globalStyles.title, { top: 30, marginBottom: 30, right: 105 }]}>IDENTITE</Text>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -314,7 +314,7 @@ export default function ModifierProfilScreen({ navigation }) {
                         status={checked === element.value ? "checked" : "unchecked"}
                         onPress={() => setChecked(element.value)}
                         disabled={false}
-                        color='white'
+                        color='black'
                         uncheckedColor='yellow'
                       />
                       <Text style={styles.radioText}>{element.value}</Text>
@@ -346,7 +346,7 @@ export default function ModifierProfilScreen({ navigation }) {
                           <Checkbox
                             status={pref.checked ? 'checked' : 'unchecked'}
                             onPress={() => handleCheckBox(index)}
-                            color='white' />
+                            color='black' />
                           <Text style={styles.checkBoxText}>{pref.label}</Text>
 
                         </View>
@@ -417,6 +417,8 @@ const pickerSelectStyles = StyleSheet.create({
     start: 35,
     marginTop: 40,
     borderRadius: 5,
+    borderColor: 'black',
+    borderWidth: 2,
 
   },
   inputAndroid: {
@@ -437,6 +439,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: StatusBar.currentHeight,
+    marginTop: 20,
   },
   imageBackground: {
     flex: 1,
@@ -451,8 +454,8 @@ const styles = StyleSheet.create({
   title1: {
     fontSize: 23,
     fontWeight: 'bold',
-    color: 'white',
-    marginTop: 30,
+    color: 'black',
+    marginTop: 5,
     textAlign: 'center',
   },
   // title2: {
@@ -463,7 +466,7 @@ const styles = StyleSheet.create({
   //   textAlign: 'right',
   // },
   option: {
-    color: 'white',
+    color: 'black',
   },
   budget: {
     flexDirection: 'row',
@@ -476,18 +479,18 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   radioText: {
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
     left: 15,
   },
   checkBoxText: {
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
     left: 60,
     bottom: 27,
   },
   checkBoxContainer: {
-
+    borderColor: 'black',
     margin: 5,
 
   },
@@ -501,7 +504,7 @@ const styles = StyleSheet.create({
 
   },
   option: {
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
     marginRight: 85,
     start: 25,

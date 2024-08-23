@@ -42,7 +42,7 @@ function LessCheckbox({ onChange, checked }) {
     <Pressable
       style={[styles.checkboxBase, checked && styles.checkboxChecked]}
       onPress={onChange}>
-      {checked && <Ionicons name="checkmark" size={20} color="white" />}
+      {checked && <Ionicons name="checkmark" size={20} color={'black'} />}
     </Pressable>
   );
 }
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: 'transparent',
     //backgroundColor: '#fff',
-    //color: '#000',
+    color: 'black',
   },
   buttonPressed: {
     backgroundColor: '#00a400',
