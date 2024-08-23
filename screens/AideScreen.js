@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, LayoutAnimation, StyleSheet, ScrollView } from 'react-native';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 import TouchFAQ from '../composant/TouchFAQ';
+
 
 
 const faqDatas = {
@@ -77,7 +78,8 @@ const faqDatas = {
 
 export default function AideScreen({ navigation }) {
   return (
-    <ScrollView style={styles.container}>
+
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>{faqDatas.titre}</Text>
       {faqDatas.row.map((faqData) => (
         <TouchFAQ
@@ -86,7 +88,7 @@ export default function AideScreen({ navigation }) {
           reponseText={faqData.reponseText}
         />
       ))}
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 
