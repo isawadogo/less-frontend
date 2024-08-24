@@ -199,7 +199,7 @@ export default function ModifierProfilScreen({ navigation }) {
     })
   }
 
-  const updatePreference = (prefName, prefValue) => {
+  const updatePreference = (prefName, prefValue) => { // modifier preférence
     setPreferences({
       ...preferences,
       [prefName]: !prefValue
@@ -393,7 +393,7 @@ export default function ModifierProfilScreen({ navigation }) {
                   <LessCheckbox checked={preferences.afficherEcranAccueil} onChange={() => updatePreference('afficherEcranAccueil', preferences.afficherEcranAccueil)} />
 
                 </View>
-                <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Accueil')} title="APPLIQUER LES CRITERES" position={buttonPosition}></TouchableButton>
+                <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('TabNavigator', { screen: 'Acceuil' })} title="APPLIQUER LES CRITERES" position={buttonPosition}></TouchableButton>
 
 
 
