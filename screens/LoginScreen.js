@@ -21,11 +21,13 @@ export default function LoginScreen({ navigation }) {
   const buttonPosition1 = {
     right: 0,
     bottom: 25,
+    borderRadius: 15,
   }
 
   const buttonPosition2 = {
     right: 100,
     top: 70,
+    borderRadius: 15,
 
   }
   const [email, setEmail] = useState('');

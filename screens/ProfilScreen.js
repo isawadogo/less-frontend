@@ -1,5 +1,5 @@
 //import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, StatusBar, ImageBackground } from 'react-native';
+import { TouchableOpacity, Image, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
 import { useFonts } from 'expo-font';
 import TouchableButton from '../composant/TouchableButton';
 //import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -15,14 +15,23 @@ import { checkBody } from '../modules/checkBody';
 import { globalStyles } from '../globalStyles';
 
 
+
 export default function ProfilScreen({ navigation }) {
   const buttonPosition = {
     left: 55,
     margin: 10,
+    borderColor: "black",
+    // borderWidth: 1,
+    // color: "black",
+  },
+    buttonPosition2 = {
+      width: 270,
+      marginStart: 4,
+      start: 0,
 
 
 
-  }
+    }
   const [loaded, error] = useFonts({
     'Raleway': require('../assets/fonts/Raleway-Regular.ttf'),
     'AlexBrush': require('../assets/fonts/AlexBrush-Regular.ttf')
@@ -42,12 +51,13 @@ export default function ProfilScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.back}>
-      <ImageBackground source={require('../assets/image.png')} resizeMode='' >
+      <ImageBackground source={require('../assets/image.png')}  >
+
         <View style={styles.head}>
+          <Text style={styles.title}>PROFIL</Text>
         </View >
       </ImageBackground>
       <View style={styles.block1}>
-        <Text style={styles.ref}>Less is more for ...</Text>
         <View style={styles.infos}>
           <View style={styles.row}>
             <Text style={styles.info}> {user?.prenom || 'Jen'}</Text>
@@ -73,38 +83,30 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.criteres}> {user?.critere || 'local'}</Text>
           </View>
         </View>
-        <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('TabNavigator', { screen: 'modifier notre Profil' })} title="MODIFIER PROFIL " position={buttonPosition}></TouchableButton>
+        <View>
+          {/* <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Profile', { screen: 'ModifierProfil' })} title="MODIFIER PROFIL " position={buttonPosition} /> */}
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Aide' })}><Text>Aide</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Langue' })}><Text>Langue</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Conditions Générales' })}><Text>Conditions Générales</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Reglage des notifications' })}><Text>Reglage des notifications</Text></TouchableOpacity>
+
+          {/* <TouchableButton color="white" onPress={() => navigation.navigate('Profile', { screen: 'Aide' })} title="Aide " position={buttonPosition} />
+        <TouchableButton color="white" onPress={() => navigation.navigate('Profile', { screen: 'Langue' })} title="Langues " position={buttonPosition} />
+        <TouchableButton color="white" onPress={() => navigation.navigate('Profile', { screen: 'Conditions Générales' })} title="Conditions Générales" position={buttonPosition} />
+        <TouchableButton color="white" onPress={() => navigation.navigate('Profile', { screen: 'Reglage des notifications' })} title="Reglage des notifications " position={buttonPosition2} /> */}
+        </View>
       </View>
       <View style={styles.main}>
-
-        <Button
-          title='Reglage Notifications'
-          onPress={() => navigation.navigate('Profile', { screen: 'Reglage des notifications' })}
-        />
-
-        <Button
-          title='Aide'
-          onPress={() => navigation.navigate('Profile', { screen: 'Aide' })}
-        />
-        <Button
-          title='CGU'
-          onPress={() => navigation.navigate('Profile', { screen: 'Conditions Générales' })}
-        />
-        <Button
-          title='Langue'
-          onPress={() => navigation.navigate('Profile', { screen: 'Langue' })}
-        />
-
       </View>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+
   back: {
     flex: 1,
     backgroundColor: 'white',
-
   },
   profil: {
     color: '#fff',
@@ -118,25 +120,40 @@ const styles = StyleSheet.create({
     height: 250,
 
   },
+  title: {
+    color: 'white',
+    textAlign: 'center',
+    top: 60,
+    fontSize: 35,
+    fontWeight: 'bold',
+
+
+  },
   block1: {
+    flex: 1,
     width: 310,
-    height: 390,
-    bottom: 120,
+    height: 500,
+    bottom: 50,
+    position: 'absolute',
+    zIndex: 10,
     start: 40,
-    backgroundColor: '#2B0D35',
+    backgroundColor: 'white',
     borderColor: '#2B0D35',
     borderWidth: 2,
+    padding: 15,
 
 
 
   },
   ref: {
-    fontFamily: 'AlexBrush-Regular',
+
     fontSize: 35,
+    fontWeight: 'bold',
     paddingTop: 10,
-    paddingStart: 30,
+    paddingStart: 75,
     paddingBottom: 10,
-    color: 'white',
+    color: 'black',
+
 
 
   },
@@ -157,12 +174,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   budgets: {
-    borderColor: 'white',
-
+    borderColor: 'black',
+    backgroundColor: '#2B0D35',
+    paddingTop: 15,
+    paddingBottom: 15,
     marginTop: 5,
     marginBottom: 15,
-    borderWidth: 1,
     marginStart: 3,
+    marginTop: 10,
+    borderWidth: 1,
+
     end: 6,
   },
   budget: {
@@ -183,15 +204,17 @@ const styles = StyleSheet.create({
   info: {
     padding: 4,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
     start: 5,
     paddingBottom: 5,
+
   },
 
   toutcritere: {
     flexDirection: 'row',
     padding: 4,
     paddingStart: 17,
+
   },
 
   trois: {
@@ -199,8 +222,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     textAlign: 'center',
-    paddingBottom: 10,
-    gap: 5,
+    paddingBottom: 7,
 
   },
 
@@ -208,6 +230,8 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 1,
     margin: 7,
+    backgroundColor: '#2B0D35',
+    gap: 2,
 
   },
 
@@ -221,7 +245,12 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   main: {
-    bottom: 100,
+    flex: 1,
+    backgroundColor: '#2B0D35'
+  },
+  button: {
+    color: "black",
+    margin: 15,
 
   }
 
