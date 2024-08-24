@@ -212,7 +212,7 @@ export default function ModifierProfilScreen({ navigation }) {
       <View style={styles.color} >
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           <Text style={styles.title1}>Créér votre profil consommateur</Text>
-          <Text style={[globalStyles.title, { top: 30, marginBottom: 30, right: 105 }]}>IDENTITE</Text>
+          <Text style={[globalStyles.title, { top: 30, marginBottom: 10, right: 105 }]}>IDENTITE</Text>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -261,7 +261,7 @@ export default function ModifierProfilScreen({ navigation }) {
 
 
                 </View>
-                <Text style={[globalStyles.title, { top: 15, right: 105 }]}>ADRESSE</Text>
+                <Text style={[globalStyles.title, { top: 7, marginTop: 10, right: 105 }]}>ADRESSE</Text>
                 <Field
                   style={globalStyles.textInput}
                   component={LessFormikInput}
@@ -292,17 +292,17 @@ export default function ModifierProfilScreen({ navigation }) {
                   keyboardType='numeric'
                   errorTextStyle={{ top: 8 }}
                 />
-                <Text style={[globalStyles.title, { marginTop: 65, right: 85 }]}>MON BUDGET</Text>
+                <Text style={[globalStyles.title, { marginTop: 55, right: 85 }]}>MON BUDGET</Text>
                 <View style={styles.budget}>
                   <Slider
-                    style={{ marginTop: 15, start: 30, width: 248, height: 40, }}
+                    style={{ marginTop: 15, start: 30, width: 240, height: 40, }}
                     minimumValue={25}
                     maximumValue={1500}
-                    minimumTrackTintColor="#FFFFFF"
+                    minimumTrackTintColor="#2B0D35"
                     onValueChange={(value) => setBudget(Math.round(value))}
                     thumbTintColor="#BB8E1"
                   />
-                  <Text style={{ start: '55%', color: 'white', marginTop: 25, fontWeight: 'bold' }}>{budget}€</Text>
+                  <Text style={{ start: '80%', color: '#2B0D35', marginTop: 25, fontWeight: 'bold' }}>{budget}€</Text>
                 </View>
                 <Text style={[globalStyles.title, { marginTop: 25, right: 30 }]}>MON REGIME ALIMENTAIRE</Text>
                 <View style={styles.radioButton}>
@@ -377,6 +377,7 @@ export default function ModifierProfilScreen({ navigation }) {
                     placeholder='Ajouter une allergie'
                     boxStyles={{ backgroundColor: 'white', width: 300 }}
                     dropdownStyles={{ backgroundColor: '#2B0D35' }}
+                    dropdownTextStyles={{ color: 'white' }}
 
 
                   />
@@ -465,9 +466,7 @@ const styles = StyleSheet.create({
   //   marginBottom: 10,
   //   textAlign: 'right',
   // },
-  option: {
-    color: 'black',
-  },
+
   budget: {
     flexDirection: 'row',
   },
@@ -506,8 +505,9 @@ const styles = StyleSheet.create({
   option: {
     color: 'black',
     fontWeight: 'bold',
+    marginTop: 15,
     marginRight: 85,
-    start: 25,
+    start: 45,
   }
 
 

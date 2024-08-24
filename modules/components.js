@@ -239,8 +239,9 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: 'white',
+    borderColor: 'black',
     backgroundColor: 'transparent',
+    top: 5,
   },
   checkBox: {
     flex: 1,
