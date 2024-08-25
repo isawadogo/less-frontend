@@ -50,6 +50,7 @@ export default function CGUScreen({ navigation }) {
 
         </View>
       </View>
+
     </SafeAreaView>
 
   )

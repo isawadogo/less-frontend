@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { useFonts } from 'expo-font';
+import { Ionicons } from '@expo/vector-icons'
 import { ActivityIndicator, Text } from 'react-native'
 
 import { configureStore } from '@reduxjs/toolkit';
@@ -63,9 +63,43 @@ function ProfilStackScreen() {
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Accueil" component={HomeScreen} />
-      <Tab.Screen name="ProfilHome" component={ProfilScreen} />
+    <Tab.Navigator
+      // Personnalisation du style  de la barre de menu 
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarStyle: {
+          paddingTop: 13,
+          position: 'absolute',
+          elevation: 0,
+          height: 90,
+          backgroundColor: '#2B0D35',
+
+        },
+        tabBarIcon: ({ focused }) => {
+
+          let iconeType
+          let iconeColor = focused ? 'white' : 'white';
+          let iconSize = focused ? 30 : 25;
+
+          if (route.name === 'Acceuil') {
+            iconeType = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Profil') {
+            iconeType = focused ? 'person' : 'person-outline'
+          } else if (route.name === 'Budget') {
+            iconeType = focused ? 'wallet' : 'wallet-outline'
+          }
+          return <Ionicons name={iconeType} size={iconSize} color={iconeColor} />
+        },
+        tabBarActiveTintColor: 'white',
+        tabBarInactiveTintColor: 'transparent',
+        tabBarLabelStyle: {
+          fontSize: 14,
+        }
+      })}
+
+    >
+      <Tab.Screen name="Acceuil" component={HomeScreen} />
+      <Tab.Screen name="Profil" component={ProfilScreen} />
       <Tab.Screen name="Budget" component={BudgetScreen} />
     </Tab.Navigator>
   );

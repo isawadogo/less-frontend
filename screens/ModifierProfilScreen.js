@@ -371,6 +371,7 @@ export default function ModifierProfilScreen({ navigation }) {
 
                 <View style={{ alignSelf: 'center' }}>
                   {<MultipleSelectList
+
                     setSelected={(val) => setSelected(val)}
                     data={data}
                     save='value'
@@ -378,7 +379,6 @@ export default function ModifierProfilScreen({ navigation }) {
                     boxStyles={{ backgroundColor: 'white', width: 300 }}
                     dropdownStyles={{ backgroundColor: '#2B0D35' }}
                     dropdownTextStyles={{ color: 'white' }}
-
 
                   />
                   }

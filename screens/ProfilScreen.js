@@ -4,6 +4,7 @@ import { useFonts } from 'expo-font';
 import TouchableButton from '../composant/TouchableButton';
 //import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 import { useState, useEffect } from 'react';
 
@@ -13,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { frontConfig } from '../modules/config';
 import { checkBody } from '../modules/checkBody';
 import { globalStyles } from '../globalStyles';
+import { icon } from '@fortawesome/fontawesome-svg-core';
 
 
 
@@ -51,21 +53,26 @@ export default function ProfilScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.back}>
-      <ImageBackground source={require('../assets/image.png')}  >
-
+      <ImageBackground source={require('../assets/profil.jpg')}  >
         <View style={styles.head}>
-          <Text style={styles.title}>PROFIL</Text>
         </View >
       </ImageBackground>
       <View style={styles.block1}>
+        <Text style={styles.userProfil}> PROFIL</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { screen: 'ModifierProfil' })} >
+          <FontAwesomeIcon icon={faPenToSquare} style={styles.icone} />
+        </TouchableOpacity>
         <View style={styles.infos}>
           <View style={styles.row}>
+            {/* <Text style={styles.type}>prenom : </Text> */}
             <Text style={styles.info}> {user?.prenom || 'Jen'}</Text>
           </View>
           <View style={styles.row}>
+            {/* <Text style={styles.type}>nom : </Text> */}
             <Text style={styles.info}> {user?.nom || 'Andriamboavonjy'}</Text>
           </View>
           <View style={styles.row}>
+            {/* <Text style={styles.type}>email: </Text> */}
             <Text style={styles.info}> {user?.email || 'Email'}</Text>
           </View>
           <View style={styles.budgets}>
@@ -121,9 +128,9 @@ const styles = StyleSheet.create({
 
   },
   title: {
-    color: 'white',
+    color: 'black',
     textAlign: 'center',
-    top: 60,
+    top: 12,
     fontSize: 35,
     fontWeight: 'bold',
 
@@ -131,31 +138,41 @@ const styles = StyleSheet.create({
   },
   block1: {
     flex: 1,
-    width: 310,
-    height: 500,
+    width: 320,
+    height: 490,
     bottom: 50,
     position: 'absolute',
     zIndex: 10,
-    start: 40,
+    top: 265,
+    start: 35,
     backgroundColor: 'white',
     borderColor: '#2B0D35',
     borderWidth: 2,
     padding: 15,
+    opacity: 0.9,
 
+  },
+  userProfil: {
+    textAlign: 'center',
+    right: 10,
+    fontWeight: 'bold',
+    fontSize: 19,
+    bottom: 5,
+  },
 
+  icone: {
+    height: 15,
+    bottom: 25,
+    start: 260,
 
   },
   ref: {
-
     fontSize: 35,
     fontWeight: 'bold',
     paddingTop: 10,
     paddingStart: 75,
     paddingBottom: 10,
     color: 'black',
-
-
-
   },
   text: {
     fontWeight: 'bold',
@@ -163,12 +180,10 @@ const styles = StyleSheet.create({
     paddgingBottom: 7,
     start: 7,
     color: 'white',
-
   },
   infos: {
+    top: 15,
     paddingStart: 10,
-
-
   },
   row: {
     flexDirection: 'row',
@@ -183,6 +198,7 @@ const styles = StyleSheet.create({
     marginStart: 3,
     marginTop: 10,
     borderWidth: 1,
+    borderRadius: 15,
 
     end: 6,
   },
@@ -212,7 +228,7 @@ const styles = StyleSheet.create({
 
   toutcritere: {
     flexDirection: 'row',
-    padding: 4,
+    padding: 10,
     paddingStart: 17,
 
   },
@@ -231,6 +247,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     margin: 7,
     backgroundColor: '#2B0D35',
+    borderRadius: 15,
     gap: 2,
 
   },
@@ -246,11 +263,13 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: '#2B0D35'
+    backgroundColor: 'white',
+    borderBottomEndRadius: 15,
+
   },
   button: {
     color: "black",
-    margin: 15,
+    margin: 8,
 
   }
 
