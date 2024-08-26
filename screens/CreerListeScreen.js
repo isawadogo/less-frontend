@@ -1,54 +1,57 @@
-import { Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, TextInput, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateListeName } from '../reducers/user';
+//import { updateListeName } from '../reducers/user';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import LessFormikInput from '../composant/LessFormikInput';
+
+import colors from '../styles/colors';
+import {LessHeader} from '../modules/components';
+import { updateListeName } from '../reducers/user';
+import { getUserListes } from '../modules/listesFunctions';
 
 //import { frontConfig } from '../modules/config';
 
 export default function CreerListeScreen({ navigation }) {
 
   const user = useSelector((state) => state.user.value.userDetails);
-  //const [categories, setCategories] = useState([]);
-  //const [nomListe, setNomListe] = useState();
-  const listeName = useSelector((state) => state.user.value.currentListeName);
+  
+  const listeName = useSelector((state) => state.user.value.listeName);
+  //const listeName = useSelector((state) => state.liste.value.listeName);
 
-  const dispacth = useDispatch();
+  const [userListes, setUserListes] = useState([]);
+  const [ isReady, setIsReady] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
       if (!user.id) {
         navigation.navigate('Login');
-      }
-      // Get categories
-      //setNomListe(listeName)
-      /*
-      try {
-        const conReq = await fetch(frontConfig.backendURL + '/produits/categories', {
-          method: 'GET',
-          headers: { "Content-Type": "application/json", "authorization": user.token },
-        });
-        if (!conReq.ok) {
-          throw new Error('Connection returned a non 200 http code');
+      };
+      let ignore = false;
+      getUserListes(user.token, user.id).then(listes => {
+        console.log('Listes : ', userListes)
+        if (!ignore) {
+          setUserListes(listes);
+          setIsReady(true)
         }
-        const resJson = await conReq.json();
-        console.log('connection result : ', resJson);
-        if (resJson.result) {
-          return 0;
-        } else {
-          console.log('Failed to get categories list from the backend : ', resJson.error);
-        }
-      } catch (err) {
-        console.log('Connection to the backend failed');
-        console.log(err.stack);
+      });
+      return () => {
+        ignore = true;
       }
-      */
+
     })();
   }, []);
 
+  if (!isReady) {
+    return (
+      <Text></Text>
+    )
+  }
   const initialValues = { nomListe: listeName || '' };
   const validationSchema = Yup.object({
     nomListe: Yup
@@ -57,39 +60,57 @@ export default function CreerListeScreen({ navigation }) {
   });
 
   const handleValider = (values) => {
-    dispacth(updateListeName(values.nomListe));
+    console.log('save liste name : ', values.nomListe)
+    dispatch(updateListeName(values.nomListe));
     navigation.navigate('ChoisirListeProduits');
   }
 
-  console.log('Creer liste screen - user details : ', user);
+  //console.log('Creer liste screen - user details : ', user);
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Button title='retour' onPress={() => navigation.goBack()} />
-      <Text>{user.prenom} {user.nom}</Text>
-      <Text>{user.email}</Text>
-      <Text>Bonjour {user.prenom}</Text>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleValider}
-       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
-          <>
-            <Field
-              component={LessFormikInput}
-              name="nomListe"
-              placeholder="Votre liste"
-            />
-          <Button
-            title='Commencer'
-            onPress={handleSubmit}
-            disabled={!isValid}
-          />
-          </>
-          )}
-        </Formik>
-      <Text></Text>
-      <Text>Reprendre une liste enregistrée</Text>
+      <LessHeader 
+        titre='Nouvelle liste' 
+        backAction={() => navigation.goBack()}
+        />
+      <View style={styles.listeContainer}>
+        <Text style={styles.textTitre}>Nommer ma liste</Text>
+        <View style={styles.content}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleValider}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+            <>
+              <Field
+                component={LessFormikInput}
+                name="nomListe"
+                placeholder="Votre liste"
+              />
+            <Pressable 
+              onPress={handleSubmit}
+              disabled={!isValid}
+              width={50}
+              backgroundColor='green'
+              borderRadius={30}
+            >
+              <AntDesign name='checkcircleo' size={50} color='#ffffff' width={50} />
+            </Pressable>
+            </>
+            )}
+          </Formik>
+        </View>
+        <Text></Text>
+        <Text>Mes listes passées</Text>
+          {userListes ? userListes.map((l) => {
+            return(
+              <View key={l._id}>
+                <Text>Nom : {l.nom}</Text>
+              </View>
+            )
+          }) :  <View></View> }
+
+      </View>
     </KeyboardAvoidingView>
   )
 }
@@ -97,9 +118,22 @@ export default function CreerListeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  listeContainer: {
+    backgroundColor: '#ffffff',
+    width: '100%',
+    height: '80%',
+    borderRadius: 20,
+    paddingTop: 100,
+
+  },
+  content: {
+    width: '90%',
+    alignItems: 'center'
+    //flexDirection: 'row',
   },
   title: {
     fontSize: 70,
@@ -108,12 +142,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'right',
   },
-  textInput: {
-    borderWidth: 1,
-    width: 300,
-    height: 40,
-    margin: 10,
-    padding: 'auto',
-    color: 'red'
+  textTitre: {
+    color: colors.primary,
+    fontSize: 24,
+    fontWeight: 'bold',
+    paddingBottom: 70,
+    alignItems: 'center',
+    width: '90%',
+  },
+  inputText: {
+    paddingTop: 5,
   },
 });

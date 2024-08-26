@@ -34,6 +34,8 @@ import CreerListeScreen from './screens/CreerListeScreen';
 import ChoisirListeProduitsScreen from './screens/ChoisirListeProduitsScreen';
 import RecapListeProduitsScreen from './screens/RecapListeProduitsScreen';
 import ResultatComparaisonScreen from './screens/ResultatComparaisonScreen';
+import ResultasDetailArticlesScreen from './screens/ResultatsDetailArticlesScreen';
+
 import BudgetScreen from './screens/BudgetScreen';
 import Header from './composant/Header';
 
@@ -92,6 +94,7 @@ export default function App() {
           <Stack.Screen name='ChoisirListeProduits' component={ChoisirListeProduitsScreen} />
           <Stack.Screen name='RecapListeProduits' component={RecapListeProduitsScreen} />
           <Stack.Screen name='ResultatComparaison' component={ResultatComparaisonScreen} />
+          <Stack.Screen name='ResultasDetailArticlesScreen' component={ResultasDetailArticlesScreen} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="Profile" component={ProfilStackScreen} />
         </Stack.Navigator>

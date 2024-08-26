@@ -13,7 +13,7 @@ function MyCarousel({ data }) {
             autoPlay={true}
             data={data}
             scrollAnimationDuration={1000}
-            onSnapToItem={(index) => console.log('current index:', index)}
+            onSnapToItem={(index) => {}}
             renderItem={({ item }) => (
                 <View style={styles.carouselItem}>
                     <Image style={styles.image} source={item.image} />

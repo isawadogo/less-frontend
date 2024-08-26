@@ -14,7 +14,8 @@ export default function CreerListeScreen({ navigation }) {
 
   const [categories, setCategories] = useState([]);
   const [nomListe, setNomListe] = useState('');
-  const listeName = useSelector((state) => state.user.value.currentListeName);
+  const listeName = useSelector((state) => state.user.value.listeName);
+  //const listeName = useSelector((state) => state.liste.value.listeName);
   const [selectedCat, setSelectedCat] = useState({})
 
   const dispacth = useDispatch();
@@ -50,7 +51,7 @@ export default function CreerListeScreen({ navigation }) {
           console.log('Failed to get categories list from the backend : ', resJson.error);
         }
       } catch(err) {
-        console.log('Choisir porduits liste - Connection to the backend failed');
+        console.log('Choisir produits liste - Connection to the backend failed');
         console.log(err.stack);
       }
     })();
@@ -70,10 +71,6 @@ export default function CreerListeScreen({ navigation }) {
     }
   }
 
-  //console.log(' Choisir liste produit - user details : ', user);
-  //console.log('Choisir liste produits - categories : ', categories);
-  //console.log('Choisir liste produits - selected categorie : ', selectedCat);
-  //console.log('Choisir liste produits - selected Produits : ', produitsSelected);
   if (!selectedCat || selectedCat === undefined) {
     return(
       <SafeAreaView style={styles.container}>
@@ -98,7 +95,7 @@ export default function CreerListeScreen({ navigation }) {
           return (
             <LessButton 
               onChange={() => setSelectedCat(c)} 
-              key={i} 
+              key={`${i}-${c.nom}`} 
               pressed={c.nom===selectedCat.nom}
               texte={c.nom}  
             />

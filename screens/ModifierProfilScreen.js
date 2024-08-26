@@ -65,7 +65,7 @@ export default function ModifierProfilScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
 
   useEffect(() => {
-    (() => {
+    (async () => {
       if (!user.id) {
         navigation.navigate('Login');
       }

@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View, Image, TouchableOpacity, RNTextInput } from 'react-native';
+import { Modal, Button, SafeAreaView,Pressable, StyleSheet, Text, View, Image, TouchableOpacity, RNTextInput } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { frontConfig } from '../modules/config';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import colors from '../styles/colors';
 
 function LessButtonTouchable({ label, onChange }) {
   return (
@@ -49,7 +50,6 @@ function LessCheckbox({ onChange, checked }) {
 
 function LessButton({onChange, pressed, texte}) {
   //console.log(`in less button - Pressed = ${pressed}, categorie: ${texte}`)
-
   return (
     <Pressable style={[styles.buttonBase, pressed && styles.buttonPressed]}
       onPress={onChange}>
@@ -147,15 +147,12 @@ function ProduitRecapComponent({ categorie, onDecrease, onIncrease }) {
       <Text>Prouits ...</Text>
     )
   }
-  //console.log('Recap liste : categorie selected: ', categorie)
-  //console.log('Recap liste : produit selected: ', produitsSelected);
-  //console.log('Recap liste : produit to display : ', produitsTodisplay );
   return(
     <View style={{flex: 1}}>
       <Text style={{fontWeight: 'bold'}}>{categorie}</Text>
-      {produitsTodisplay.map((p) => 
+      {produitsTodisplay.map((p, i) => 
         { return(
-          <View >
+          <View key={`${categorie}-${p.nom}-${i}`}>
             <Image 
               style={{ height: 40, width: 40 }}
               source={require('../assets/fruits.png')}
@@ -178,6 +175,96 @@ function ProduitRecapComponent({ categorie, onDecrease, onIncrease }) {
     </View>
   )
 }
+
+// compoents = [components, component, ...]
+// props = {backLink, titre, components}
+function LessHeader(props) {
+  return (
+    <TouchableOpacity style={styles.lessHeader}>
+      <View style={styles.lessHeaderLeft}>
+          <Pressable onPress={props.backAction}>
+            <Entypo name='arrow-with-circle-left' color='#ffffff' size={26}/>
+          </Pressable>
+          <Text style={styles.lessHeaderTitle}>
+            {props.titre}
+          </Text>
+      </View>
+      <View style={styles.lessHeaderRight}>
+
+      </View>
+    </TouchableOpacity>
+  )
+}
+
+function ListeDetailsComponent({ liste }) {
+  return (
+    <View key={liste._id}>
+      <Text> Nom : {liste.nom} </Text>
+      <Text>Date de création : {liste.dateCreation} </Text>
+      <Text> Articles de la liste :</Text>
+      {liste.listeArticles.map((a, i) => {
+        return(
+          <View key={a._id}>
+            <Text style={{ paddingLeft: 20 }}>Article : {a.nom}</Text>
+            <Text style={{ paddingLeft: 20 }}>Prix : {a.prix}</Text>
+            <Text style={{ paddingLeft: 20 }}>Quantite: {a.quantite}</Text>
+          </View>
+          )
+        })
+      }
+    </View>
+  )
+}
+
+function ExistingListesComponents({ currentListes, deleteAction }) {
+
+  const [ isVisible, setIsVisible ] = useState(false);
+  const [ modalListe, setModalListe ] = useState('')
+
+  const listes = currentListes;
+  let modalsState = listes.map((l) => {
+    return { nom: l.nom, isVisible: false}
+  });
+
+  const handModalState = (nom) => {
+      setModalListe(listes.find((e) => e.nom === nom));
+      setIsVisible(!isVisible);
+  }
+  return (
+    <View>
+      {listes ? listes.map((l) => {
+        //modalVisible = modalsState.find((e) => e.nom === l.nom);
+        return(
+          < SafeAreaView key={l._id} style={{ flexDirection: 'row'}}>
+            <Text style={{ paddingRight: 20}}>Nom : {l.nom}</Text>
+            <Button 
+              title='Details'
+              onPress={() => handModalState(l.nom)}
+            />
+          </SafeAreaView>
+        )
+      }) :  <View></View> }
+      <Modal 
+        animationType="slide"
+        transparent={true}
+        visible={ isVisible}
+        onRequestClose={() => handModalState(l.nom) } 
+      >
+      <ListeDetailsComponent liste={modalListe} />
+      <Button 
+        title='Supprimer cette liste'
+        onPress={() => deleteAction(modalListe._id)}
+      />
+      <Button
+        title='Fermer'
+        onPress={() => setIsVisible(!isVisible)}
+      />
+      </Modal>
+
+    </View>
+  )
+}
+
 const styles = StyleSheet.create({
   inputTextStyle: {
     flexDirection: 'row',
@@ -247,6 +334,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
   },
+  lessHeader: {
+    width: '100%',
+    minHeight: 40,
+    color: colors.primary,
+  },
+  lessHeaderLeft: {
+    color: '#ffffff',
+    paddingLeft: 20,
+    flexDirection: 'row',
+  },
+  lessHeaderTitle: {
+    color: '#ffffff',
+    fontSize: 20,
+    paddingLeft: 15,
+  },
+  lessHeaderRight: {
+    flexDirection: 'row',
+
+  },
 });
 
 module.exports = {
@@ -255,4 +361,7 @@ module.exports = {
   LessButton,
   ProduitsComponent,
   ProduitRecapComponent,
+  LessHeader,
+  ExistingListesComponents,
+  ListeDetailsComponent,
 };
