@@ -11,6 +11,9 @@ const initialState = {
     currentListeName: '',
     selectedProduits: [],
     resultatsListe: {},
+    listeName: '',
+    liste: {},
+    selectedListe: {},
   },
 };
 
@@ -18,6 +21,54 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    updateListeName: (state, action) => {
+      state.value.listeName = action.payload
+    },
+    addListe: (state, action) => {
+      state.value.liste = {
+        ...state.value.liste,
+        ...action.payload
+      }
+    },
+    updateListe: (state, action) => {
+      let tempData = { ...state.value.liste}
+      state.value.liste = { ...Object.assign(tempData, action.payload) };
+    },
+    cleanAddListe: (state, action) => {
+      state.value= {
+        ...state.value,
+        currentListeName: '',
+        selectedProduits: [],
+        resultatsListe: {},
+        listeName: '',
+        liste: {},
+        selectedListe: {},
+      }
+    },
+    removeListe: (state, action) => {
+      state.value= {
+        ...state.value,
+        currentListeName: '',
+        selectedProduits: [],
+        resultatsListe: {},
+        listeName: '',
+        liste: {},
+        selectedListe: {},
+      }
+    },
+    setSelectedListe: (state, action) => {
+      state.value.selectedListe = {
+        ...state.value.selectedListe,
+        ...action.payload
+      }
+    },
+    removeSelectedListe: (state, action) => {
+      state.value = {
+        ...state.value,
+        selectedListe: action.payload
+      }
+    },
+
     logoutUser: (state, action) => {
       state.value = {
         userDetails: {},
@@ -27,6 +78,14 @@ export const userSlice = createSlice({
         resultatsListe: {},
       };
     },
+    cleanListeDetails: (state, action) => {
+      state.value = {
+        ...state.value,
+        currentListeName: '',
+        selectedProduits: [],
+        resultatsListe: {},
+      }
+    },
     updateUser: (state, action) => {
       let tempData = { ...state.value.userDetails }
       state.value.userDetails = { ...Object.assign(tempData, action.payload) };
@@ -34,22 +93,12 @@ export const userSlice = createSlice({
     updateWelcome: (state, action) => {
       state.value.displayWelcome = action.payload
     },
-    updateListeName: (state, action) => {
-      state.value.currentListeName = action.payload
-    },
     addListeResultat: (state, action) => {
       //state.value.resultatsListe = {...state.value.resultatsListe, action.payload}
     },
     updateListeResultat: (state, action) => {
       let tempData = { ...state.value.resultatsListe}
       state.value.resultatsListe = { ...Object.assign(tempData, action.payload) };
-      /*state.value.resultatsListe =  state.value.resultatsListe.map((l) => {
-        if (l.listeName === action.payload.listeName) {
-          return action.payload
-        } else {
-          return l
-        }
-      })*/
     },
     removeListesResultat: (state, action) => {
       state.value.resultatsListe = state.value.resultatsListe((l) => l.listeName !== action.payload)
@@ -101,6 +150,12 @@ export const {
   addListeResultat,
   updateListeResultat,
   removeListesResultat,
+  cleanListeDetails,
+  addListe,
+  removeListe,
+  setSelectedListe,
+  updateListe,
+  cleanAddListe,
 } = userSlice.actions;
 
 export default userSlice.reducer;

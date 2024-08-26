@@ -20,14 +20,14 @@ export default function WelcomeScreen1({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
   const displayWelcome = useSelector((state) => state.user.value.displayWelcome);
 
-  const dispacth = useDispatch();
+  const dispatch = useDispatch();
 
-  console.log('Welcome 1 - screen - user details :', user);
+  //console.log('Welcome 1 - screen - user details :', user);
   useEffect(() => {
     (() => {
-      console.log('Welcome 1 - screen - useEffect - user details :', user);
+      //console.log('Welcome 1 - screen - useEffect - user details :', user);
       if (user.id && !user.preferences.afficherEcranAccueil) {
-        navigation.navigate('Dashboard');
+        navigation.navigate('TabNavigator')
       } else if (!displayWelcome) {
         navigation.navigate('Login');
       }
@@ -37,7 +37,7 @@ export default function WelcomeScreen1({ navigation }) {
   const handleIgnoreWelcome = async () => {
     // first dispatch and update the reducer
     if (user.id && !user.preferences.afficherEcranAccueil) {
-      navigation.navigate('Dashboard');
+      navigation.navigate('TabNavigator')
       //} else if (!displayWelcome) {
       //  navigation.navigate('Login');
     }
@@ -57,13 +57,13 @@ export default function WelcomeScreen1({ navigation }) {
         const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + user.id);
         const json = await response.json();
         if (json.result) {
-          console.log('Modifier profil - dispacth to reducer : ', json.user);
+          //console.log('Modifier profil - dispacth to reducer : ', json.user);
           dispatch(updateUser({ ...json.user, id: user.id }));
           navigation.navigate('TabNavigator');
         }
       }
       //return;
-      dispacth(updateUser(updateData));
+      dispatch(updateUser(updateData));
       // Go to the login page
       navigation.navigate('Login');
     } else {

@@ -33,8 +33,8 @@ const LessFormikInput = (props) => {
 
 const styles = StyleSheet.create({
   textInput: {
-    backgroundColor: 'white',
-    borderRadius: 5,
+    backgroundColor: 'whitesmoke', //whitesmoke (#f5f5f5)
+    borderRadius: 40,
     width: '83%',
     margin: 10,
     padding: 15,

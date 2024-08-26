@@ -20,9 +20,9 @@ export default function WelcomeScreen2({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
   const displayWelcome = useSelector((state) => state.user.value.displayWelcome);
 
-  const dispacth = useDispatch();
+  const dispatch = useDispatch();
 
-  console.log('Welcome 2 - screen - user details :', user);
+  //console.log('Welcome 2 - screen - user details :', user);
   useEffect(() => {
     (() => {
       if (user.id && !user.preferences.afficherEcranAccueil) {
@@ -38,7 +38,7 @@ export default function WelcomeScreen2({ navigation }) {
       navigation.navigate('TabNavigator');
     }
     // first dispatch and update the reducer
-    dispacth(updateWelcome(false));
+    dispatch(updateWelcome(false));
     // If the user is already connected
     if (user.id) {
       const updateData = {
@@ -54,13 +54,13 @@ export default function WelcomeScreen2({ navigation }) {
         const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + user.id);
         const json = await response.json();
         if (json.result) {
-          console.log('Modifier profil - dispacth to reducer : ', json.user);
+          //console.log('Modifier profil - dispacth to reducer : ', json.user);
           dispatch(updateUser({ ...json.user, id: user.id }));
           navigation.navigate('TabNavigator');
         }
       }
       //return;
-      dispacth(updateUser(updateData));
+      dispatch(updateUser(updateData));
       // Go to the login page
       navigation.navigate('Login');
     }

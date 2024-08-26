@@ -1,9 +1,79 @@
 import { frontConfig } from '../modules/config';
 
+async function deleteListe(token, listeId) {
+    try {
+      // delete a liste
+      console.log('LISTE ID', listeId)
+      const deleteReq = await fetch(frontConfig.backendURL + '/listes/delete/' + listeId,
+        {
+          method: 'DELETE',
+          headers: { "Content-Type": "application/json", "authorization": token},
+        }
+      );
+      console.log('DELETE REQ : ', deleteReq);
+      if (!deleteReq.ok) {
+        console.log('The delete request failed with error : ')
+        console.log(`Status code : ${deleteReq.status}, error : ${deleteReq.statusText}`)
+      } else {
+        const listeJson = await deleteReq.json();
+        if (listeJson.result) {
+          return true;
+        }
+      }
+    } catch (err) {
+      console.log('Failed to delete the liste ');
+      console.log(err.stack);
+    }
+    return false;
+}
+
+async function getUserListes(token, userId) {
+    try {
+      // Get User's listes
+      const listes = await fetch(frontConfig.backendURL + '/listes/getListes/' + userId,
+        {
+          method: 'GET',
+          headers: { "Content-Type": "application/json", "authorization": token},
+        }
+      );
+      const listesJson = await listes.json();
+      if (listesJson.result) {
+        return listesJson.listes;
+      }
+    } catch (err) {
+      console.log('Failed to get user listes ');
+      console.log(err.stack);
+    }
+}
+
+async function getProduits(token,categorie, nomProduit, pageNumber=1, limit=1) {
+  try { ///produit/categories/Boissons?nomProduit=Limonade
+    const conReq = await fetch(frontConfig.backendURL + '/produits/categories/' + categorie + '?nomProduit=' + nomProduit 
+      + '&limit=' + limit + '&pageNumber=' + pageNumber, {
+      method: 'GET',
+      headers: { "Content-Type": "application/json", "authorization": token},
+    });
+    if (!conReq.ok) {
+      throw new Error('Connection returned a non 200 http code');
+    }
+      const resJson = await conReq.json();
+      if (resJson.result) {
+        if (resJson.produits.length > 0) {
+          return resJson.produits;
+        }
+      } else {
+        console.log('Failed to get produuits list from the backend : ', resJson.error);
+        return [];
+      }
+    } catch(err) {
+      console.log('Evaluate criteres - An error occured. See below for the stack trace');
+      console.log(err.stack);
+    }
+}
+
 // takes a critere, it's type, an arry of produits and returns an array of produits matching the critere
 async function evaluateCritere(critereNom, categorie, nomProduit, token) {
   //const user = useSelector((state) => state.user.value.userDetails);
-  //console.log('Function evaluate criteres  - details 1 :', critereNom);
   //console.log('Function evaluate criteres  - details 2 :', categorie);
   //console.log('Function evaluate criteres  - details 3 :', nomProduit);
   let produits = [];
@@ -17,18 +87,19 @@ async function evaluateCritere(critereNom, categorie, nomProduit, token) {
           throw new Error('Connection returned a non 200 http code');
         }
         const resJson = await conReq.json();
-        //console.log(`evaluate criteres : returned produits for categorie ${categorie} , critere ${critereNom} : ${resJson}`);
+        //console.log(`evaluate criteres : returned produits for categorie ${categorie} , critere ${critereNom} : ${JSON.stringify(resJson)}`);
         if (resJson.result) {
             if (resJson.produits.length > 0) {
-              produits = resJson.produits.toSorted((a, b) => a.prix - b.prix);
-              console.log('evaluate criteres - sorted produits : ', produits);
+              produits = resJson.produits;
+              //produits = resJson.produits.toSorted((a, b) => a.prix - b.prix);
+              //console.log('evaluate criteres - sorted produits : ', produits);
               //produits.map((e) => console.log(`evaluate critere - matched produit detail, critere ${critereNom} : ${JSON.stringify(e)}`));
             }
         } else {
           console.log('Failed to get produuits list from the backend : ', resJson.error);
         }
       } catch(err) {
-        console.log('Choisir porduits liste - Connection to the backend failed');
+        console.log('Evaluate criteres - An error occured. See below for the stack trace');
         console.log(err.stack);
       }
   let produitsMatch = [];
@@ -46,7 +117,7 @@ async function evaluateCritere(critereNom, categorie, nomProduit, token) {
       produitsMatch = produits.filter((e) => e.tauxDeSucre <= 10 )
       break;
     case 'distance':
-      // get distance from user address to evry enseigne
+      // get distance from user address to every enseigne
 
       // get the produits of enseignes that satify the conditions
 
@@ -89,4 +160,10 @@ async function getEnseignesList(token) {
   return enseignes;
 }
 
-module.exports = { evaluateCritere, getEnseignesList };
+module.exports = { 
+  evaluateCritere, 
+  getEnseignesList,
+  getProduits,
+  getUserListes,
+  deleteListe,
+};
