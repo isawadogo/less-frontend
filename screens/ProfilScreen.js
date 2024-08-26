@@ -82,7 +82,7 @@ export default function ProfilScreen({ navigation }) {
         </View>
         <View style={styles.ensemble}>
           <View style={styles.toutcritere}>
-            <Text style={styles.text}>Vos critères de consommation</Text>
+            <Text style={styles.text}>Critères de consommation</Text>
           </View>
           <View style={styles.trois}>
             <Text style={styles.criteres}> {user?.critere || 'vegan'}</Text>
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     bottom: 50,
     position: 'absolute',
     zIndex: 10,
-    top: 265,
+    top: 255,
     start: 35,
     backgroundColor: 'white',
     borderColor: '#2B0D35',
@@ -157,12 +157,11 @@ const styles = StyleSheet.create({
     right: 10,
     fontWeight: 'bold',
     fontSize: 19,
-    bottom: 5,
   },
 
   icone: {
     height: 15,
-    bottom: 25,
+    bottom: 20,
     start: 260,
 
   },
@@ -178,11 +177,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingTop: 7,
     paddgingBottom: 7,
-    start: 7,
+    start: 24,
     color: 'white',
   },
   infos: {
-    top: 15,
+    top: 5,
     paddingStart: 10,
   },
   row: {

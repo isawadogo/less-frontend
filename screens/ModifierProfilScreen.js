@@ -50,6 +50,7 @@ export default function ModifierProfilScreen({ navigation }) {
     start: 13,
     margin: 50,
     paddingStart: 5,
+    borderRadius: 15,
 
   }
 

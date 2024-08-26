@@ -78,7 +78,7 @@ const TabNavigator = () => {
         tabBarIcon: ({ focused }) => {
 
           let iconeType
-          let iconeColor = focused ? 'white' : 'white';
+          let iconeColor = 'white';
           let iconSize = focused ? 30 : 25;
 
           if (route.name === 'Acceuil') {
