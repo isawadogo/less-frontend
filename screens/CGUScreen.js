@@ -1,13 +1,19 @@
 import { View, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { useFonts } from 'expo-font';
 
 export default function CGUScreen({ navigation }) {
+  const [loaded, error] = useFonts({
+    'Raleway-Bold': require('../assets/fonts/Raleway-Bold.ttf'),
+    'Raleway-SemiBold': require('../assets/fonts/Raleway-SemiBold.ttf'),
+    'Raleway-Regular': require('../assets/fonts/Raleway-Regular.ttf'),
+  });
 
+  if (!loaded && !error) {
+    return null;
+  }
   return (
-    <SafeAreaView>
-      <View>
-        <Text style={styles.sectionTitle}>Conditions Générales</Text>
+    <SafeAreaView style={styles.container}>
 
         <View>
           <Text style={styles.intro} >La commission consultative des pratiques commerciales recommande que les fournisseurs de produits ou de prestations de services se dotent de conditions générales de vente établies selon les besoin de chacun, à partir du modèle proposé ci-après :`</Text>
@@ -49,7 +55,7 @@ export default function CGUScreen({ navigation }) {
           <Text style={styles.paragraphe}>Les présentes conditions annulent et remplacent les conditions précédemment applicables. Tout litige relatif aux présentes sera de la compétence du tribunal mixte de commerce</Text>
 
         </View>
-      </View>
+
     </SafeAreaView>
 
   )
@@ -57,22 +63,26 @@ export default function CGUScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
+    padding: 25,
+  },
 
+  sectionTitle: {
+    fontFamily: 'Raleway-Bold',
+    fontSize: 13,
+    color: "#2B0D35",
+    paddingTop: 25,
+    paddingBottom: 15,
+  },
 
-    sectionTitle: {
-      fontSize: 24,
-      fontWeight: 'bold',
-    },
-    intro: {
-      fontSize: 16,
-      marginBottom: 16,
-    },
-    paragraphe: {
-      fontSize: 16,
-      marginBottom: 12,
-    },
-  }
+  intro: {
+    fontFamily: 'Raleway-SemiBold',
+    fontSize: 13,
+    color: "#2B0D35",
+  },
+
+  paragraphe: {
+    fontSize: 13,
+    fontFamily: "Raleway-Regular",
+    color: "#555555"
+  },
 })

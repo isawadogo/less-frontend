@@ -1,8 +1,6 @@
 import React from 'react';
-
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import CheckBoxReglage from '../composant/CheckBoxReglage';
 
 
@@ -55,9 +53,8 @@ export default function ReglageNotifScreen({ navigation }) {
 
     return (
         <SafeAreaView>
-            <ScrollView style={styles.container}>
-                <View>
-
+            <ScrollView>
+                <View style={styles.container}>
                     {data.map(element => (
                         <CheckBoxReglage key={element.id} data={element} />
                     ))}
@@ -69,4 +66,8 @@ export default function ReglageNotifScreen({ navigation }) {
 }
 
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+
+    },
+})

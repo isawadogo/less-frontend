@@ -6,6 +6,11 @@ import { ActivityIndicator, Text } from 'react-native'
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { faPiggyBank } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+
 /* NAVIGATION */
 
 // importation des modules react-navigation
@@ -42,13 +47,13 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const ProfilStack = createNativeStackNavigator();
 
-
+// configuration du store
 const store = configureStore({
   reducer: { user, liste },
 });
 
 
-
+// Stack de Navigation du profile
 function ProfilStackScreen() {
   return (
     <ProfilStack.Navigator screenOptions={{ header: (props) => <Header {...props} /> }}>
@@ -63,10 +68,43 @@ function ProfilStackScreen() {
 }
 
 const TabNavigator = () => {
+
+  //import de la police pour le TabNavigator
+  const [loaded, error] = useFonts({
+    'Raleway-SemiBold': require('./assets/fonts/Raleway-Regular.ttf'),
+  });
+
+  if (!loaded && !error) {
+    return null;
+  }
+
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator screenOptions={
+      ({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName = '';
+   
+          if (route.name === 'Accueil') {
+            iconName = 'faPiggyBank';
+          } else if (route.name === 'Profil') {
+            iconName = 'faPiggyBank';
+          } else if (route.name === 'Budget') {
+            iconName = "faPiggyBank";
+          }
+
+          return <FontAwesome icon={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#2196f3',
+        tabBarInactiveTintColor: 'gray',
+        headerShown: false,
+        tabBarActiveTintColor: "#ffffff",
+        tabBarLabelStyle: { fontFamily: "Raleway-Ragular", },
+        tabBarStyle: {
+          backgroundColor: "#2B0D35",
+          borderTopWidth: 0,},
+    })}>
       <Tab.Screen name="Accueil" component={HomeScreen} />
-      <Tab.Screen name="ProfilHome" component={ProfilScreen} />
+      <Tab.Screen name="Profil" component={ProfilScreen} />
       <Tab.Screen name="Budget" component={BudgetScreen} />
     </Tab.Navigator>
   );
