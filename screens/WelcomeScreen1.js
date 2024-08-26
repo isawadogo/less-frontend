@@ -12,6 +12,7 @@ import TouchableButton from '../composant/TouchableButton';
 export default function WelcomeScreen1({ navigation }) {
   const buttonPosition = {
     bottom: 58,
+    borderRadius: 15,
 
   }
   //const [afficherAccueil, setAfficherAccueil] = useState(true);

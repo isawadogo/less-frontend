@@ -11,7 +11,7 @@ const TouchableButton = ({ color, onPress, title, position }) => {
             backgroundColor: color,
             left: 106,
             bottom: 10,
-            borderRadius: 15,
+            // borderRadius: 15,
             margin: 8,
             bottom: 1,
             ...position,

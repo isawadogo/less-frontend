@@ -1,6 +1,8 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { object } from 'yup';
+import { globalStyles } from '../globalStyles';
 
 export default function BudgetScreen({ navigation }) {
     // calcul des dépenses du mois en cours
@@ -29,24 +31,24 @@ export default function BudgetScreen({ navigation }) {
             category: "Divers",
             amount: 15,
         },
-    
+
     ];
-    const spentByCategory = categorySpent.map( (object) => {
+    const spentByCategory = categorySpent.map((object) => {
         return (
             <View style={styles.row}>
-                        <Text>{object.category}</Text>
-                        <Text>{object.amount}€</Text>
+                <Text>{object.category}</Text>
+                <Text>{object.amount}€</Text>
             </View>
         );
     });
 
     // calcul du reste à dépenser
     const budget = 300;
-    const amounts = categorySpent.map ((category) => category.amount)
+    const amounts = categorySpent.map((category) => category.amount)
     const spent = amounts.reduce((acc, curr) => acc + curr)
-    
+
     const leftToSpend = budget - spent;
-    const percentageSpent = `${(100 * spent)/budget}%`
+    const percentageSpent = `${(100 * spent) / budget}%`
 
     // calcul des dépenses du mois précédents
     const budgetData = [
@@ -66,56 +68,64 @@ export default function BudgetScreen({ navigation }) {
             month: "septembre",
             spend: 175,
         },
-    
+
     ];
-    const lastSpent = budgetData.map( (object) => {
+    const lastSpent = budgetData.map((object) => {
         return (
             <View style={styles.row}>
-                        <Text>{object.month}</Text>
-                        <Text>{object.spend}€</Text>
+                <Text>{object.month}</Text>
+                <Text>{object.spend}€</Text>
             </View>
         );
     });
 
     return (
-        <View style={styles.background}>
+        <SafeAreaView style={styles.background}>
+
             <View style={styles.titleContainer}>
-                <Button
+                {/* <Button
                     style={styles.returnButton}
                     title="<-"
                     onPress={() => navigation.navigate('TabNavigator')}
-                />
-                <Text style={styles.mainTitle}>Mon Budget</Text>
+                /> */}
+                <Text style={globalStyles.header}>Mon Budget</Text>
             </View>
-            
+
             <View style={styles.container}>
                 <Text style={styles.sectionTitle}>Mois en cours</Text>
-                    <View style={styles.listContainer}>
-                        <CircularProgress value={spent}/>
-                        <View>{spentByCategory}</View>
-                    </View>
-                    
+                <View style={styles.listContainer}>
+                    <CircularProgress value={spent} />
+                    <View>{spentByCategory}</View>
+                </View>
+
                 <Text style={styles.sectionTitle}>Reste {leftToSpend}€ à dépenser</Text>
                 <View style={styles.barContainer}>
-                    <Text style={[styles.progressBar, {width:'75%'}]}>{percentageSpent}</Text>
+                    <Text style={[styles.progressBar, { width: '75%' }]}>{percentageSpent}</Text>
                 </View>
                 <Text style={styles.sectionTitle}>Dépenses des mois précédents</Text>
                 <View style={styles.lastMounthContainer}>
                     {lastSpent}
                 </View>
-                
+
             </View>
 
-        </View>
+
+
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        backgroundColor: '#25000B',
+        backgroundColor: '#2B0D35',
+
     },
 
+    test: {
+        flex: 1,
+        backgroundColor: 'red',
+    },
     titleContainer: {
         flexDirection: "row",
     },
@@ -128,19 +138,11 @@ const styles = StyleSheet.create({
         width: 50,
 
     },
-
-    mainTitle : {
-        color: '#fff',
-        fontSize: 24,
-        fontWeight: 'bold',
-        margin: 25,
-    },
-    
     container: {
-    flex: 1,
-      padding: 16,
-      backgroundColor: '#fff',
-      borderRadius: 25,
+        flex: 1,
+        padding: 16,
+        backgroundColor: '#fff',
+        // borderRadius: 25,
     },
 
     sectionTitle: {
@@ -178,4 +180,4 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
     },
-  })
+})

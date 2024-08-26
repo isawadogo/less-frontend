@@ -14,16 +14,22 @@ export const globalStyles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 2,
 
-
         width: '80%',
         height: 40,
         margin: 10,
         padding: 12.5,
-        marginBottom: 15,
+        top: 12,
         borderRadius: 5,
         left: 24,
     },
+    header: {
+        color: '#fff',
+        fontSize: 24,
+        fontWeight: 'bold',
+        margin: 25,
+        width: '100%',
 
+    }
 
-
-})
+}
+)

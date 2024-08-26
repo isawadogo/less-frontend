@@ -14,6 +14,7 @@ export default function WelcomeScreen2({ navigation }) {
 
   const buttonPosition = {
     bottom: 8,
+    borderRadius: 15,
 
   }
   const user = useSelector((state) => state.user.value.userDetails);

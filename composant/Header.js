@@ -9,6 +9,7 @@ import { useFonts } from 'expo-font';
 export default function Header({ navigation }) {
     const [loaded, error] = useFonts({
         'Raleway': require('../assets/fonts/Raleway-Regular.ttf'),
+        'AlexBrush': require('../assets/fonts/AlexBrush-Regular.ttf')
     });
 
     if (!loaded && !error) {
