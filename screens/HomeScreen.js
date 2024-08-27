@@ -1,19 +1,23 @@
-import { SafeAreaView, Modal, Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
+/* IMPORTS */
 
+//import des éléments React et React Native
+import { SafeAreaView, Modal, Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useFonts } from 'expo-font';
+//import React Navigation
+import { useFocusEffect } from '@react-navigation/native';
+//import Redux et reducers
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser, logoutUser, removeListe } from '../reducers/user';
+import { array } from 'yup';
+//import des modules
+import { getUserListes, deleteListe } from '../modules/listesFunctions';
+import { ExistingListesComponents } from '../modules/components';
+//import des icones
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleArrowRight, faBell } from '@fortawesome/free-solid-svg-icons';
 
-import { useFocusEffect } from '@react-navigation/native';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { updateUser, logoutUser } from '../reducers/user';
-import { array } from 'yup';
-import { logoutUser, removeListe } from '../reducers/user';
-
-import { getUserListes, deleteListe } from '../modules/listesFunctions';
-import { ExistingListesComponents } from '../modules/components';
+/* FONCTION HOMESCREEN */
 
 export default function HomeScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
@@ -90,7 +94,7 @@ export default function HomeScreen({ navigation }) {
   if (!isReady) {
     return (<View></View>)  }
 
-  //import de la police
+  //import de la police pour le style CSS
   const [loaded, error] = useFonts({
     'Raleway-Bold': require('../assets/fonts/Raleway-Bold.ttf'),
     'Raleway-Medium': require('../assets/fonts/Raleway-Medium.ttf'),
@@ -100,30 +104,25 @@ export default function HomeScreen({ navigation }) {
   if (!loaded && !error) {
     return null;
   } 
+
   //console.log('Dashboard screen - user details : ', user);
   //console.log('Dashboard screen - existing lists: ', userListes);
+  
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Text>{user.nom}</Text>
       <Text>{user.email}</Text>
       <Text>Bonjour {user.prenom}</Text>
 
-      <Button
-        title='Commencer'
-        onPress={() => navigation.navigate('CreerListe')}
-      />
-      <Text></Text> 
+      <Button title='Commencer'  onPress={() => navigation.navigate('CreerListe')} />
       <Text>Mes anciennes listes</Text>
-      <Text></Text> 
       <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
-      <Text></Text> 
-      <Button
-        title='Deconnexion'
-        onPress={handleDeconnection}
-      />
+      <Button title='Deconnexion' onPress={handleDeconnection} />
     </KeyboardAvoidingView>
   )
 }
+
+/* STYLE CSS */
 
 const styles = StyleSheet.create({
   container: {

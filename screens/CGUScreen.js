@@ -55,7 +55,6 @@ export default function CGUScreen({ navigation }) {
           <Text style={styles.paragraphe}>Les présentes conditions annulent et remplacent les conditions précédemment applicables. Tout litige relatif aux présentes sera de la compétence du tribunal mixte de commerce</Text>
 
         </View>
-      </View>
 
     </SafeAreaView>
 
