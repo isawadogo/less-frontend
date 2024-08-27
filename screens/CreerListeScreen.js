@@ -1,19 +1,22 @@
+/* IMPORT */
+//imports React & React Native
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, TextInput, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
+//import Redux & Reducer
 import { useDispatch, useSelector } from 'react-redux';
-//import { updateListeName } from '../reducers/user';
+import { updateListeName } from '../reducers/user';
+// import ??
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import colors from '../styles/colors';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import LessFormikInput from '../composant/LessFormikInput';
-
-import colors from '../styles/colors';
+//import Modules
 import {LessHeader} from '../modules/components';
-import { updateListeName } from '../reducers/user';
 import { getUserListes } from '../modules/listesFunctions';
-
 //import { frontConfig } from '../modules/config';
+
+/* FONCTION CREER LISTE*/
 
 export default function CreerListeScreen({ navigation }) {
 
@@ -68,10 +71,7 @@ export default function CreerListeScreen({ navigation }) {
   //console.log('Creer liste screen - user details : ', user);
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <LessHeader 
-        titre='Nouvelle liste' 
-        backAction={() => navigation.goBack()}
-        />
+ 
       <View style={styles.listeContainer}>
         <Text style={styles.textTitre}>Nommer ma liste</Text>
         <View style={styles.content}>
@@ -114,6 +114,8 @@ export default function CreerListeScreen({ navigation }) {
     </KeyboardAvoidingView>
   )
 }
+
+/* STYLE CSS */
 
 const styles = StyleSheet.create({
   container: {

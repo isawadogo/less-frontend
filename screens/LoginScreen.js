@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, TextInput, ImageBackground } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, TextInput, ImageBackground, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -16,18 +16,7 @@ import { frontConfig } from '../modules/config';
 
 export default function LoginScreen({ navigation }) {
 
-  const buttonPosition1 = {
-    right: 0,
-    bottom: 25,
-    borderRadius: 15,
-  }
 
-  const buttonPosition2 = {
-    right: 100,
-    top: 70,
-    borderRadius: 15,
-
-  }
   const initialValues = { email: '', password: '' };
   const validationSchema = Yup.object({
     email: Yup
@@ -87,16 +76,16 @@ export default function LoginScreen({ navigation }) {
   }
 
   return (
+
     <View style={styles.container}>
-      <View style={styles.imageBackground} >
+
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
           <FontAwesomeIcon icon={faCircleArrowLeft} style={styles.backButton} />
         </TouchableOpacity>
 
         <Text style={styles.title}>Content de vous revoir 🤩 </Text>
-        <Text style={styles.infosCon}>
-          Accédez à votre compte ! {'\n'} Renseignez votre email et votre mot de passe.
-        </Text>
+        <Text style={styles.text}>Accédez à votre compte ! {'\n'}Renseignez votre email et votre mot de passe.</Text>
+        
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -116,18 +105,28 @@ export default function LoginScreen({ navigation }) {
                 placeholder='Mot de passe'
                 secureTextEntry={true}
               />
-              <TouchableButton color="#7CD6C1" onPress={handleSubmit} title="SE CONNECTER" disabled={!isValid} position={buttonPosition1} />
+              
+              <Pressable style={styles.buttonBlue} onPress={handleSubmit}>
+                <Text style={styles.textButtonBlue}>connexion</Text>
+              </Pressable>
             </>
           )}
         </Formik>
-        <View style={styles.row}>
-          <Text style={styles.ligne} />
-          <Text style={styles.ou}>ou</Text>
-          <Text style={styles.ligne} />
+
+        <View style={styles.separatorContainer}>
+          <Text style={styles.separatorLine} />
+          <Text style={styles.separatorText}>ou</Text>
+          <Text style={styles.separatorLine} />
         </View>
-        <Text style={styles.inscription}>Pas encore de compte? </Text>
-        <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Inscription')} title="S'INSCRIRE" position={buttonPosition2}></TouchableButton>
+
+      <View style={styles.noAccountContainer}>
+        <Text style={styles.noAccountText}>Pas encore de compte?</Text>
+        <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Inscription')}>
+          <Text style={styles.textButtonTransparent}>créer un compte</Text>
+        </Pressable>
       </View>
+
+
     </View >
   )
 }
@@ -135,77 +134,86 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2B0D35"
+    backgroundColor: "white",
+    padding: 10,
+  },
 
-  },
-  imageBackground: {
-    flex: 1,
-    justifyContent: 'center'
-  },
-  backButtonContainer: {
-    position: 'absolute',
-    top: 100,
-
-  },
   backButton: {
-    paddingBottom: 25,
-    paddingStart: 80,
-    color: 'white',
-
+    color: '#A3A3A3',
   },
+
   title: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: 'white',
-    bottom: 130,
-    paddingStart: 60,
-    marginTop: 130,
-    bottom: 100,
+    fontFamily: 'Raleway-Bold',
+    fontSize: 20,
+    color: '#2B0D35',
+    marginTop: 15,
+    marginBottom: 15,
+  },
 
+  text: {
+    fontFamily: 'Raleway-Regular',
+    fontSize: 13,
+    color: '#CFCFCF',
+    marginBottom: 25,
   },
-  infosCon: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'white',
-    padding: 15,
-    bottom: 90,
-  },
-  oublie: {
-    color: 'white',
-    fontWeight: 'bold',
-    top: 360,
-    paddingStart: 230,
 
+  buttonBlue: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 20,
+    backgroundColor: '#7CD6C1',
+    marginTop: 25,
   },
-  textInput: {
-    backgroundColor: '#F3F3F3',
-    width: '85%',
-    margin: 10,
-    padding: 15,
-    bottom: 67,
-    left: 24,
+
+  textButtonBlue: {
+    fontSize: 13,
+    fontFamily: 'Raleway-Medium',
+    color: 'white',
   },
-  row: {
+  
+  separatorContainer: {
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 25,
+    marginBottom: 25,
   },
-  ligne: {
-    height: 3,
+
+  separatorLine: {
+    height: 1,
+    backgroundColor: '#CCCCCC',
     width: 160,
-    margin: 20,
-    backgroundColor: 'white',
   },
-  ou: {
-    color: 'white',
-    fontSize: 17,
-    top: 9,
-    fontWeight: 'bold'
+
+  separatorText: {
+    fontFamily: 'Raleway-Regular',
+    color: '#CFCFCF',
+    fontSize: 13,
+    margin: 15,
   },
-  inscription: {
-    color: 'white',
-    left: 120,
-    top: 50,
-    fontWeight: 'bold',
+
+  noAccountContainer:{
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
+
+  noAccountText: {
+    fontFamily: 'Raleway-Regular',
+    fontSize: 13,
+    color: '#CFCFCF',
+  },
+
+  buttonTransparent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 5,
+  },
+
+  textButtonTransparent: {
+    fontSize: 13,
+    fontFamily: 'Raleway-SemiBold',
+    color: '#2B0D35',
+  },  
+
 });

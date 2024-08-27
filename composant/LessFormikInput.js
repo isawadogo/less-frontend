@@ -1,5 +1,6 @@
 import React from 'react'
 import { Text, TextInput, StyleSheet } from 'react-native'
+import { useFonts } from 'expo-font';
 
 const LessFormikInput = (props) => {
   const {
@@ -33,19 +34,21 @@ const LessFormikInput = (props) => {
 
 const styles = StyleSheet.create({
   textInput: {
-    backgroundColor: 'whitesmoke', //whitesmoke (#f5f5f5)
+    backgroundColor: '#F8F8F8',
     borderRadius: 40,
-    width: '83%',
+    width: '100%',
     margin: 10,
     padding: 15,
     bottom: 54,
-    left: 24,
+    fontFamily: 'Raleway-Medium',
+    color: '#A3A3A3',
+    fontSize: 13,
   },
   errorText: {
+    fontFamily: 'Raleway-Regular',
     fontSize: 10,
     color: 'red',
-    bottom: 57,
-    left: 37,
+    marginLeft: 20,
   },
   errorInput: {
     borderColor: 'red',

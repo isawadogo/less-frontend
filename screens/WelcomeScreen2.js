@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Image, TouchableOpacity, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { Image, TouchableOpacity, ImageBackground, StyleSheet, Text, View, Pressable } from 'react-native';
 //import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -72,70 +72,89 @@ export default function WelcomeScreen2({ navigation }) {
   ];
 
   return (
+
     <View style={styles.container}>
-      <View style={styles.color}>
-        <View style={styles.onlycarousel}>
-          <MyCarousel data={carouseldata} style={styles.carousel} backendURL />
-        </View>
-        <View style={styles.welcome}>
-          <Image source={require('../assets/Logo.png')} style={styles.logo} />
-          <Text style={styles.title}>SYSTEME DE COMPARAISON {'\n'} POUR VOS COURSES QUOTIDIENNES</Text>
-          <Text style={styles.lessDesc}>
-            Vous rentrez votre liste d'achat.{'\n'} LE$$ compare où vous ferez les meilleures économies.{'\n'} LE$$ vous renverrons le ticket de course avec toutes les références qui respectent vos critères.
-          </Text>
-          <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Login')} title="SUIVANT" position={buttonPosition}></TouchableButton>
-          <TouchableButton st color="#7CD6C1" onPress={() => navigation.navigate('Welcome1')} title="PRECEDENT" position={buttonPosition}></TouchableButton>
-          <StatusBar style="auto" />
-        </View>
+        
+    <View style={styles.carouselContainer}>
+      <MyCarousel data={carouseldata}/>
+    </View>
+      
+    <View style={styles.textContainer}>
+      <View>
+        <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
+        <Text style={styles.description}>Vous rentrez votre liste d'achat.{'\n'}LE$$ compare où vous ferez les meilleures économies.{'\n'}LE$$ vous renverrons le ticket de course avec toutes les références qui respectent vos critères.</Text>
+      </View>
+
+      <View>
+        <Pressable style={styles.buttonWhite} onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.textButtonWhite}>suivant</Text>
+        </Pressable>
+        <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Welcome1')}>
+          <Text style={styles.textButtonTransparent}>précédent</Text>
+        </Pressable>
       </View>
     </View>
+
+  </View >
   )
 }
 
 const styles = StyleSheet.create({
-  color: {
-    backgroundColor: "#2B0D35"
-  },
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#2B0D35",
   },
-  onlycarousel: {
-    backgroundColor: 'white',
+
+  carouselContainer:{
+    flex: 2,
+  },
+
+  textContainer: {
     flex: 1,
-    justifyContent: 'center',
-    paddingTop: 90,
-  },
-  lessDesc: {
-    paddingBottom: 50,
-    textAlign: 'center',
-    color: 'white',
-    paddingLeft: 15,
-    marginBottom: 0,
-    fontSize: 13,
-    paddingBottom: 17,
-  },
-  welcome: {
-    width: '100%',
-    paddingBottom: 11,
-    flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
 
   title: {
+    fontFamily: 'Raleway-Bold',
     fontSize: 16,
-    fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 15,
-    paddingLeft: 20,
+    marginBottom: 17,
     color: 'white',
   },
-  logo: {
-    width: 135,
-    height: 135,
-    left: 130,
-    top: 5,
+
+  description: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 14,
+    fontFamily: 'Raleway-Regular',
+    marginBottom: 17,
+  },
+
+  buttonWhite: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 20,
+    backgroundColor: 'white',
+  },
+
+  buttonTransparent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+  },
+
+  textButtonWhite: {
+    fontSize: 13,
+    fontFamily: 'Raleway-Medium',
+    color: '#2B0D35',
+  },
+
+  textButtonTransparent: {
+    fontSize: 13,
+    fontFamily: 'Raleway-Regular',
+    color: 'white',
   },
 
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
 import { ActivityIndicator, Text } from 'react-native'
+import { useFonts } from 'expo-font';
 
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
@@ -59,7 +60,6 @@ const store = configureStore({
 function ProfilStackScreen() {
   return (
     <ProfilStack.Navigator screenOptions={{ header: (props) => <Header {...props} /> }}>
-
       <ProfilStack.Screen name="Aide" component={AideScreen} />
       <ProfilStack.Screen name="Reglage des notifications" component={ReglageNotifScreen} />
       <ProfilStack.Screen name="Langue" component={LangueScreen} />
@@ -73,7 +73,9 @@ const TabNavigator = () => {
 
   //import de la police pour le TabNavigator
   const [loaded, error] = useFonts({
-    'Raleway-SemiBold': require('./assets/fonts/Raleway-Regular.ttf'),
+    'Raleway-Regular': require('./assets/fonts/Raleway-Regular.ttf'),
+    'Raleway-Bold': require('./assets/fonts/Raleway-Bold.ttf'),
+    'Raleway-Medium': require('./assets/fonts/Raleway-Medium.ttf'),
   });
 
   if (!loaded && !error) {
@@ -124,17 +126,21 @@ const TabNavigator = () => {
 }
 
 export default function App() {
-  // const [fontsLoaded] = useFonts({
-  //   RalewayRegular: require('./assets/fonts/RalewayRegular.ttf'),
-  // });
-
-  // if (!fontsLoaded) {
-  //   return <ActivityIndicator style={styles.loading} />;
-  // }
+    //import de la police pour le TabNavigator
+    const [loaded, error] = useFonts({
+      'Raleway-Regular': require('./assets/fonts/Raleway-Regular.ttf'),
+      'Raleway-Bold': require('./assets/fonts/Raleway-Bold.ttf'),
+      'Raleway-Medium': require('./assets/fonts/Raleway-Medium.ttf'),
+      'Raleway-SemiBold': require('./assets/fonts/Raleway-SemiBold.ttf'),
+    });
+  
+    if (!loaded && !error) {
+      return null;
+    }
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator screenOptions={{ header: (props) => <Header {...props} /> }}>
           <Stack.Screen name="Welcome1" component={WelcomeScreen1} />
           <Stack.Screen name="Welcome2" component={WelcomeScreen2} />
           <Stack.Screen name="Login" component={LoginScreen} />
@@ -154,7 +160,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: 'RalewayRegular',
+    fontFamily: 'Raleway-Regular',
     fontSize: 20,
   },
   loading: {

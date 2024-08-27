@@ -25,16 +25,14 @@ function MyCarousel({ data }) {
 
 const styles = StyleSheet.create({
     carouselItem: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
-        borderRadius: 35,
+        backgroundColor: '#2B0D35',
     },
     image: {
-        width: '80%',
+        width: undefined,
         height: '100%',
-
+        aspectRatio: 1,
     },
 });
 

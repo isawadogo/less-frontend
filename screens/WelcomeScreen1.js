@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, SafeAreaView, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
+import { Button, StyleSheet, Text, SafeAreaView, View, TouchableOpacity, Image, ImageBackground, Pressable } from 'react-native';
 //import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
@@ -8,6 +8,7 @@ import { updateUserDetails } from '../modules/userFunctions';
 import { frontConfig } from '../modules/config';
 import MyCarousel from '../composant/MyCarousel';
 import TouchableButton from '../composant/TouchableButton';
+import { useFonts } from 'expo-font';
 
 export default function WelcomeScreen1({ navigation }) {
   const buttonPosition = {
@@ -78,23 +79,28 @@ export default function WelcomeScreen1({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.color}>
-        <View style={styles.onlycarousel}>
-          <MyCarousel data={carouseldata} style={styles.carousel} />
+        
+      <View style={styles.carouselContainer}>
+        <MyCarousel data={carouseldata}  />
+      </View>
+        
+
+      <View style={styles.textContainer}>
+        <View>
+          <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
+          <Text style={styles.description}>Vos courses reviennent moins cher.{'\n'} Votre temps devant l'écran sera réduit.{'\n'}Votre impact environnemental baissera.</Text>
         </View>
-        <View style={styles.welcome}>
-          <Image source={require('../assets/Logo.png')} style={styles.logo} />
-          <Text style={styles.title}> SYSTEME DE COMPARAISON {'\n'} POUR VOS COURSES QUOTIDIENNES </Text>
-          <Text style={styles.lessDesc}>
-            Vos courses reviennent moins cher.{'\n'} Votre temps devant l'écran sera réduit.{'\n'}Votre impact environnemental baissera.
-          </Text>
-          <TouchableButton style={styles.touchable} color="#7CD6C1" page="Welcome2" onPress={() => navigation.navigate('Welcome2')} title="SUIVANT" position={buttonPosition}></TouchableButton>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.buttonText}>Ignorer au prochain lancement</Text>
-          </TouchableOpacity>
-          <StatusBar style="auto" />
+
+        <View>
+          <Pressable style={styles.buttonWhite} onPress={() => navigation.navigate('Welcome2')}>
+            <Text style={styles.textButtonWhite}>suivant</Text>
+          </Pressable>
+          <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.textButtonTransparent}>Ignorer au prochain lancement</Text>
+          </Pressable>
         </View>
       </View>
+
     </View >
   )
 }
@@ -102,59 +108,59 @@ export default function WelcomeScreen1({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  color: {
-    backgroundColor: "#2B0D35"
-  },
-  onlycarousel: {
-    backgroundColor: 'white',
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: 90,
-  },
-  lessDesc: {
-    paddingBottom: 50,
-    textAlign: 'center',
-    color: 'white',
-    paddingLeft: 45,
-    marginBottom: 20,
-    fontSize: 13,
+    backgroundColor: "#2B0D35",
   },
 
-  welcome: {
-    width: '100%',
-    marginTop: 76,
+  carouselContainer:{
+    flex: 2,
+  },
+
+  textContainer: {
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
 
   title: {
+    fontFamily: 'Raleway-Bold',
     fontSize: 16,
-    fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 17,
-    paddingLeft: 45,
     color: 'white',
   },
 
-  button: {
+  description: {
+    textAlign: 'center',
     color: 'white',
-    fontSize: 11,
-    marginLeft: 108,
-    bottom: 55,
+    fontSize: 14,
+    fontFamily: 'Raleway-Regular',
+    marginBottom: 17,
   },
-  buttonText: {
+
+  buttonWhite: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 20,
+    backgroundColor: 'white',
+  },
+
+  buttonTransparent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+  },
+
+  textButtonWhite: {
+    fontSize: 13,
+    fontFamily: 'Raleway-Medium',
+    color: '#2B0D35',
+  },
+
+  textButtonTransparent: {
+    fontSize: 13,
+    fontFamily: 'Raleway-Regular',
     color: 'white',
-    fontSize: 11,
-    bottom: 2,
-    left: 7,
   },
-  logo: {
-    width: 135,
-    height: 135,
-    left: 130,
-    bottom: 13,
-  },
+
 });

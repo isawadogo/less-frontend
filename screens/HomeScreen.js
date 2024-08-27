@@ -94,30 +94,52 @@ export default function HomeScreen({ navigation }) {
   if (!isReady) {
     return (<View></View>)  }
 
-  //import de la police pour le style CSS
-  const [loaded, error] = useFonts({
-    'Raleway-Bold': require('../assets/fonts/Raleway-Bold.ttf'),
-    'Raleway-Medium': require('../assets/fonts/Raleway-Medium.ttf'),
-    'Raleway-Regular': require('../assets/fonts/Raleway-Regular.ttf'),
-  });
-
-  if (!loaded && !error) {
-    return null;
-  } 
-
   //console.log('Dashboard screen - user details : ', user);
   //console.log('Dashboard screen - existing lists: ', userListes);
   
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Text>{user.nom}</Text>
-      <Text>{user.email}</Text>
-      <Text>Bonjour {user.prenom}</Text>
+      <View style={styles.topContainer}>
+        <View>
+          <Text>{user.nom}Emma Carena</Text>
+          <Text>{user.email}</Text>
+        </View>
+        <FontAwesomeIcon icon={faBell}/>
+      </View>
 
-      <Button title='Commencer'  onPress={() => navigation.navigate('CreerListe')} />
-      <Text>Mes anciennes listes</Text>
-      <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
-      <Button title='Deconnexion' onPress={handleDeconnection} />
+      <View>
+        <Text style={styles.salutation}>Bonjour {user.prenom}Emma Carena !</Text>
+    
+        <View style={styles.startContainer}>
+          <View style={styles.startTextContainer}>
+            <Text style={styles.mainText}>prêtes pour une nouvelle course ?</Text>
+            <Pressable style={styles.button} onPress={() => navigation.navigate('CreerListe')}>
+              <Text style={styles.textButton}>commencer</Text>
+            </Pressable>
+          </View>
+          <Image source={require('../assets/illustration-home.png')}/>
+      </View>
+
+      <Text style={styles.subTilte}>Reste 35€ à dépenser</Text>
+      <View style={styles.barContainer}>
+          <Text style={[styles.progressBar, {width:'75%'}]}>120€</Text>
+      </View>
+      
+      <Text style={styles.subTilte}>Reprendre une liste enregistrée</Text>
+        <View style={styles.listContainer}>
+          <View>
+            <Text style={styles.listText}>Petit déj'</Text>
+            <Text style={styles.listDate}>Créer le 13/03/2021</Text>
+          </View>
+          <FontAwesomeIcon icon={faCircleArrowRight} style={styles.arrow}/>
+        </View>
+      
+        <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
+      </View>
+
+      <Pressable style={styles.button} onPress={handleDeconnection}>
+        <Text style={styles.textButton}>Déconnexion</Text>
+      </Pressable>
     </KeyboardAvoidingView>
   )
 }
