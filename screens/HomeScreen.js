@@ -1,10 +1,15 @@
-import { SafeAreaView, Modal, Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform } from 'react-native';
+import { SafeAreaView, Modal, Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
 
 import React, { useState, useEffect } from 'react';
+import { useFonts } from 'expo-font';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCircleArrowRight, faBell } from '@fortawesome/free-solid-svg-icons';
 
 import { useFocusEffect } from '@react-navigation/native';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { updateUser, logoutUser } from '../reducers/user';
+import { array } from 'yup';
 import { logoutUser, removeListe } from '../reducers/user';
 
 import { getUserListes, deleteListe } from '../modules/listesFunctions';
@@ -83,8 +88,18 @@ export default function HomeScreen({ navigation }) {
   }
 
   if (!isReady) {
-    return (<View></View>)
-  }
+    return (<View></View>)  }
+
+  //import de la police
+  const [loaded, error] = useFonts({
+    'Raleway-Bold': require('../assets/fonts/Raleway-Bold.ttf'),
+    'Raleway-Medium': require('../assets/fonts/Raleway-Medium.ttf'),
+    'Raleway-Regular': require('../assets/fonts/Raleway-Regular.ttf'),
+  });
+
+  if (!loaded && !error) {
+    return null;
+  } 
   //console.log('Dashboard screen - user details : ', user);
   //console.log('Dashboard screen - existing lists: ', userListes);
   return (
@@ -113,50 +128,120 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    margin: 20,
+    marginTop: 30,
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+
+  topContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  userName:{
+    fontFamily: 'Raleway-Bold',
+    color: '#2B0D35',
+    fontSize: 16,
+  },
+
+  userMail:{
+    fontFamily: 'Raleway-Regular',
+    color: '#7E7E7E',
+    fontSize: 13,
+  },
+
+  salutation: {
+    fontFamily: 'Raleway-Bold',
+    color: '#25000D',
+    fontSize: 26,
+    marginTop: 30,
+    marginBottom: 15,
+  },
+
+  startContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#FFFDFD',
+    borderRadius: 40,
+    padding: 15,
+  },
+
+  startTextContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    width: 140,
+  },
+
+  mainText: {
+    fontFamily: 'Raleway-Regular',
+    color: '#2B0D35',
+    fontSize: 24,
+    marginBottom: 10,
+  },
+
+  subTilte: {
+    marginTop: 25,
+    marginBottom: 15,
+    fontFamily: 'Raleway-Bold',
+    color: '#2B0D35',
+    fontSize: 16,
+  },
+
+  barContainer: {
+    height: 20,
+    borderRadius: 20,
+    backgroundColor: '#F8F8F8',
+  },
+
+  progressBar: {
+    height: 20,
+    borderRadius: 20,
+    fontFamily: 'Raleway-Regular',
+    backgroundColor: '#2B0D35',
+    color: '#fff',
+  },
+
+  button: {
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 20,
+    backgroundColor: '#2B0D35',
   },
-  title: {
-    fontSize: 70,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginBottom: 10,
-    textAlign: 'right',
+
+  textButton: {
+    fontSize: 13,
+    fontFamily: 'Raleway-Regular',
+    color: 'white',
   },
-  menu: {
-    backgroundColor: '#655074',
-    height: '20%',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    paddingRight: 20,
-    border: 'none',
-  },
-  menuText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginRight: 10,
-    marginBottom: 25,
-  },
-  imageWrapper: {
-    height: '80%',
-    backgroundColor: '#655074',
-    border: 'none',
-  },
-  imageBackground: {
-    width: '100%',
-    height: '100%',
-    borderBottomLeftRadius: 160,
-    backgroundColor: '#ffffff',
-  },
-  iconWrapper: {
-    display: 'flex',
+
+  listContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingStart: 20,
+    paddingEnd: 10,
+    marginBottom: 15,
+    borderRadius: 40,
   },
-  icon: {
-    color: '#ffffff',
-    position: 'relative',
-    bottom: 2,
+
+  listText: {
+    fontSize: 16,
+    fontFamily: 'Raleway-Medium',
+    color: '#25000D',
   },
+  
+  listDate: {
+    fontSize: 10,
+    fontFamily: 'Raleway-Regular',
+    color: '#7F7F7F',
+  },
+
+  arrow: {
+    color: '#7CD6C1',
+  },
+
 });

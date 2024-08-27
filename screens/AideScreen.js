@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, LayoutAnimation, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TouchFAQ from '../composant/TouchFAQ';
+import { useFonts } from 'expo-font';
 
 
 
@@ -77,6 +78,13 @@ const faqDatas = {
 
 
 export default function AideScreen({ navigation }) {
+  const [loaded, error] = useFonts({
+    'Raleway-SemiBold': require('../assets/fonts/Raleway-SemiBold.ttf'),
+  });
+
+  if (!loaded && !error) {
+    return null;
+  }
   return (
 
     <SafeAreaView style={styles.container}>
@@ -108,9 +116,6 @@ const styles = StyleSheet.create({
   questionButton: {
     padding: 16,
     backgroundColor: 'black'
-
-
-
   },
   questionText: {
 
@@ -119,6 +124,7 @@ const styles = StyleSheet.create({
 
   },
   responseText: {
-
+    fontFamily: 'Raleway-SemiBold',
+    color: "#2B0D35",
   },
 })

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View, fon } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { useFonts } from 'expo-font';
 
 const Langues = [
     { langue: "Français", on: true },
@@ -17,12 +17,19 @@ const Langues = [
 ]
 
 export default function LangueScreen({ navigation }) {
+    const [loaded, error] = useFonts({
+        'Raleway-Regular': require('../assets/fonts/Raleway-Regular.ttf'),
+    });
+
+    if (!loaded && !error) {
+        return null;
+    }
 
     return (
         <SafeAreaView>
             <View>
                 {Langues.map((item, index) => (
-                    <TouchableOpacity key={index}>
+                    <TouchableOpacity key={index} style={styles.textContainer}>
                         <Text style={item.on ? styles.langueOn : styles.langue}>{item.langue}</Text>
                     </TouchableOpacity>
                 ))}
@@ -34,7 +41,18 @@ export default function LangueScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     langueOn: {
+        textAlign: 'center',
+        fontFamily: 'Raleway-Regular',
+        color: '#2B0D35',
+        paddingTop: 15,
     },
     langue: {
+        textAlign: 'center',
+        fontFamily: 'Raleway-Regular',
+        color: '#2B0D35',
+        paddingTop: 15,
     },
+    textContainer: {
+    }
+
 })

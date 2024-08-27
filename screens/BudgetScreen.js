@@ -139,10 +139,10 @@ const styles = StyleSheet.create({
 
     },
     container: {
-        flex: 1,
-        padding: 16,
-        backgroundColor: '#fff',
-        // borderRadius: 25,
+    sflex: 1,
+      padding: 16,
+      backgroundColor: '#fff',
+      borderRadius: 25,
     },
 
     sectionTitle: {

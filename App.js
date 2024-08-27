@@ -6,6 +6,11 @@ import { ActivityIndicator, Text } from 'react-native'
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { faPiggyBank } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+
 /* NAVIGATION */
 
 // importation des modules react-navigation
@@ -44,13 +49,13 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const ProfilStack = createNativeStackNavigator();
 
-
+// configuration du store
 const store = configureStore({
   reducer: { user, liste },
 });
 
 
-
+// Stack de Navigation du profile
 function ProfilStackScreen() {
   return (
     <ProfilStack.Navigator screenOptions={{ header: (props) => <Header {...props} /> }}>
@@ -65,6 +70,16 @@ function ProfilStackScreen() {
 }
 
 const TabNavigator = () => {
+
+  //import de la police pour le TabNavigator
+  const [loaded, error] = useFonts({
+    'Raleway-SemiBold': require('./assets/fonts/Raleway-Regular.ttf'),
+  });
+
+  if (!loaded && !error) {
+    return null;
+  }
+
   return (
     <Tab.Navigator
       // Personnalisation du style  de la barre de menu 

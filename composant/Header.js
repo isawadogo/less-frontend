@@ -15,14 +15,16 @@ export default function Header({ navigation }) {
     if (!loaded && !error) {
         return null;
     }
+
     const { top } = useSafeAreaInsets();
 
     return (
         <View style={{ ...styles.container, top }}>
-            <TouchableOpacity style={styles.touche} onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={styles.titleContainer} onPress={() => navigation.goBack()} >
                 <FontAwesomeIcon icon={faCircleArrowLeft} style={styles.icone} />
                 <Text style={styles.title}>Titre</Text>
             </TouchableOpacity>
+            <View style={styles.whiteContainer}></View>
         </View>
     );
 
@@ -31,11 +33,9 @@ export default function Header({ navigation }) {
 const styles = StyleSheet.create({
     container:
     {
-
-        paddingLeft: 18,
         backgroundColor: "#2B0D35",
     },
-    touche: {
+    titleContainer: {
         flexDirection: 'row',
         margin: 30,
     },
@@ -46,7 +46,14 @@ const styles = StyleSheet.create({
     title: {
         color: 'white',
         paddingLeft: 145,
-        fontFamily: 'Raleway',
+        fontFamily: 'Raleway-SemiBold',
+    }
+    ,
+    whiteContainer: {
+        backgroundColor: '#F2F2F2',
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
+        padding: 20
     }
 
 
