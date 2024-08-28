@@ -1,4 +1,4 @@
-import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, } from 'react-native';
+import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, Pressable } from 'react-native';
 
 import { useState, useEffect } from 'react';
 
@@ -7,6 +7,11 @@ import { addProduit, removeProduit } from '../reducers/user';
 import { LessButton, ProduitsComponent } from '../modules/components';
 
 import { frontConfig } from '../modules/config';
+
+//import des icones
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { icon } from '@fortawesome/fontawesome-svg-core';
 
 export default function CreerListeScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
@@ -80,42 +85,42 @@ export default function CreerListeScreen({ navigation }) {
   }
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-      <Button title='retour' onPress={() => navigation.goBack()} />
-      <Text style={{color: 'green', alignSelf: 'flex-end'}}>Nombres produits : {produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
-      <Text>{user.prenom} {user.nom}</Text>
-      <Text>{user.email}</Text>
-      <Text>Bonjour {user.prenom}</Text>
+        
+        <View style={styles.topContainer}>
+          <Text style={styles.title}>{nomListe}</Text>
+          <Text>Nombres produits : {produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
+          
+        </View>
 
-      <Text> Nom de la liste : {nomListe}</Text>
+        <ScrollView style={styles.catContainer} horizontal={true}>
+          {
+            categories.map((c, i) => {
+              return (
+                <LessButton
+                  onChange={() => setSelectedCat(c)} 
+                  key={`${i}-${c.nom}`} 
+                  pressed={c.nom===selectedCat.nom}
+                  texte={c.nom}  
+                />
+              )
+            })
+          }      
+        </ScrollView>
+        <Text style={styles.title}>Ajouter des produits :</Text>
+        <ScrollView style={styles.productContainer}>
+          
+          <ProduitsComponent 
+            categorie={selectedCat.nom} 
+            key={selectedCat.id} 
+            onDecrease={removeProduitFromList} 
+            onIncrease={addProduitToList}
+          />
+        </ScrollView>
 
-      <View style={styles.catContainer}>
-      {
-        categories.map((c, i) => {
-          return (
-            <LessButton 
-              onChange={() => setSelectedCat(c)} 
-              key={`${i}-${c.nom}`} 
-              pressed={c.nom===selectedCat.nom}
-              texte={c.nom}  
-            />
-          )
-        })
-      }      
-      </View>
-      <Text>Produits : </Text>
-        <ProduitsComponent 
-          categorie={selectedCat.nom} 
-          key={selectedCat.id} 
-          onDecrease={removeProduitFromList} 
-          onIncrease={addProduitToList}
-        />
-        <Button 
-          title='Continuer'
-          onPress={handleContinuer}
-        />
-        <Text>Reprendre une liste enregistrée</Text>
-    </ScrollView>
+        <Pressable onPress={handleContinuer}>
+          <FontAwesomeIcon icon={faCircleCheck} style={styles.icon}/>
+        </Pressable>
+
     </SafeAreaView>
   )
 }
@@ -123,35 +128,35 @@ export default function CreerListeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    alignContent: 'space-between',
+    padding: 10,
     paddingTop: StatusBar.currentHeight,
   },
-  catContainer: {
-    flex: 1,
+
+  topContainer:{
     flexDirection: 'row',
-    paddingBottom: 20,
-    paddingTop: 10,
-    marginBottom: 10,
-    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
-  scrollView: {
-    marginHorizontal: 20,
+
+  catContainer: {
+    flexDirection: 'row',
+    overflow: 'scroll'
   },
+
+  productContainer: {
+
+  },
+
   title: {
-    fontSize: 70,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginBottom: 10,
-    textAlign: 'right',
+    fontFamily: 'Raleway-Bold',
+    color: '#25000D',
+    fontSize: 18,
   },
-  textInput: {
-    borderWidth: 1,
-    width: 300,
-    height: 40,
-    margin: 10,
-    padding: 'auto',
-    color: 'red'
+
+  icon:{
+    fontSize: 35,
+    color: 'green'
   },
+
 });

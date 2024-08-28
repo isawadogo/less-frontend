@@ -11,6 +11,7 @@ import colors from '../styles/colors';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import LessFormikInput from '../composant/LessFormikInput';
+import { useFonts } from 'expo-font';
 //import Modules
 import {LessHeader} from '../modules/components';
 import { getUserListes } from '../modules/listesFunctions';
@@ -72,9 +73,8 @@ export default function CreerListeScreen({ navigation }) {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
  
-      <View style={styles.listeContainer}>
-        <Text style={styles.textTitre}>Nommer ma liste</Text>
-        <View style={styles.content}>
+      
+        <Text style={styles.title}>Nommer ma liste</Text>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -85,7 +85,7 @@ export default function CreerListeScreen({ navigation }) {
               <Field
                 component={LessFormikInput}
                 name="nomListe"
-                placeholder="Votre liste"
+                placeholder='"Ma super liste"'
               />
             <Pressable 
               onPress={handleSubmit}
@@ -98,19 +98,28 @@ export default function CreerListeScreen({ navigation }) {
             </Pressable>
             </>
             )}
-          </Formik>
+        </Formik>
+
+        <Text style={styles.subTilte}>Reste 35€ à dépenser</Text>
+        <View style={styles.barContainer}>
+            <Text style={[styles.progressBar, {width:'75%'}]}>120€</Text>
         </View>
-        <Text></Text>
-        <Text>Mes listes passées</Text>
+
+        <View style={styles.separatorContainer}>
+          <Text style={styles.separatorLine} />
+          <Text style={styles.separatorText}>ou</Text>
+          <Text style={styles.separatorLine} />
+        </View>
+
+        <Text style={styles.title}>Reprendre une liste</Text>
           {userListes ? userListes.map((l) => {
             return(
-              <View key={l._id}>
-                <Text>Nom : {l.nom}</Text>
+              <View key={l._id} style={styles.listContainer}>
+                <Text style={styles.listText}>Nom : {l.nom}</Text>
               </View>
             )
           }) :  <View></View> }
 
-      </View>
     </KeyboardAvoidingView>
   )
 }
@@ -120,39 +129,66 @@ export default function CreerListeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
+    margin: 10,
   },
-  listeContainer: {
-    backgroundColor: '#ffffff',
-    width: '100%',
-    height: '80%',
-    borderRadius: 20,
-    paddingTop: 100,
 
-  },
-  content: {
-    width: '90%',
-    alignItems: 'center'
-    //flexDirection: 'row',
-  },
   title: {
-    fontSize: 70,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginBottom: 10,
-    textAlign: 'right',
+    fontFamily: 'Raleway-Bold',
+    color: '#25000D',
+    fontSize: 24
   },
-  textTitre: {
-    color: colors.primary,
-    fontSize: 24,
-    fontWeight: 'bold',
-    paddingBottom: 70,
+
+  barContainer: {
+    height: 20,
+    borderRadius: 20,
+    backgroundColor: '#F8F8F8',
+  },
+
+  progressBar: {
+    height: 20,
+    borderRadius: 20,
+    fontFamily: 'Raleway-Regular',
+    backgroundColor: '#2B0D35',
+  },
+
+  separatorContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    width: '90%',
+    marginTop: 25,
+    marginBottom: 25,
   },
-  inputText: {
-    paddingTop: 5,
+
+  separatorLine: {
+    height: 1,
+    backgroundColor: '#CCCCCC',
+    width: 160,
   },
+
+  separatorText: {
+    fontFamily: 'Raleway-Regular',
+    color: '#CFCFCF',
+    fontSize: 13,
+    margin: 15,
+  },
+
+  listContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingStart: 20,
+    paddingEnd: 10,
+    marginBottom: 15,
+    borderRadius: 40,
+  },
+
+  listText: {
+    fontSize: 16,
+    fontFamily: 'Raleway-Medium',
+    color: '#25000D',
+  },
+ 
+
 });

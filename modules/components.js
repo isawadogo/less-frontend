@@ -53,7 +53,7 @@ function LessButton({onChange, pressed, texte}) {
   return (
     <Pressable style={[styles.buttonBase, pressed && styles.buttonPressed]}
       onPress={onChange}>
-      <Text>{texte}</Text>
+      <Text style={[styles.textButtonBase, pressed && styles.textButtonPressed]}>{texte}</Text>
     </Pressable>
   );
 }
@@ -86,7 +86,7 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
 
   if (!isReady) {
     return (
-      <Text>Still Loading ...</Text>
+      <Text>Chargement ...</Text>
     )
   }
 
@@ -102,20 +102,24 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
     <View style={styles.produitContainer}>
       {listProd.map((p) => 
         { return(
-          <View style={styles.produitItem} key={p.nom}>
+          <View style={styles.itemContainer} key={p.nom}>
             <Image 
               style={styles.produitImage}
-              source={require('../assets/fruits.png')}
+              source={require('../assets/fruit_orange.png')}
             />
-            <Text style={styles.itemPrix}>{p.nom}</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 10}}>
-              <Pressable onPress={(value) => onIncrease(p)}>
-                <AntDesign name='pluscircleo' size={15} color='green' />
-              </Pressable>
-              <Pressable onPress={(value) => onDecrease(p)}>
-                <AntDesign name='minuscircleo' size={15} color='red' />
-              </Pressable>
+            <View style={styles.itemTextContainer}>
+              <Text style={styles.itemName}>{p.nom}</Text>
+              <View style={styles.itemAddRemove}>
+                <Pressable onPress={(value) => onIncrease(p)}>
+                  <AntDesign name='pluscircleo' size={15} color='green' />
+                </Pressable>
+                <Text style={styles.itemNumber}>0</Text>
+                <Pressable onPress={(value) => onDecrease(p)}>
+                  <AntDesign name='minuscircleo' size={15} color='red' />
+                </Pressable>
+              </View>
             </View>
+            
           </View>
         )
       }
@@ -149,26 +153,25 @@ function ProduitRecapComponent({ categorie, onDecrease, onIncrease }) {
   }
   return(
     <View style={{flex: 1}}>
-      <Text style={{fontWeight: 'bold'}}>{categorie}</Text>
+      <Text style={styles.RecapProductCatTitle}>{categorie}</Text>
       {produitsTodisplay.map((p, i) => 
         { return(
-          <View key={`${categorie}-${p.nom}-${i}`}>
-            <Image 
-              style={{ height: 40, width: 40 }}
-              source={require('../assets/fruits.png')}
-            />
-            <Text style={{ textTransform: 'uppercase'}}>{p.produit.nom}</Text>
-            <Text style={{padding: 5}}>quantité : {p.count}</Text>
+          <View key={`${categorie}-${p.nom}-${i}`} style={styles.RecapProductContainer}>
+            <Text style={styles.RecapProductText}>{p.produit.nom}</Text>
+            
             <Text>{p.produit.prix}</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingTop: 10 }}>
+            <View style={styles.RecapProductContainerAddRemove}>
               <Pressable onPress={(value) => onIncrease(p.produit)}>
                 <AntDesign name='pluscircleo' size={15} color='green' />
               </Pressable>
+              <Text style={styles.RecapProductText}>{p.count}</Text>
               <Pressable onPress={(value) => onDecrease(p.produit)}>
                 <AntDesign name='minuscircleo' size={15} color='red' />
               </Pressable>
             </View>
+
           </View>
+          
         )
       }
       )}
@@ -288,39 +291,104 @@ const styles = StyleSheet.create({
     color: 'white',
     textTransform: 'uppercase'
   },
+
   produitContainer: {
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-  produitItem: {
-    height: 140,
-    width: 80,
-    backgroundColor: '#b7a8a8',
-    margin: 2,
-  },
-  itemPrix: {
-    fontWeight: 'bold',
-  },
-  produitImage: {
-    width: 50,
-    height: 50,
-  },
-  buttonBase: {
-    width: 76,
-    height: 76,
+  itemContainer: {
+    backgroundColor: 'white',
+    margin: 10,
+    borderRadius: 20,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2,
-    borderRadius: 20,
-    backgroundColor: 'transparent',
-    //backgroundColor: '#fff',
-    color: 'black',
+    flexGrow: 1
   },
+  itemTextContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  itemName: {
+    fontFamily: 'Raleway-Bold',
+    fontSize: 12,
+    color: "#25000D",
+    margin: 10,
+  },
+  produitImage: {
+    objectFit: 'contain',
+    aspectRatio: '1/1',
+    borderRadius: 20
+  },
+  itemNumber:{
+    fontFamily: 'Raleway-Regular',
+    fontSize: 12,
+    color: "#4F4F4F",
+    marginLeft: 5,
+    marginRight: 5
+  },
+  itemAddRemove:{
+    flexDirection: 'row',
+    justifyContent: 'space-evenly'
+  },
+
+  RecapProductContainer:{
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 20,
+    marginBottom: 10,
+    flexDirection: 'row',
+    paddingTop: 10,     flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  RecapProductContainerAddRemove:{
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
+  },
+  RecapProductCatTitle:{
+    fontFamily: 'Raleway-Bold',
+    color: '#25000D',
+    fontSize: 14,
+    marginBottom: 15
+  },
+  RecapProductText:{
+    fontFamily: 'Raleway-Regular',
+    color: '#4F4F4F',
+    fontSize: 14,
+    paddingHorizontal: 10
+  },
+
+  buttonBase: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    backgroundColor: "#F7F7F7",
+    padding: 10,
+    marginLeft: 15,
+    marginBottom: 10,
+    height: 40,
+  },
+
   buttonPressed: {
-    backgroundColor: '#00a400',
+    backgroundColor: '#2B0D35',
     color: '#fff',
   },
+
+  textButtonBase: {
+    color: '#2B0D35',
+    fontFamily: 'Raleway-Medium',
+    fontSize: 13,
+  },
+
+  textButtonPressed: {
+    color: 'white',
+    fontFamily: 'Raleway-Medium',
+    fontSize: 13,
+  },
+
   checkboxBase: {
     width: 24,
     height: 24,
@@ -330,16 +398,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     top: 5,
   },
+
   checkBox: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
   },
+
   lessHeader: {
     width: '100%',
     minHeight: 40,
     color: colors.primary,
   },
+
   lessHeaderLeft: {
     color: '#ffffff',
     paddingLeft: 20,

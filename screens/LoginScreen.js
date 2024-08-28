@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
   separatorLine: {
     height: 1,
     backgroundColor: '#CCCCCC',
-    width: 160,
+    width: "35%",
   },
 
   separatorText: {

@@ -1,13 +1,17 @@
-import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, KeyboardAvoidingView, } from 'react-native';
+/* IMPORTS */
 
+// import React et React Native
+import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, KeyboardAvoidingView, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
-
-import { useDispatch, useSelector } from 'react-redux';
+// import des modules
 import { ProduitRecapComponent } from '../modules/components';
 import { evaluateCritere, getEnseignesList } from '../modules/listesFunctions';
-
+// import Redux et Reducer
+import { useDispatch, useSelector } from 'react-redux';
 import { addProduit, removeProduit, updateListe } from '../reducers/user';
-//import { updateListe } from '../reducers/liste';
+// import { updateListe } from '../reducers/liste';
+
+/* FONCTION LISTE PRODUIT */
 
 export default function RecapListeProduitsScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
@@ -95,45 +99,70 @@ export default function RecapListeProduitsScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-      <Button title='retour' onPress={() => navigation.goBack()} />
-      <Text style={{color: 'green', alignSelf: 'flex-end'}}>Nombres produits : {produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
-      <Text>{user.prenom} {user.nom}</Text>
-      <Text>{user.email}</Text>
-      <Text>Bonjour {user.prenom}</Text>
+        <View style={styles.topContainer}>
+          <Text style={styles.ListName}>{nomListe}</Text>
+          <Text style={styles.productNbr}>{produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
+        </View>
+        
+        { catSelected.map((c, i) => {
+            return (
+              <ProduitRecapComponent 
+                categorie={c.nom} 
+                key={`${i}-${c.id}`} 
+                onDecrease={removeProduitFromList} 
+                onIncrease={addProduitToList}
+              />
+            )
+          })
+        }
 
-      <Text> Nom de la liste : {nomListe}</Text>
-
-      <Text>Produits : </Text>
-      { catSelected.map((c, i) => {
-          return (
-            <ProduitRecapComponent 
-              categorie={c.nom} 
-              key={`${i}-${c.id}`} 
-              onDecrease={removeProduitFromList} 
-              onIncrease={addProduitToList}
-            />
-          )
-        })
-      }
-        <Button 
-          title='Valider et sommettre à comparaison'
-          onPress={handleContinue}
-        />
-        <Text>Reprendre une liste enregistrée</Text>
-    </ScrollView>
+      </ScrollView>
+        <Pressable style={styles.buttonBlue} onPress={handleContinue}>
+          <Text style={styles.textButtonBlue}>Valider et sommettre à comparaison</Text>
+        </Pressable>
     </SafeAreaView>
   )
 }
 
+/* STYLE CSS */
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    paddingTop: StatusBar.currentHeight,
+    padding: 15,
+  },
+
+  topContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  productNbr:{
+    color: 'white',
+    backgroundColor: '#7CD6C1',
+    alignSelf: 'flex-end'
+  },
+
+
+  buttonBlue: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: StatusBar.currentHeight,
+    padding: 12,
+    borderRadius: 20,
+    backgroundColor: '#7CD6C1',
+    marginTop: 25,
   },
-  scrollView: {
-    marginHorizontal: 20,
+
+  textButtonBlue: {
+    fontSize: 13,
+    fontFamily: 'Raleway-Medium',
+    color: 'white',
+  },
+
+  ListName:{
+    fontFamily: 'Raleway-Bold',
+    fontSize: 24,
+    color:'#25000D'
   },
 });

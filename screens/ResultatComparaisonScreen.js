@@ -2,6 +2,9 @@ import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, Ke
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEnseignesList, getProduits } from '../modules/listesFunctions';
+// import Icones
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import { setSelectedListe } from '../reducers/user';
 import { frontConfig } from '../modules/config';
@@ -55,7 +58,8 @@ export default function ResultatComparaisonScreen({ navigation }) {
   if (!resultatComp.resultat ) {
     return(
       <SafeAreaView style={styles.container}>
-        <Text style={{fontWeight: 'bold'}}>Retrieving produits ...</Text>
+        <FontAwesomeIcon icon={faSpinner}/>
+        <Text style={loadingText}>nous sommes en train de rechercher les meilleurs matchs</Text>
       </SafeAreaView>
     )
   }
@@ -135,6 +139,7 @@ export default function ResultatComparaisonScreen({ navigation }) {
 if (!resultComparaison) {
     return(
       <SafeAreaView style={styles.container}>
+        
         <Text style={{fontWeight: 'bold'}}>Nous recherchons les meilleurs matchs ...</Text>
       </SafeAreaView>
     )
@@ -177,5 +182,11 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginHorizontal: 20,
+  },
+
+  loadingText:{
+    fontFamily: 'Raleway-SemiBold',
+    fontSize: 20,
+    color: '#25000D'
   },
 });
