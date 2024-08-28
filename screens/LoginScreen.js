@@ -1,5 +1,6 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, TextInput, ImageBackground, Pressable, SafeAreaView } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, TextInput, ImageBackground, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';

@@ -80,31 +80,26 @@ export default function WelcomeScreen1({ navigation }) {
 
   return (
     <SafeAreaView style={styles.SafeAreaContainer}>
-        <View style={styles.container}>
-          <View style={styles.carouselContainer}>
-            <MyCarousel data={carouseldata}  />
-          </View>
-          
-
-          <View style={styles.textContainer}>
-            <View>
-              <Image source={require('../assets/Logo-petit.png')}/>
-              <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
-              <Text style={styles.description}>Vos courses reviennent moins cher.{'\n'} Votre temps devant l'écran sera réduit.{'\n'}Votre impact environnemental baissera.</Text>
-            </View>
-
-          <View>
-            <Pressable style={styles.buttonWhite} onPress={() => navigation.navigate('Welcome2')}>
-              <Text style={styles.textButtonWhite}>suivant</Text>
-            </Pressable>
-            <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.textButtonTransparent}>Ignorer au prochain lancement</Text>
-            </Pressable>
-          </View>
-          </View>
+      <View style={styles.container}>
+        <View style={styles.carouselContainer}>
+          <MyCarousel data={carouseldata}  />
         </View>
 
+        <View style={styles.textContainer}>
+            <Image style={styles.logo} source={require('../assets/Logo-petit.png')}/>
+            <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
+            <Text style={styles.description}>Vos courses reviennent moins cher.{'\n'} Votre temps devant l'écran sera réduit.{'\n'}Votre impact environnemental baissera.</Text>
+        <View>
 
+          <Pressable style={styles.buttonWhite} onPress={() => navigation.navigate('Welcome2')}>
+            <Text style={styles.textButtonWhite}>suivant</Text>
+          </Pressable>
+          <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.textButtonTransparent}>Ignorer au prochain lancement</Text>
+          </Pressable>
+        </View>
+        </View>
+      </View>
     </SafeAreaView >
   )
 }
@@ -121,13 +116,14 @@ const styles = StyleSheet.create({
   },
 
   carouselContainer:{
-    flex: 2,
+    flex: 1,
   },
 
   textContainer: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
   },
 
   title: {
@@ -151,7 +147,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
     borderRadius: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#7CD6C1',
   },
 
   buttonTransparent: {
@@ -171,5 +167,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Regular',
     color: 'white',
   },
+
+  logo:{
+    width:90,
+    height: 90,
+    alignContent: 'center',
+    margin: 30
+  }
 
 });

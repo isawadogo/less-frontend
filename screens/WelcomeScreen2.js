@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { Image, TouchableOpacity, ImageBackground, StyleSheet, Text, View, Pressable, SafeAreaView } from 'react-native';
+import { Image, TouchableOpacity, ImageBackground, StyleSheet, Text, View, Pressable } from 'react-native';
 //import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { updateWelcome, updateUser } from '../reducers/user';
@@ -73,47 +73,52 @@ export default function WelcomeScreen2({ navigation }) {
 
   return (
 
-    <SafeAreaView style={styles.container}>
-        
-    <View style={styles.carouselContainer}>
-      <MyCarousel data={carouseldata}/>
-    </View>
-      
-    <View style={styles.textContainer}>
-      <Image source={require('../assets/Logo-petit.png')}/>
-      <View>
-        <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
-        <Text style={styles.description}>Vous rentrez votre liste d'achat.{'\n'}LE$$ compare où vous ferez les meilleures économies.{'\n'}LE$$ vous renverrons le ticket de course avec toutes les références qui respectent vos critères.</Text>
-      </View>
+    <SafeAreaView style={styles.SafeAreaContainer}>
+      <View style={styles.container}>
+        <View style={styles.carouselContainer}>
+            <MyCarousel data={carouseldata}/>
+        </View>
+            
+        <View style={styles.textContainer}>
+          <Image style={styles.logo} source={require('../assets/Logo-petit.png')}/>
+          <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
+          <Text style={styles.description}>Vous rentrez votre liste d'achat.{'\n'}LE$$ compare où vous ferez les meilleures économies.{'\n'}LE$$ vous renverrons le ticket de course avec toutes les références qui respectent vos critères.</Text>
+        <View>
 
-      <View>
-        <Pressable style={styles.buttonWhite} onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.textButtonWhite}>suivant</Text>
-        </Pressable>
-        <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Welcome1')}>
-          <Text style={styles.textButtonTransparent}>précédent</Text>
-        </Pressable>
-      </View>
-    </View>
+            <Pressable style={styles.buttonWhite} onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.textButtonWhite}>suivant</Text>
+            </Pressable>
+            <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Welcome1')}>
+              <Text style={styles.textButtonTransparent}>précédent</Text>
+            </Pressable>
+          </View>
 
+        </View>
+
+      </View>
   </SafeAreaView >
   )
 }
 
 const styles = StyleSheet.create({
+  SafeAreaContainer:{
+    backgroundColor: 'white',
+    flex: 1
+  },
+  
   container: {
     flex: 1,
     backgroundColor: "#2B0D35",
   },
-
   carouselContainer:{
-    flex: 2,
+    flex: 1,
   },
 
   textContainer: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
   },
 
   title: {
@@ -137,7 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
     borderRadius: 20,
-    backgroundColor: 'white',
+    backgroundColor: '#7CD6C1',
   },
 
   buttonTransparent: {
@@ -157,5 +162,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Regular',
     color: 'white',
   },
+
+  logo:{
+    width:90,
+    height: 90,
+    alignContent: 'center',
+    margin: 30
+  }
 
 });
