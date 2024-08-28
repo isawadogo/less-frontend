@@ -1,7 +1,8 @@
 /* IMPORTS */
 
 //import des éléments React et React Native
-import { SafeAreaView, Modal, Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
+import { Modal, Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState, useEffect } from 'react';
 import { useFonts } from 'expo-font';
 //import React Navigation
@@ -98,7 +99,8 @@ export default function HomeScreen({ navigation }) {
   //console.log('Dashboard screen - existing lists: ', userListes);
   
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView style={styles.containerG} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
         <View>
           <Text>{user.nom}Emma Carena</Text>
@@ -140,6 +142,8 @@ export default function HomeScreen({ navigation }) {
       <Pressable style={styles.button} onPress={handleDeconnection}>
         <Text style={styles.textButton}>Déconnexion</Text>
       </Pressable>
+      </SafeAreaView>
+
     </KeyboardAvoidingView>
   )
 }
@@ -147,6 +151,10 @@ export default function HomeScreen({ navigation }) {
 /* STYLE CSS */
 
 const styles = StyleSheet.create({
+  containerG: {
+    flex: 1,
+  },
+
   container: {
     flex: 1,
     margin: 20,

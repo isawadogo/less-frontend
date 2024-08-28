@@ -1,5 +1,5 @@
-import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, Pressable } from 'react-native';
-
+import { ScrollView, Button, StyleSheet, Text, StatusBar, View, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';

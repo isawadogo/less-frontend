@@ -2,6 +2,7 @@
 //imports React & React Native
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, TextInput, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 //import Redux & Reducer
 import { useDispatch, useSelector } from 'react-redux';
 import { updateListeName } from '../reducers/user';
@@ -71,55 +72,54 @@ export default function CreerListeScreen({ navigation }) {
 
   //console.log('Creer liste screen - user details : ', user);
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
- 
-      
+    <KeyboardAvoidingView style={styles.containerG} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Nommer ma liste</Text>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleValider}
-        >
-          {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
-            <>
-              <Field
-                component={LessFormikInput}
-                name="nomListe"
-                placeholder='"Ma super liste"'
-              />
-            <Pressable 
-              onPress={handleSubmit}
-              disabled={!isValid}
-              width={50}
-              backgroundColor='green'
-              borderRadius={30}
-            >
-              <AntDesign name='checkcircleo' size={50} color='#ffffff' width={50} />
-            </Pressable>
-            </>
-            )}
-        </Formik>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleValider}
+          >
+            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+              <>
+                <Field
+                  component={LessFormikInput}
+                  name="nomListe"
+                  placeholder='"Ma super liste"'
+                />
+              <Pressable 
+                onPress={handleSubmit}
+                disabled={!isValid}
+                width={50}
+                backgroundColor='green'
+                borderRadius={30}
+              >
+                <AntDesign name='checkcircleo' size={50} color='#ffffff' width={50} />
+              </Pressable>
+              </>
+              )}
+          </Formik>
 
-        <Text style={styles.subTilte}>Reste 35€ à dépenser</Text>
-        <View style={styles.barContainer}>
-            <Text style={[styles.progressBar, {width:'75%'}]}>120€</Text>
-        </View>
+          <Text style={styles.subTilte}>Reste 35€ à dépenser</Text>
+          <View style={styles.barContainer}>
+              <Text style={[styles.progressBar, {width:'75%'}]}>120€</Text>
+          </View>
 
-        <View style={styles.separatorContainer}>
-          <Text style={styles.separatorLine} />
-          <Text style={styles.separatorText}>ou</Text>
-          <Text style={styles.separatorLine} />
-        </View>
+          <View style={styles.separatorContainer}>
+            <Text style={styles.separatorLine} />
+            <Text style={styles.separatorText}>ou</Text>
+            <Text style={styles.separatorLine} />
+          </View>
 
-        <Text style={styles.title}>Reprendre une liste</Text>
-          {userListes ? userListes.map((l) => {
-            return(
-              <View key={l._id} style={styles.listContainer}>
-                <Text style={styles.listText}>Nom : {l.nom}</Text>
-              </View>
-            )
-          }) :  <View></View> }
-
+          <Text style={styles.title}>Reprendre une liste</Text>
+            {userListes ? userListes.map((l) => {
+              return(
+                <View key={l._id} style={styles.listContainer}>
+                  <Text style={styles.listText}>Nom : {l.nom}</Text>
+                </View>
+              )
+            }) :  <View></View> }
+      </SafeAreaView>
     </KeyboardAvoidingView>
   )
 }
@@ -127,6 +127,10 @@ export default function CreerListeScreen({ navigation }) {
 /* STYLE CSS */
 
 const styles = StyleSheet.create({
+  containerG: {
+    flex: 1,
+  },
+
   container: {
     flex: 1,
     margin: 10,
