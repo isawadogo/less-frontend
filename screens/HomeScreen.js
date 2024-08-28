@@ -113,7 +113,7 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.startContainer}>
           <View style={styles.startTextContainer}>
             <Text style={styles.mainText}>prêtes pour une nouvelle course ?</Text>
-            <Pressable style={styles.button} onPress={() => navigation.navigate('CreerListe')}>
+            <Pressable style={styles.button} onPress={() => navigation.navigate('Liste', { screen: 'CreerListe' })} >
               <Text style={styles.textButton}>commencer</Text>
             </Pressable>
           </View>
