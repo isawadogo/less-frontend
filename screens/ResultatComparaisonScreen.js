@@ -59,7 +59,7 @@ export default function ResultatComparaisonScreen({ navigation }) {
     return(
       <SafeAreaView style={styles.container}>
         <FontAwesomeIcon icon={faSpinner}/>
-        <Text style={loadingText}>nous sommes en train de rechercher les meilleurs matchs</Text>
+        <Text style={styles.loadingText}>nous sommes en train de rechercher les meilleurs matchs</Text>
       </SafeAreaView>
     )
   }
@@ -175,9 +175,9 @@ if (!resultComparaison) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 15,
     paddingTop: StatusBar.currentHeight,
   },
   scrollView: {
