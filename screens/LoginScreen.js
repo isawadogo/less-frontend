@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, TextInput, ImageBackground, Pressable } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, TextInput, ImageBackground, Pressable, SafeAreaView } from 'react-native';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -77,7 +77,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
 
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
 
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
           <FontAwesomeIcon icon={faCircleArrowLeft} style={styles.backButton} />
@@ -127,7 +127,7 @@ export default function LoginScreen({ navigation }) {
       </View>
 
 
-    </View >
+    </SafeAreaView >
   )
 }
 

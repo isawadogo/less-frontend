@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, SafeAreaView, View, TouchableOpacity, Image, ImageBackground, Pressable } from 'react-native';
+import { Button, StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 //import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
@@ -72,40 +73,48 @@ export default function WelcomeScreen1({ navigation }) {
     }
   }
   const carouseldata = [
-    { image: require('../assets/fruit.png') },
-    { image: require('../assets/producteurs_locaux.png') },
-    { image: require('../assets/vegan.png') },
+    { image: require('../assets/carrousel-1.png') },
+    { image: require('../assets/carrousel-2.png') },
+    { image: require('../assets/carrousel-3.png') },
   ];
 
   return (
-    <View style={styles.container}>
-        
-      <View style={styles.carouselContainer}>
-        <MyCarousel data={carouseldata}  />
-      </View>
-        
+    <SafeAreaView style={styles.SafeAreaContainer}>
+        <View style={styles.container}>
+          <View style={styles.carouselContainer}>
+            <MyCarousel data={carouseldata}  />
+          </View>
+          
 
-      <View style={styles.textContainer}>
-        <View>
-          <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
-          <Text style={styles.description}>Vos courses reviennent moins cher.{'\n'} Votre temps devant l'écran sera réduit.{'\n'}Votre impact environnemental baissera.</Text>
+          <View style={styles.textContainer}>
+            <View>
+              <Image source={require('../assets/Logo-petit.png')}/>
+              <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
+              <Text style={styles.description}>Vos courses reviennent moins cher.{'\n'} Votre temps devant l'écran sera réduit.{'\n'}Votre impact environnemental baissera.</Text>
+            </View>
+
+          <View>
+            <Pressable style={styles.buttonWhite} onPress={() => navigation.navigate('Welcome2')}>
+              <Text style={styles.textButtonWhite}>suivant</Text>
+            </Pressable>
+            <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.textButtonTransparent}>Ignorer au prochain lancement</Text>
+            </Pressable>
+          </View>
+          </View>
         </View>
 
-        <View>
-          <Pressable style={styles.buttonWhite} onPress={() => navigation.navigate('Welcome2')}>
-            <Text style={styles.textButtonWhite}>suivant</Text>
-          </Pressable>
-          <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.textButtonTransparent}>Ignorer au prochain lancement</Text>
-          </Pressable>
-        </View>
-      </View>
 
-    </View >
+    </SafeAreaView >
   )
 }
 
 const styles = StyleSheet.create({
+  SafeAreaContainer:{
+    backgroundColor: 'white',
+    flex: 1
+  },
+  
   container: {
     flex: 1,
     backgroundColor: "#2B0D35",

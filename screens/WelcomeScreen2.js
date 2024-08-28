@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Image, TouchableOpacity, ImageBackground, StyleSheet, Text, View, Pressable } from 'react-native';
+import { Image, TouchableOpacity, ImageBackground, StyleSheet, Text, View, Pressable, SafeAreaView } from 'react-native';
 //import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -66,20 +66,21 @@ export default function WelcomeScreen2({ navigation }) {
     }
   }
   const carouseldata = [
-    { image: require('../assets/fruit.png') },
-    { image: require('../assets/producteurs_locaux.png') },
-    { image: require('../assets/vegan.png') },
+    { image: require('../assets/carrousel-1.png') },
+    { image: require('../assets/carrousel-2.png') },
+    { image: require('../assets/carrousel-3.png') },
   ];
 
   return (
 
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
         
     <View style={styles.carouselContainer}>
       <MyCarousel data={carouseldata}/>
     </View>
       
     <View style={styles.textContainer}>
+      <Image source={require('../assets/Logo-petit.png')}/>
       <View>
         <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
         <Text style={styles.description}>Vous rentrez votre liste d'achat.{'\n'}LE$$ compare où vous ferez les meilleures économies.{'\n'}LE$$ vous renverrons le ticket de course avec toutes les références qui respectent vos critères.</Text>
@@ -95,7 +96,7 @@ export default function WelcomeScreen2({ navigation }) {
       </View>
     </View>
 
-  </View >
+  </SafeAreaView >
   )
 }
 
