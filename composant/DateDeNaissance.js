@@ -5,20 +5,14 @@ import { globalStyles } from '../globalStyles';
 import moment from 'moment/moment';
 import 'moment/locale/fr';
 
-
-
-
-const DateDeNaissance = () => {
-    const [selectedDate, setSelectedDate] = useState(null);
+const DateDeNaissance = ({ defaultDate, onSelect }) => {
+    const [selectedDate, setSelectedDate] = useState(defaultDate);
     const [calendarVisible, setCalendarVisible] = useState(false);
 
     moment.locale('fr');
-
-
     const showDatePicker = () => {
         setCalendarVisible(true);
     };
-
     const hideDatePicker = () => {
         setCalendarVisible(false);
     };
@@ -26,9 +20,9 @@ const DateDeNaissance = () => {
         console.log("Date selectionnée:", date)
         setSelectedDate(date);
         hideDatePicker();
+        onSelect(date);
+
     }
-
-
     const correctDate = (date) => {
         return date ? moment(date).format('LL') : 'Date de Naissance'
     }
@@ -44,12 +38,10 @@ const DateDeNaissance = () => {
                 mode="date"
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
-
             />
         </View>
     )
 }
-
 
 export default DateDeNaissance
 

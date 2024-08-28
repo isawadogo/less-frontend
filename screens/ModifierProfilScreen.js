@@ -13,8 +13,6 @@ import { globalStyles } from '../globalStyles';
 import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import LessFormikInput from '../composant/LessFormikInput';
 
-
-
 import { Picker } from '@react-native-picker/picker';
 //import CheckBox from 'expo-checkbox';
 
@@ -33,8 +31,19 @@ import { frontConfig } from '../modules/config';
 import TouchableButton from '../composant/TouchableButton';
 
 
-const RegimeConso = [{ value: 'Bio' }, { value: 'Vegan' }, { value: 'Premier prix' }, { value: 'Végétarien' }]
-const initialPreferences = [{ label: 'Local', checked: false }, { label: 'Faible en sucres', checked: false }, { label: 'Faible en matière grasse', checked: false }]
+const RegimeConso = [ 
+  { dbValue: 'bio', value: 'Bio' }, 
+  { dbValue: 'vegan', value: 'Vegan' }, 
+  { dbValue: 'premierPrix', value: 'Premier prix' }, 
+  { dbValue: 'vegetarien', value: 'Végétarien' }
+]
+
+const initialPreferences = [
+  { dbValue: 'local', label: 'Local', checked: false }, 
+  { dbValue:'faibleEnSucre', label: 'Faible en sucres', checked: false }, 
+  { dbValue: 'faibleEnMatiereGrasse', label: 'Faible en matière grasse', checked: false }
+]
+
 const data = [
   { key: '1', value: 'Arachide', disabled: false },
   { key: '2', value: 'Fruit de mer', disabled: false },
@@ -54,15 +63,6 @@ export default function ModifierProfilScreen({ navigation }) {
 
   }
 
-  const [checked, setChecked] = React.useState('Premier prix')
-  const [prefs, setPrefs] = useState(initialPreferences)
-  const [selected, setSelected] = React.useState("");
-
-  const handleCheckBox = (index) => {
-    setPrefs(beforePrefs => beforePrefs.map((pref, i) =>
-      i === index ? { ...pref, checked: !pref.checked } : pref));
-
-  }
   const user = useSelector((state) => state.user.value.userDetails);
 
   useEffect(() => {
@@ -82,7 +82,6 @@ export default function ModifierProfilScreen({ navigation }) {
     numeroDeRue: user.adresses.length > 0 ? user.adresses[0].numeroDeRue : '',
     commune: user.adresses.length > 0 ? user.adresses[0].commune : '',
     codePostal: user.adresses.length > 0 ? user.adresses[0].codePostal : '',
-    budget: user.budget.toString() || '0',
   };
   const validationSchema = Yup.object({
     nom: Yup
@@ -106,24 +105,13 @@ export default function ModifierProfilScreen({ navigation }) {
     commune: Yup
       .string()
       .required("Veuillez saisir le nom de votre ville"),
-    budget: Yup
-      .number()
-      .required("Veuillez votre budget"),
   });
-
-  const [budget, setBudget] = useState(null)
-
 
   const [preferences, setPreferences] = useState(user.preferences);
   const [allergies, setAllergies] = useState(user.allergies);
   const [criteres, setCriteres] = useState({ ...user.criteres });
+  const [budget, setBudget] = useState(user.budget);
 
-  /*const [userAdresses, setUserAdresses] = useState({
-    numeroDeRue: user.adresses.length > 0 ? user.adresses[0].numeroDeRue : '',
-    nomDeRue: user.adresses.length > 0 ? user.adresses[0].nomDeRue : '',
-    commune: user.adresses.length > 0 ? user.adresses[0].commune : '',
-    codePostal: user.adresses.length > 0 ? user.adresses[0].codePostal : '',
-  });*/
   const dateNais = new Date(user.dateDeNaissance);
   const [userParams, setUserParams] = useState({
     prefixe: user.prefixe,
@@ -136,20 +124,15 @@ export default function ModifierProfilScreen({ navigation }) {
     distance: user.distance,
   })
   const [dateN, setDateN] = useState(new Date(user.dateDeNaissance));
-  const [show, setShow] = useState(false);
 
-  //const [selectedLanguage, setSelectedLanguage] = useState();
-
-  const onChange = (event, selectedDate) => {
+  const onChangeDate = (selectedDate) => {
     console.log('selected date : ', selectedDate);
-    setShow(false);
+    //setShow(false);
     setDateN(selectedDate);
     setUserParams({ ...userParams, dateDeNaissance: selectedDate.toLocaleString() });
   };
 
   const dispatch = useDispatch();
-
-  //console.log('Modifier profil screen - user details :', user);
 
   const handleUpdateProfile = async (values) => {
     // Manange with proper message
@@ -157,7 +140,7 @@ export default function ModifierProfilScreen({ navigation }) {
       ...Object.assign(userParams, {
         nom: values.nom,
         prenom: values.prenom,
-        budget: Number(values.budget),
+        budget: Number(budget),
         telephone: values.telephone,
       })
     }
@@ -194,10 +177,30 @@ export default function ModifierProfilScreen({ navigation }) {
   }
 
   const updateCritere = (critereName, critereValue) => {
-    setCriteres({
-      ...criteres,
-      [critereName]: !critereValue
-    })
+
+    const criteresApplis = ['bio', 'vegan', 'premierPrix', 'vegetarien'];
+    const preferencesAppli = ['local', 'faibleEnMatiereGrasse', 'faibleEnSucre'];
+
+    if (criteres[critereName] && criteresApplis.includes(critereName)) {
+      return;
+    }
+    
+    const newCrit = {}
+    for (const c in criteres) {
+      if (c === '_id')  continue;
+      if ( c === critereName) {
+        newCrit[critereName] = true
+        if (preferencesAppli.includes(c) && preferencesAppli.includes(critereName)) {
+          newCrit[c] = !criteres[critereName]
+        }
+      } else {
+        if (criteresApplis.includes(c) && criteresApplis.includes(critereName)) {
+          newCrit[c] = false
+        } 
+      }
+    }
+    console.log('NEW CRITS : ', newCrit)
+    setCriteres({...criteres, ...newCrit});
   }
 
   const updatePreference = (prefName, prefValue) => { // modifier preférence
@@ -205,7 +208,7 @@ export default function ModifierProfilScreen({ navigation }) {
       ...preferences,
       [prefName]: !prefValue
     })
-  }
+      }
 
   return (
 
@@ -258,9 +261,7 @@ export default function ModifierProfilScreen({ navigation }) {
                   errorTextStyle={{ top: 8 }}
                 />
                 <View >
-                  <DateDeNaissance />
-
-
+                  <DateDeNaissance defaultDate={dateN} onSelect={onChangeDate}/>
                 </View>
                 <Text style={[globalStyles.title, { top: 7, marginTop: 10, right: 105 }]}>ADRESSE</Text>
                 <Field
@@ -300,6 +301,7 @@ export default function ModifierProfilScreen({ navigation }) {
                     minimumValue={25}
                     maximumValue={1500}
                     minimumTrackTintColor="#2B0D35"
+                    value={budget}
                     onValueChange={(value) => setBudget(Math.round(value))}
                     thumbTintColor="#BB8E1"
                   />
@@ -307,13 +309,12 @@ export default function ModifierProfilScreen({ navigation }) {
                 </View>
                 <Text style={[globalStyles.title, { marginTop: 25, right: 30 }]}>MON REGIME ALIMENTAIRE</Text>
                 <View style={styles.radioButton}>
-
                   {RegimeConso.map((element) => (
                     <View style={styles.radioContainer}>
                       <RadioButton
                         value={element.value}
-                        status={checked === element.value ? "checked" : "unchecked"}
-                        onPress={() => setChecked(element.value)}
+                        status={criteres[element.dbValue] ? "checked" : "unchecked"}
+                        onPress={() => updateCritere(element.dbValue, element.value)}
                         disabled={false}
                         color='black'
                         uncheckedColor='yellow'
@@ -322,31 +323,14 @@ export default function ModifierProfilScreen({ navigation }) {
                     </View>
                   ))}
 
-                  {/* <View >
-                    <LessCheckbox checked={criteres.bio} onChange={() => updateCritere('bio', criteres.bio)} />
-                    <Text style={styles.option}>Bio</Text>
-                  </View>
-                  <View >
-                    <LessCheckbox checked={criteres.vegan} onChange={() => updateCritere('vegan', criteres.vegan)} />
-                    <Text style={styles.option}>Végan</Text>
-                  </View>
-                  <View >
-                    <LessCheckbox checked={criteres.premierPrix} onChange={() => updateCritere('premierPrix', criteres.premierPrix)} />
-                    <Text style={styles.option}>Premier prix</Text>
-                  </View>
-                  <View >
-                    <LessCheckbox checked={criteres.vegetarien} onChange={() => updateCritere('vegetarien', criteres.vegetarien)} />
-                    <Text style={styles.option}>Végétarien</Text>
-                  </View> */}
-                  {/* </View> */}
                   <Text style={[globalStyles.title, { marginTop: 15, bottom: 10, right: 60 }]} >MES PREFERENCES</Text>
                   <PaperProvider>
                     <View style={styles.checkBoxContainer}>
-                      {prefs.map((pref, index) => (
-                        <View key={index} style={styles.checkBoxRow}>
+                      {initialPreferences.map((pref, index) => (
+                        <View key={`${index}-${pref.dbValue}`} style={styles.checkBoxRow}>
                           <Checkbox
-                            status={pref.checked ? 'checked' : 'unchecked'}
-                            onPress={() => handleCheckBox(index)}
+                            status={criteres[pref.dbValue] ? 'checked' : 'unchecked'}
+                            onPress={() => updateCritere(pref.dbValue, pref.label)}
                             color='black' />
                           <Text style={styles.checkBoxText}>{pref.label}</Text>
 
@@ -355,24 +339,11 @@ export default function ModifierProfilScreen({ navigation }) {
                     </View>
                   </PaperProvider>
 
-                  {/* <View >
-                    <LessCheckbox checked={criteres.local} onChange={() => updateCritere('local', criteres.local)} />
-                    <Text style={styles.option}>Local</Text>
-                  </View>
-                  <View >
-                    <LessCheckbox checked={criteres.faibleEnSucre} onChange={() => updateCritere('faibleEnSucre', criteres.faibleEnSucre)} />
-                    <Text style={styles.option}>Faible en sucres</Text>
-                  </View>
-                  <View >
-                    <LessCheckbox checked={criteres.faibleEnMatiereGrasse} onChange={() => updateCritere('faibleEnMatiereGrasse', criteres.faibleEnMatiereGrasse)} />
-                    <Text style={styles.option}>Faible en matière grasse</Text>
-                  </View> */}
                 </View>
                 <Text style={[globalStyles.title, { marginTop: 13, marginBottom: 25, right: 90 }]} >ALLERGIES</Text>
 
                 <View style={{ alignSelf: 'center' }}>
                   {<MultipleSelectList
-
                     setSelected={(val) => setSelected(val)}
                     data={data}
                     save='value'
@@ -380,7 +351,6 @@ export default function ModifierProfilScreen({ navigation }) {
                     boxStyles={{ backgroundColor: 'white', width: 300 }}
                     dropdownStyles={{ backgroundColor: '#2B0D35' }}
                     dropdownTextStyles={{ color: 'white' }}
-
                   />
                   }
                 </View>
@@ -392,17 +362,11 @@ export default function ModifierProfilScreen({ navigation }) {
                 <View style={styles.message}>
                   <Text style={styles.option}>Afficher le message d'accueil</Text>
                   <LessCheckbox checked={preferences.afficherEcranAccueil} onChange={() => updatePreference('afficherEcranAccueil', preferences.afficherEcranAccueil)} />
-
                 </View>
-                <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('TabNavigator', { screen: 'Acceuil' })} title="APPLIQUER LES CRITERES" position={buttonPosition}></TouchableButton>
-
-
-
-
+                <TouchableButton color="#7CD6C1" onPress={handleSubmit} title="APPLIQUER LES CRITERES" position={buttonPosition}></TouchableButton>
               </>
             )}
           </Formik>
-
         </ScrollView>
       </View>
     </SafeAreaView >
