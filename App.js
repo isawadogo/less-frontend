@@ -49,6 +49,7 @@ import Header from './composant/Header';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const ProfilStack = createNativeStackNavigator();
+const ListStack = createNativeStackNavigator();
 
 // configuration du store
 const store = configureStore({
@@ -65,6 +66,18 @@ function ProfilStackScreen() {
       <ProfilStack.Screen name="Langue" component={LangueScreen} />
       <ProfilStack.Screen name="Conditions Générales" component={CGUScreen} />
       <ProfilStack.Screen name="ModifierProfil" component={ModifierProfilScreen} option={{ title: 'modifier notre Profil' }} />
+    </ProfilStack.Navigator>
+  )
+}
+
+function ListStackScreen() {
+  return (
+    <ProfilStack.Navigator screenOptions={{ header: (props) => <Header {...props} /> }}>
+          <Stack.Screen name="CreerListe" component={CreerListeScreen} />
+          <Stack.Screen name='ChoisirListeProduits' component={ChoisirListeProduitsScreen} />
+          <Stack.Screen name='RecapListeProduits' component={RecapListeProduitsScreen} />
+          <Stack.Screen name='ResultatComparaison' component={ResultatComparaisonScreen} />
+          <Stack.Screen name='ResultasDetailArticlesScreen' component={ResultasDetailArticlesScreen} />
     </ProfilStack.Navigator>
   )
 }
@@ -140,18 +153,14 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ header: (props) => <Header {...props} /> }}>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Welcome1" component={WelcomeScreen1} />
           <Stack.Screen name="Welcome2" component={WelcomeScreen2} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Inscription" component={InscriptionScreen} />
-          <Stack.Screen name="CreerListe" component={CreerListeScreen} />
-          <Stack.Screen name='ChoisirListeProduits' component={ChoisirListeProduitsScreen} />
-          <Stack.Screen name='RecapListeProduits' component={RecapListeProduitsScreen} />
-          <Stack.Screen name='ResultatComparaison' component={ResultatComparaisonScreen} />
-          <Stack.Screen name='ResultasDetailArticlesScreen' component={ResultasDetailArticlesScreen} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="Profile" component={ProfilStackScreen} />
+          <Stack.Screen name="Liste" component={ListStackScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
