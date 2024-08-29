@@ -129,14 +129,9 @@ export default function HomeScreen({ navigation }) {
         
           <Text style={styles.subTilte}>Reprendre une liste enregistrée</Text>
           <ScrollView>
-            <View style={styles.listContainer}>
-              <View>
-                  <Text style={styles.listText}>Petit déj'</Text>
-                  <Text style={styles.listDate}>Créer le 13/03/2021</Text>
-              </View>
-              <FontAwesomeIcon icon={faCircleArrowRight} style={styles.arrow}/>
-            </View>
-            <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
+          <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
+
+            
           </ScrollView>
 
         </View>

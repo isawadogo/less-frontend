@@ -91,9 +91,8 @@ export default function CreerListeScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
         
         <View style={styles.topContainer}>
-          <Text style={styles.title}>{nomListe}</Text>
-          <Text>Nombres produits : {produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
-          
+          <Text style={styles.ListName}>{nomListe}</Text>
+          <Text style={styles.productNbr}>{produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
         </View>
 
         <ScrollView style={styles.catContainer} horizontal={true}>
@@ -110,7 +109,9 @@ export default function CreerListeScreen({ navigation }) {
             })
           }      
         </ScrollView>
+
         <Text style={styles.title}>Ajouter des produits :</Text>
+
         <ScrollView style={styles.productContainer}>
           
           <ProduitsComponent 
@@ -143,11 +144,28 @@ const styles = StyleSheet.create({
   topContainer:{
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 25
+  },
+
+  ListName:{
+    fontFamily: 'Raleway-Bold',
+    fontSize: 24,
+    color:'#25000D'
+  },
+
+  productNbr:{
+    color: 'white',
+    backgroundColor: '#7CD6C1',
+    padding: 7,
+    borderRadius: 10,
+    alignSelf: 'flex-end',
   },
 
   catContainer: {
     flexDirection: 'row',
-    overflow: 'scroll'
+    height: 70,
+    overflow: 'scroll',
+    marginVertical: 10,
   },
 
   productContainer: {
@@ -158,7 +176,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Bold',
     color: '#25000D',
     fontSize: 18,
-    marginVertical: 15
+    marginBottom: 15
   },
 
   icon:{

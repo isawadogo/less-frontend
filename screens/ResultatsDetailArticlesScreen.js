@@ -10,6 +10,9 @@ import { cleanListeDetails, removeListe } from '../reducers/user';
 // import modules et composants
 import { evaluateCritere, getEnseignesList } from '../modules/listesFunctions';
 import { frontConfig } from '../modules/config';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+// import icones
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 /* FONCTION CREER LISTE */
 
@@ -98,10 +101,13 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.topContainer}>
+        <Text style={styles.ListName}>{listeName}</Text>
+        <Text style={styles.productNbr}>{produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
+      </View>
       
-      <Text>{listeName}</Text>
-      <Text style={{color: 'green', alignSelf: 'flex-end'}}>Nombres produits : {produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
-      <Text>Enseigne : {listeChoisie.nom}</Text>
+      
+      <Text style={styles.enseigne}>{listeChoisie.nom} :</Text>
 
       <ScrollView style={styles.scrollView}>
         <View>
@@ -118,8 +124,12 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
                         </View>
 
                         <Text style={styles.productQuantity}>({p.quantite} x {p.produit.prix}€)</Text>
-                        
-                        {p.criteres.map((c) => <Text key={`${j}-${p.produit._id}_${c}`}>{c}</Text>)}
+
+                        <View style={styles.totalContainer}>
+                          {p.criteres.map((c) => <Text style={styles.criteresBool} key={`${j}-${p.produit._id}_${c}`}>✔️ {c}</Text>)}
+                          <FontAwesomeIcon style={styles.icon} icon={faTrash}/>
+                        </View>
+
                       </View>
                     )
                   })}
@@ -128,8 +138,13 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
             })}
         </View>
       </ScrollView>
+      
+      <View style={styles.totalContainer}>
+        <Text style={styles.totalText}>Prix total pour cette liste : </Text>
+        <Text style={styles.totalNumber}>{listeChoisie.produits.reduce((a, v) => a + (v.produit.prix * v.quantite), 0).toFixed(2)}€</Text>
+      </View>
 
-      <Text>Prix total pour cette liste : {listeChoisie.produits.reduce((a, v) => a + (v.produit.prix * v.quantite), 0).toFixed(2)}</Text>
+      
 
       <Pressable style={styles.buttonBlue} onPress={handleValider}>
           <Text style={styles.textButtonBlue}>Valider cette liste</Text>
@@ -137,7 +152,7 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
 
       {isListeSave && 
         <View>
-          <Text>Votre liste a été suavegardée</Text>
+          <Text>Votre liste a été sauvegardée</Text>
           <Button title="Retourner à l'accueil" onPress={handleRetour} />
         </View>
       }
@@ -158,6 +173,31 @@ const styles = StyleSheet.create({
   scrollView: {
   },
 
+  topContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 15
+  },
+
+  ListName:{
+    fontFamily: 'Raleway-Bold',
+    fontSize: 24,
+    color:'#25000D'
+  },
+
+  productNbr:{
+    color: 'white',
+    backgroundColor: '#7CD6C1',
+    alignSelf: 'flex-end',
+  },
+
+  enseigne:{
+    fontFamily: 'Raleway-Medium',
+    fontSize: 18,
+    color:'#25000D',
+    marginBottom: 15
+  },
+
   categorieText:{
     fontFamily: 'Raleway-Bold',
     fontSize: 14,
@@ -168,7 +208,8 @@ const styles = StyleSheet.create({
   productContainer:{
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 10
+    padding: 10,
+    marginBottom: 10
   },
 
   productSubContainer:{
@@ -193,6 +234,38 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: '#A3A3A3',
     alignSelf: 'flex-end'
+  },
+
+  criteresBool:{
+    fontFamily: 'Raleway-Regular',
+    fontSize: 14,
+    color: '#4F4F4F',
+  },
+
+  icon:{
+    color: '#DCA2A2',
+    padding: 10
+  },
+
+  totalContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 10,
+    alignItems: 'flex-end'
+  },
+
+  totalText:{
+    fontFamily: 'Raleway-Medium',
+    fontSize: 18,
+    color:'#25000D',
+    marginBottom: 15
+  },
+
+  totalNumber:{
+    fontFamily: 'Raleway-Bold',
+    fontSize: 18,
+    color:'#25000D',
+    marginBottom: 15
   },
 
   buttonBlue: {
