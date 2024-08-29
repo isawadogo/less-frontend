@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleArrowLeft, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import TouchableButton from '../composant/TouchableButton';
-import { updateUser } from '../reducers/user';
+import { updateUser, updateEnseignesList } from '../reducers/user';
+import { getEnseignesList } from '../modules/listesFunctions'
 
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
@@ -65,6 +66,9 @@ export default function LoginScreen({ navigation }) {
         const json = await response.json();
         if (json.result) {
           dispatch(updateUser({ ...json.user, id: resJson.id }));
+          getEnseignesList(user.token).then((ens) => {
+              dispatch(updateEnseignesList(ens));
+          })
         }
         navigation.navigate('TabNavigator');
       } else {
