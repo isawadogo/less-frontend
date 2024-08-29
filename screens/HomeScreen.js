@@ -1,7 +1,7 @@
 /* IMPORTS */
 
 //import des éléments React et React Native
-import { Modal, Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
+import { Modal, Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, Pressable, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState, useEffect } from 'react';
 import { useFonts } from 'expo-font';
@@ -101,47 +101,50 @@ export default function HomeScreen({ navigation }) {
   return (
     <KeyboardAvoidingView style={styles.containerG} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.container}>
-      <View style={styles.topContainer}>
-        <View>
-          <Text>{user.nom}Emma Carena</Text>
-          <Text>{user.email}</Text>
-        </View>
-        <FontAwesomeIcon icon={faBell}/>
-      </View>
 
-      <View>
-        <Text style={styles.salutation}>Bonjour {user.prenom}Emma Carena !</Text>
-    
-        <View style={styles.startContainer}>
-          <View style={styles.startTextContainer}>
-            <Text style={styles.mainText}>prêtes pour une nouvelle course ?</Text>
-            <Pressable style={styles.button} onPress={() => navigation.navigate('Liste', { screen: 'CreerListe' })} >
-              <Text style={styles.textButton}>commencer</Text>
-            </Pressable>
-          </View>
-          <Image source={require('../assets/illustration-home.png')}/>
-      </View>
-
-      <Text style={styles.subTilte}>Reste 35€ à dépenser</Text>
-      <View style={styles.barContainer}>
-          <Text style={[styles.progressBar, {width:'75%'}]}>120€</Text>
-      </View>
-      
-      <Text style={styles.subTilte}>Reprendre une liste enregistrée</Text>
-        <View style={styles.listContainer}>
+        <View style={styles.topContainer}>
           <View>
-            <Text style={styles.listText}>Petit déj'</Text>
-            <Text style={styles.listDate}>Créer le 13/03/2021</Text>
+            <Text style={styles.userName}>{user.prenom} {user.nom}</Text>
+            <Text style={styles.userMail}>{user.email}</Text>
           </View>
-          <FontAwesomeIcon icon={faCircleArrowRight} style={styles.arrow}/>
+          <FontAwesomeIcon style={styles.icon} icon={faBell}/>
         </View>
-      
-        <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
-      </View>
 
-      <Pressable style={styles.button} onPress={handleDeconnection}>
-        <Text style={styles.textButton}>Déconnexion</Text>
-      </Pressable>
+        <View>
+          <Text style={styles.salutation}>Bonjour {user.prenom} !</Text>
+          <View style={styles.startContainer}>
+            <View style={styles.startTextContainer}>
+              <Text style={styles.mainText}>prêtes pour une nouvelle course ?</Text>
+              <Pressable style={styles.button} onPress={() => navigation.navigate('Liste', { screen: 'CreerListe' })} >
+                <Text style={styles.textButton}>commencer</Text>
+              </Pressable>
+            </View>
+            <Image source={require('../assets/illustration-home.png')}/>
+          </View>
+
+          <Text style={styles.subTilte}>Reste 35€ à dépenser</Text>
+          <View style={styles.barContainer}>
+            <Text style={[styles.progressBar, {width:'75%'}]}>120€</Text>
+          </View>
+        
+          <Text style={styles.subTilte}>Reprendre une liste enregistrée</Text>
+          <ScrollView>
+            <View style={styles.listContainer}>
+              <View>
+                  <Text style={styles.listText}>Petit déj'</Text>
+                  <Text style={styles.listDate}>Créer le 13/03/2021</Text>
+              </View>
+              <FontAwesomeIcon icon={faCircleArrowRight} style={styles.arrow}/>
+            </View>
+            <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
+          </ScrollView>
+
+        </View>
+
+        <Pressable style={styles.button} onPress={handleDeconnection}>
+          <Text style={styles.textButton}>Déconnexion</Text>
+        </Pressable>
+
       </SafeAreaView>
 
     </KeyboardAvoidingView>
@@ -153,19 +156,20 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   containerG: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
 
   container: {
     flex: 1,
     margin: 20,
     marginTop: 30,
-    flexDirection: 'column',
-    justifyContent: 'space-between'
   },
 
   topContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center'
   },
 
   userName:{
@@ -178,6 +182,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Regular',
     color: '#7E7E7E',
     fontSize: 13,
+  },
+
+  icon:{
+    padding: 10,
+    color: '#2B0D35'
   },
 
   salutation: {

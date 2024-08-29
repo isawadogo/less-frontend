@@ -1,7 +1,7 @@
 /* IMPORTS */
 
 // import React et React Native
-import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, KeyboardAvoidingView, } from 'react-native';
+import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, KeyboardAvoidingView, Pressable} from 'react-native';
 import { useState, useEffect } from 'react';
 // import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,17 +17,25 @@ import { getEnseignesList, getProduits } from '../modules/listesFunctions';
 
 function ResultatComponent({ resultat, onSelect }) {
   return (
-      <View style={{ flex: 1, width: '85%', borderRadius: 10, backgroundColor: '#efefef', paddingBottom: 5, margin: 5}}>
-        <Text style={{ textTransform: 'uppercase', paddingLeft: 10, paddingTop: 10}}>Enseigne : {resultat.nom}</Text>
-        {resultat.criteresPercentage.map((c, i) => {
-          return <Text style={{ paddingLeft: 20}} key={`${resultat.enseigneId}-${c.nom}`}>{c.nom} : {c.note.toFixed(2)} %</Text>
-        })}
-        <Text>Prix : {resultat.produits.reduce((a,v) => a + (v.produit.prix * v.quantite), 0).toFixed(2)}</Text>
-        <Text>Conformité : {resultat.conformite}%</Text>
-        <Button 
-          title='Choisir'
-          onPress={onSelect}
-        />
+      <View style={styles.resultatContainer}>
+
+        <Text style={styles.titleEnseigne}>{resultat.nom}</Text>
+        <View style={styles.critereContainer}>
+          {resultat.criteresPercentage.map((c, i) => {
+            return <Text style={styles.critereText} key={`${resultat.enseigneId}-${c.nom}`}>{c.nom} : {c.note.toFixed(2)} %</Text>
+          })}
+        </View>
+        
+        <Text style={styles.conformText}>Conforme à {resultat.conformite}%</Text>
+        <View style={styles.critereContainer}>
+          <Text style={styles.critereText}>Montant</Text>
+          <Text style={styles.priceText}>{resultat.produits.reduce((a,v) => a + (v.produit.prix * v.quantite), 0).toFixed(2)}€</Text>
+        </View>
+
+        <Pressable style={styles.buttonBlue} onPress={onSelect}>
+          <Text style={styles.textButtonBlue}>Choisir cette liste</Text>
+        </Pressable>
+
       </View>
     )
 }
@@ -154,26 +162,27 @@ if (!resultComparaison) {
   //setDetailedResults(resultComparaison);
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-      <Button title='retour' onPress={() => navigation.goBack()} />
-      <Text style={{color: 'green', alignSelf: 'flex-end'}}>Nombres produits : {produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
-      <Text>{user.prenom} {user.nom}</Text>
-      <Text>{user.email}</Text>
-      <Text>Bonjour {user.prenom}</Text>
+      
+      <View style={styles.topContainer}>
+        <Text style={styles.listTitle}>{listeName}</Text>
+        <Text style={styles.nbrItem}>{produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
+      </View>
+        
+      <Text style={styles.subTitle}>Meilleur résultat</Text>
+      <ResultatComponent resultat={resultComparaison[0]} onSelect={() => setListeChoisie(resultComparaison[0])} key={resultComparaison[0].enseigneId}/>
+      
+      <Text style={styles.subTitle}>Autres résultats</Text>
 
-      <Text> Nom de la liste : {listeName}</Text>
-        <Text>Meilleur résultat</Text>
-        <ResultatComponent resultat={resultComparaison[0]} onSelect={() => setListeChoisie(resultComparaison[0])} key={resultComparaison[0].enseigneId}/>
-        <Text>Autres résultats</Text>
+      <ScrollView style={styles.scrollView}>
         {resultComparaison.slice(1).map((r, i) => {
           return <ResultatComponent resultat={r} onSelect={() => setListeChoisie(r)} key={r.enseigneId}/>
         })}
-        <Button 
-          title='Continuer'
-          onPress={handleChoose}
-        />
-        <Text>Autres résultats</Text>
-    </ScrollView>
+      </ScrollView>
+
+      <Pressable style={styles.buttonViolet} onPress={handleChoose}>
+          <Text style={styles.textButtonBlue}>Continuer</Text>
+      </Pressable>
+
     </SafeAreaView>
   )
 }
@@ -181,20 +190,114 @@ if (!resultComparaison) {
 /* STYLE CSS */
 
 const styles = StyleSheet.create({
+  loadingText:{
+    fontFamily: 'Raleway-Bold',
+    fontSize: 14,
+    color: '#25000D'
+  },
+  
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 15,
     paddingTop: StatusBar.currentHeight,
   },
+
   scrollView: {
-    marginHorizontal: 20,
+    borderBlockColor: 'green',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderRadius: 20,
+    padding: 10
+  },
+  
+  topContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
   },
 
-  loadingText:{
-    fontFamily: 'Raleway-SemiBold',
-    fontSize: 20,
+  listTitle:{
+    fontFamily: 'Raleway-Bold',
+    fontSize: 24,
     color: '#25000D'
   },
+
+  nbrItem:{
+    color: 'white',
+    backgroundColor: '#7CD6C1',
+    paddingHorizontal: 5,
+    borderRadius: 20,
+    alignSelf: 'flex-end'
+  },
+
+  subTitle:{
+    fontFamily: 'Raleway-SemiBold',
+    fontSize: 20,
+    color: '#25000D',
+    marginBottom: 10,
+  },
+
+  resultatContainer: {
+    borderRadius: 20,
+    backgroundColor: 'white',
+    padding: 10,
+    marginBottom: 10
+  },
+
+  titleEnseigne: {
+    textTransform: 'uppercase',
+    fontSize: 14,
+    fontFamily: 'Raleway-Regular',
+    color: '#4F4F4F',
+    marginBottom: 10,
+  },
+
+  critereContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  critereText:{
+    fontSize: 14,
+    fontFamily: 'Raleway-Regular',
+    color: '#4F4F4F',
+  },
+
+  conformText:{
+    fontSize: 14,
+    fontFamily: 'Raleway-SemiBold',
+    color: '#4F4F4F',
+    marginBottom: 10,
+  },
+
+  priceText:{
+    fontSize: 14,
+    fontFamily: 'Raleway-Bold',
+    color: '#25000D',
+    marginBottom: 10,
+  },
+
+  buttonBlue: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 20,
+    backgroundColor: '#7CD6C1',
+  },
+
+  buttonViolet: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 20,
+    backgroundColor: '#25000D',
+    marginTop: 15
+  },
+
+  textButtonBlue: {
+    fontSize: 13,
+    fontFamily: 'Raleway-Medium',
+    color: 'white',
+  },
+
 });

@@ -88,24 +88,26 @@ export default function WelcomeScreen1({ navigation }) {
   return (
     <SafeAreaView style={styles.SafeAreaContainer}>
       <View style={styles.container}>
+
         <View style={styles.carouselContainer}>
           <MyCarousel data={carouseldata}  />
         </View>
 
         <View style={styles.textContainer}>
-            <Image style={styles.logo} source={require('../assets/Logo-petit.png')}/>
-            <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
-            <Text style={styles.description}>Vos courses reviennent moins cher.{'\n'} Votre temps devant l'écran sera réduit.{'\n'}Votre impact environnemental baissera.</Text>
-        <View>
+          <Image style={styles.logo} source={require('../assets/Logo-petit.png')}/>
+          <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
+          <Text style={styles.description}>Vos courses reviennent moins cher.{'\n'} Votre temps devant l'écran sera réduit.{'\n'}Votre impact environnemental baissera.</Text>
+          
+          <View>
+            <Pressable style={styles.buttonWhite} onPress={() => navigation.navigate('Welcome2')}>
+              <Text style={styles.textButtonWhite}>suivant</Text>
+            </Pressable>
+            <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.textButtonTransparent}>Ignorer au prochain lancement</Text>
+            </Pressable>
+          </View>
+        </View>
 
-          <Pressable style={styles.buttonWhite} onPress={() => navigation.navigate('Welcome2')}>
-            <Text style={styles.textButtonWhite}>suivant</Text>
-          </Pressable>
-          <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.textButtonTransparent}>Ignorer au prochain lancement</Text>
-          </Pressable>
-        </View>
-        </View>
       </View>
     </SafeAreaView >
   )
@@ -157,6 +159,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 20,
     backgroundColor: '#7CD6C1',
+    paddingHorizontal: 70,
   },
 
   buttonTransparent: {

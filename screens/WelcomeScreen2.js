@@ -82,6 +82,7 @@ export default function WelcomeScreen2({ navigation }) {
 
     <SafeAreaView style={styles.SafeAreaContainer}>
       <View style={styles.container}>
+
         <View style={styles.carouselContainer}>
             <MyCarousel data={carouseldata}/>
         </View>
@@ -89,9 +90,9 @@ export default function WelcomeScreen2({ navigation }) {
         <View style={styles.textContainer}>
           <Image style={styles.logo} source={require('../assets/Logo-petit.png')}/>
           <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
-          <Text style={styles.description}>Vous rentrez votre liste d'achat.{'\n'}LE$$ compare où vous ferez les meilleures économies.{'\n'}LE$$ vous renverrons le ticket de course avec toutes les références qui respectent vos critères.</Text>
-        <View>
-
+          <Text style={styles.description}>LE$$ compare où vous ferez les meilleures économies.{'\n'}LE$$ vous renverrons le ticket de course avec toutes les références qui respectent vos critères.</Text>
+          
+          <View>
             <Pressable style={styles.buttonWhite} onPress={() => navigation.navigate('Login')}>
               <Text style={styles.textButtonWhite}>suivant</Text>
             </Pressable>
@@ -99,7 +100,6 @@ export default function WelcomeScreen2({ navigation }) {
               <Text style={styles.textButtonTransparent}>précédent</Text>
             </Pressable>
           </View>
-
         </View>
 
       </View>
@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: 'Raleway-Medium',
     color: '#2B0D35',
+    paddingHorizontal: 70,
   },
 
   textButtonTransparent: {

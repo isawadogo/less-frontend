@@ -158,11 +158,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Bold',
     color: '#25000D',
     fontSize: 18,
+    marginVertical: 15
   },
 
   icon:{
     fontSize: 35,
-    color: 'green'
+    color: '#7CD6C1',
+    padding: 30,
+    marginTop: 10,
+    alignSelf: 'flex-end'
   },
 
 });

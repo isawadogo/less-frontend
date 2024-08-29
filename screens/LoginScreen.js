@@ -17,7 +17,7 @@ import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 //import des icones
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCircleArrowLeft, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -87,7 +87,7 @@ export default function LoginScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
 
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
-          <FontAwesomeIcon icon={faCircleArrowLeft} style={styles.backButton} />
+          <FontAwesomeIcon icon={faArrowLeft} style={styles.backButton} />
         </TouchableOpacity>
 
         <Text style={styles.title}>Content de vous revoir 🤩 </Text>
@@ -146,7 +146,10 @@ const styles = StyleSheet.create({
   },
 
   backButton: {
-    color: '#A3A3A3',
+    backgroundColor: '#F8F8F8',
+    borderRadius: 15,
+    padding: 15,
+    color: '#2B0D35',
   },
 
   title: {

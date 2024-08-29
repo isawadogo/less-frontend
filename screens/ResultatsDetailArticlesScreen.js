@@ -1,7 +1,7 @@
 /* IMPORTS */
 
 // import React et React Native
-import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, KeyboardAvoidingView, } from 'react-native';
+import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, KeyboardAvoidingView, Pressable } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -98,43 +98,43 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-      <Button title='retour' onPress={() => navigation.goBack()} />
+      
+      <Text>{listeName}</Text>
       <Text style={{color: 'green', alignSelf: 'flex-end'}}>Nombres produits : {produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
-      <Text>{user.prenom} {user.nom}</Text>
-      <Text>{user.email}</Text>
-      <Text>Bonjour {user.prenom}</Text>
+      <Text>Enseigne : {listeChoisie.nom}</Text>
 
-      <Text> detail de la liste : {listeName}</Text>
-          <View style={{backgroundColor: '#f6f6f6', paddingTop: 10}}>
-            <Text>Enseigne : {listeChoisie.nom}</Text>
+      <ScrollView style={styles.scrollView}>
+        <View>
             {articlesDetails.map((a,i) => {
               return (
                 <View key={`${i}`}>
-                  <Text>categorie : {a.categorie}</Text>
+                  <Text style={styles.categorieText}>{a.categorie}</Text>
                   {a.produits.map((p,j) => {
                     return (
-                      <View key={p.produit._id}>
-                        <Text>Produit : {p.produit.nom}</Text>
-                        <Text>Prix unitaire: {p.produit.prix}</Text>
-                        <Text>Quantite: {p.quantite}</Text>
-                        <Text>Prix total article : {p.quantite * p.produit.prix}</Text>
+                      <View style={styles.productContainer} key={p.produit._id} >
+                        <View style={styles.productSubContainer}>
+                          <Text style={styles.productName}>{p.produit.nom}</Text>
+                          <Text style={styles.productPrice}>{p.quantite * p.produit.prix}€</Text>
+                        </View>
+
+                        <Text style={styles.productQuantity}>({p.quantite} x {p.produit.prix}€)</Text>
+                        
                         {p.criteres.map((c) => <Text key={`${j}-${p.produit._id}_${c}`}>{c}</Text>)}
-                        <Text></Text>
                       </View>
                     )
                   })}
                 </View>
               )
             })}
-            <Text></Text>
-            <Text>Prix total pour cette liste : {listeChoisie.produits.reduce((a, v) => a + (v.produit.prix * v.quantite), 0).toFixed(2)}</Text>
-            <Text></Text>
-          </View>
-      <Button 
-        title='Valider cette liste'
-        onPress={handleValider}
-      />
+        </View>
+      </ScrollView>
+
+      <Text>Prix total pour cette liste : {listeChoisie.produits.reduce((a, v) => a + (v.produit.prix * v.quantite), 0).toFixed(2)}</Text>
+
+      <Pressable style={styles.buttonBlue} onPress={handleValider}>
+          <Text style={styles.textButtonBlue}>Valider cette liste</Text>
+      </Pressable>    
+
       {isListeSave && 
         <View>
           <Text>Votre liste a été suavegardée</Text>
@@ -142,7 +142,7 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
         </View>
       }
 
-    </ScrollView>
+   
     </SafeAreaView>
   )
 }
@@ -152,12 +152,62 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 15,
     paddingTop: StatusBar.currentHeight,
   },
   scrollView: {
-    marginHorizontal: 20,
   },
+
+  categorieText:{
+    fontFamily: 'Raleway-Bold',
+    fontSize: 14,
+    color: '#25000D',
+    marginBottom: 10,
+  },
+
+  productContainer:{
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 10
+  },
+
+  productSubContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  productName:{
+    fontFamily: 'Raleway-Regular',
+    fontSize: 14,
+    color: '#4F4F4F',
+  },
+
+  productPrice:{
+    fontFamily: 'Raleway-Bold',
+    fontSize: 14,
+    color: '#7CD6C1',
+  },
+
+  productQuantity:{
+    fontFamily: 'Raleway-Regular',
+    fontSize: 10,
+    color: '#A3A3A3',
+    alignSelf: 'flex-end'
+  },
+
+  buttonBlue: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 20,
+    backgroundColor: '#7CD6C1',
+  },
+
+  textButtonBlue: {
+    fontSize: 13,
+    fontFamily: 'Raleway-Medium',
+    color: 'white',
+  },
+
+
 });
