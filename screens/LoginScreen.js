@@ -1,19 +1,25 @@
+/* IMPORTS */
+
+// import React et React Native
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, TextInput, ImageBackground, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState, useEffect } from 'react';
+// import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCircleArrowLeft, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import TouchableButton from '../composant/TouchableButton';
 import { updateUser } from '../reducers/user';
-
+//import des modules et composants
+import TouchableButton from '../composant/TouchableButton';
+import LessFormikInput from '../composant/LessFormikInput';
+import { frontConfig } from '../modules/config';
+//import ext
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
+//import des icones
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCircleArrowLeft, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
-import LessFormikInput from '../composant/LessFormikInput';
 
-import { frontConfig } from '../modules/config';
 
 export default function LoginScreen({ navigation }) {
 

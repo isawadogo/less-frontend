@@ -1,12 +1,17 @@
+/* IMPORTS */
+
+// import React et React Native
 import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, KeyboardAvoidingView, } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { evaluateCritere, getEnseignesList } from '../modules/listesFunctions';
-
-//import { removeListe } from '../reducers/liste';
 import { cleanListeDetails, removeListe } from '../reducers/user';
-
+//import { removeListe } from '../reducers/liste';
+// import modules et composants
+import { evaluateCritere, getEnseignesList } from '../modules/listesFunctions';
 import { frontConfig } from '../modules/config';
+
+/* FONCTION CREER LISTE */
 
 export default function ResultasDetailArticlesScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
@@ -141,6 +146,8 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
     </SafeAreaView>
   )
 }
+
+/* STYLE CSS */
 
 const styles = StyleSheet.create({
   container: {

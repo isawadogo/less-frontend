@@ -1,20 +1,27 @@
-//import { StatusBar } from 'expo-status-bar';
-import { TouchableOpacity, Image, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
-import { useFonts } from 'expo-font';
-import TouchableButton from '../composant/TouchableButton';
-//import Ionicons from 'react-native-vector-icons/Ionicons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+/* IMPORTS */
 
+// import React et React Native
 import { useState, useEffect } from 'react';
-
+import { TouchableOpacity, Image, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
+// import Redux et Reducer
 import { useSelector } from 'react-redux';
 // import { updateUser } from '../reducers/user';
-
+// import des modules et composants
+import TouchableButton from '../composant/TouchableButton';
 import { frontConfig } from '../modules/config';
 import { checkBody } from '../modules/checkBody';
-import { globalStyles } from '../globalStyles';
+// import Icones
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+//import Ionicons from 'react-native-vector-icons/Ionicons';
 import { icon } from '@fortawesome/fontawesome-svg-core';
+// import expo
+//import { StatusBar } from 'expo-status-bar';
+import { useFonts } from 'expo-font';
+import { globalStyles } from '../globalStyles';
+
+
+/* FONCTIONS PROFIL */
 
 export default function ProfilScreen({ navigation }) {
   const buttonPosition = {
@@ -127,6 +134,8 @@ export default function ProfilScreen({ navigation }) {
     </SafeAreaView>
   )
 }
+
+/* STYLE CSS */
 
 const styles = StyleSheet.create({
 

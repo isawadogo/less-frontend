@@ -1,4 +1,5 @@
 /* IMPORT */
+
 //imports React & React Native
 import { Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, TextInput, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
@@ -6,16 +7,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 //import Redux & Reducer
 import { useDispatch, useSelector } from 'react-redux';
 import { updateListeName } from '../reducers/user';
-// import ??
+// import modules ext
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import colors from '../styles/colors';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
-import LessFormikInput from '../composant/LessFormikInput';
 import { useFonts } from 'expo-font';
-//import Modules
+//import Modules et Composants
 import {LessHeader} from '../modules/components';
 import { getUserListes } from '../modules/listesFunctions';
+import LessFormikInput from '../composant/LessFormikInput';
 //import { frontConfig } from '../modules/config';
 
 /* FONCTION CREER LISTE*/

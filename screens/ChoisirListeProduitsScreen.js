@@ -1,17 +1,21 @@
+/* IMPORTS */
+
+// import React et React Native
 import { ScrollView, Button, StyleSheet, Text, StatusBar, View, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
-
+// import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduit, removeProduit } from '../reducers/user';
+// import des modules et composants
 import { LessButton, ProduitsComponent } from '../modules/components';
-
 import { frontConfig } from '../modules/config';
-
-//import des icones
+// import des icones
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { icon } from '@fortawesome/fontawesome-svg-core';
+
+/* FONCTION CREER LISTE */
 
 export default function CreerListeScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
@@ -124,6 +128,8 @@ export default function CreerListeScreen({ navigation }) {
     </SafeAreaView>
   )
 }
+
+/* STYLE CSS */
 
 const styles = StyleSheet.create({
   container: {

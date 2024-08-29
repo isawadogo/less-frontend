@@ -1,18 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { ImageBackground, Button, StyleSheet, Text, View, TextInput } from 'react-native';
-import TouchableButton from '../composant/TouchableButton';
+/* IMPORTS */
 
+// import des éléments React et React Native
 import { useState, useEffect } from 'react';
-
+import { ImageBackground, Button, StyleSheet, Text, View, TextInput } from 'react-native';
+// import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/user';
-
+// import des modules et composants
+import TouchableButton from '../composant/TouchableButton';
+import LessFormikInput from '../composant/LessFormikInput';
+import { frontConfig } from '../modules/config';
+// import ext
+import { StatusBar } from 'expo-status-bar';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
-import LessFormikInput from '../composant/LessFormikInput';
-
-import { frontConfig } from '../modules/config';
+/* FONCTION CREER LISTE */
 
 export default function InscriptionScreen({ navigation }) {
 
@@ -141,6 +144,8 @@ export default function InscriptionScreen({ navigation }) {
     </View>
   )
 }
+
+/* STYLE CSS */
 
 const styles = StyleSheet.create({
   container: {

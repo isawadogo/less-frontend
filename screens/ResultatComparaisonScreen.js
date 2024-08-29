@@ -1,13 +1,19 @@
+/* IMPORTS */
+
+// import React et React Native
 import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, KeyboardAvoidingView, } from 'react-native';
 import { useState, useEffect } from 'react';
+// import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
-import { getEnseignesList, getProduits } from '../modules/listesFunctions';
+import { setSelectedListe } from '../reducers/user';
 // import Icones
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-
-import { setSelectedListe } from '../reducers/user';
+// import des modules et composants
 import { frontConfig } from '../modules/config';
+import { getEnseignesList, getProduits } from '../modules/listesFunctions';
+
+/* FONCTION CREER LISTE */
 
 function ResultatComponent({ resultat, onSelect }) {
   return (
@@ -171,6 +177,8 @@ if (!resultComparaison) {
     </SafeAreaView>
   )
 }
+
+/* STYLE CSS */
 
 const styles = StyleSheet.create({
   container: {

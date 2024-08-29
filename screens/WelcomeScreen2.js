@@ -1,14 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image, TouchableOpacity, ImageBackground, StyleSheet, Text, View, Pressable } from 'react-native';
-//import Ionicons from 'react-native-vector-icons/Ionicons';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch, useSelector } from 'react-redux';
+/* IMPORTS */
+
+// import React et React Native
 import { useEffect } from 'react';
+import { Image, TouchableOpacity, ImageBackground, StyleSheet, Text, View, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+// import Redux et Reducer
+import { useDispatch, useSelector } from 'react-redux';
 import { updateWelcome, updateUser } from '../reducers/user';
+// imports modules et composants
 import { updateUserDetails } from '../modules/userFunctions';
 import { frontConfig } from '../modules/config';
 import MyCarousel from '../composant/MyCarousel';
 import TouchableButton from '../composant/TouchableButton';
+// import expo
+import { StatusBar } from 'expo-status-bar';
+
+/* FONCTION CREER LISTE */
 
 export default function WelcomeScreen2({ navigation }) {
 
@@ -99,6 +106,8 @@ export default function WelcomeScreen2({ navigation }) {
   </SafeAreaView >
   )
 }
+
+/* STYLE CSS */
 
 const styles = StyleSheet.create({
   SafeAreaContainer:{

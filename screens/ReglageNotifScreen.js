@@ -1,10 +1,13 @@
+/* IMPORTS */
+
+// import React et React Native
 import React from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+// import composants et modules
 import CheckBoxReglage from '../composant/CheckBoxReglage';
 
-
-
+/* FONCTION CREER LISTE */
 
 const data = [
     {
@@ -65,6 +68,7 @@ export default function ReglageNotifScreen({ navigation }) {
     )
 }
 
+/* STYLE CSS */
 
 const styles = StyleSheet.create({
     container: {

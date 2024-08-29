@@ -1,35 +1,38 @@
-import React from 'react';
-import { ImageBackground, Pressable, Button, StyleSheet, Text, View, ScrollView, StatusBar } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context'
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import DateTimePicker from '@react-native-community/datetimepicker';
+/* IMPORTS */
 
-import RNPickerSelect from 'react-native-picker-select';
-import Slider from '@react-native-community/slider';
-import DateDeNaissance from '../composant/DateDeNaissance';
+// import React et React Native
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { ImageBackground, Pressable, Button, StyleSheet, Text, View, ScrollView, StatusBar } from 'react-native';
+// import Redux et Reducer
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../reducers/user';
+// import React Native composants ext
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import { RadioButton } from 'react-native-paper';
 import { Checkbox, Provider as PaperProvider } from 'react-native-paper';
-import { globalStyles } from '../globalStyles';
-import { MultipleSelectList } from 'react-native-dropdown-select-list'
+import RNPickerSelect from 'react-native-picker-select';
+import Slider from '@react-native-community/slider';
+// import des icones
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import DateTimePicker from '@react-native-community/datetimepicker';
+// import composant et modules
+import DateDeNaissance from '../composant/DateDeNaissance';
 import LessFormikInput from '../composant/LessFormikInput';
+import TouchableButton from '../composant/TouchableButton';
+import { updateUserDetails } from '../modules/userFunctions';
+import { LessCheckbox } from '../modules/components';
+import { frontConfig } from '../modules/config';
 
+// import divers
+import { globalStyles } from '../globalStyles';
 import { Picker } from '@react-native-picker/picker';
-//import CheckBox from 'expo-checkbox';
-
-import { useState, useEffect } from 'react';
-
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
 
-import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../reducers/user';
-
-import { updateUserDetails } from '../modules/userFunctions';
-import { LessCheckbox } from '../modules/components';
-import { frontConfig } from '../modules/config';
-import TouchableButton from '../composant/TouchableButton';
-
+/* FONCTION CREER LISTE */
 
 const RegimeConso = [ 
   { dbValue: 'bio', value: 'Bio' }, 
@@ -372,6 +375,9 @@ export default function ModifierProfilScreen({ navigation }) {
     </SafeAreaView >
   )
 }
+
+/* STYLE CSS */
+
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     width: 95,
@@ -398,6 +404,7 @@ const pickerSelectStyles = StyleSheet.create({
     marginTop: 40,
   }
 })
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

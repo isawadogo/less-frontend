@@ -1,10 +1,15 @@
+/* IMPORTS */
+
+// import React et React Native
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, LayoutAnimation, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+// import des composants 
 import TouchFAQ from '../composant/TouchFAQ';
+// import expo
 import { useFonts } from 'expo-font';
 
-
+/* FONCTION AIDE */
 
 const faqDatas = {
   titre: "FAQ",
@@ -75,8 +80,6 @@ const faqDatas = {
     }]
 }
 
-
-
 export default function AideScreen({ navigation }) {
   const [loaded, error] = useFonts({
     'Raleway-SemiBold': require('../assets/fonts/Raleway-SemiBold.ttf'),
@@ -99,6 +102,8 @@ export default function AideScreen({ navigation }) {
     </SafeAreaView>
   );
 }
+
+/* STYLE CSS */
 
 const styles = StyleSheet.create({
 

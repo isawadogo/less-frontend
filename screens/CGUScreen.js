@@ -1,6 +1,11 @@
+/* IMPORTS */
+
+// import React et React Native
 import { View, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
+
+/* FONCTION AIDE */
 
 export default function CGUScreen({ navigation }) {
   const [loaded, error] = useFonts({
@@ -60,6 +65,8 @@ export default function CGUScreen({ navigation }) {
 
   )
 }
+
+/* STYLE CSS */
 
 const styles = StyleSheet.create({
   container: {

@@ -1,8 +1,13 @@
+/* IMPORTS */
+
+// import React et React Native
 import { Button, StyleSheet, Text, View } from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { object } from 'yup';
 import { globalStyles } from '../globalStyles';
+
+/* FONCTION AIDE */
 
 export default function BudgetScreen({ navigation }) {
     // calcul des dépenses du mois en cours
@@ -114,6 +119,8 @@ export default function BudgetScreen({ navigation }) {
         </SafeAreaView>
     )
 }
+
+/* STYLE CSS */
 
 const styles = StyleSheet.create({
     background: {
