@@ -2,16 +2,15 @@
 
 // import React et React Native
 import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, KeyboardAvoidingView, Pressable} from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 // import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedListe } from '../reducers/user';
+import { frontConfig } from '../modules/config';
 // import Icones
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 // import des modules et composants
-import { frontConfig } from '../modules/config';
-import { getEnseignesList, getProduits } from '../modules/listesFunctions';
 
 /* FONCTION CREER LISTE */
 
@@ -42,17 +41,14 @@ function ResultatComponent({ resultat, onSelect }) {
 
 export default function ResultatComparaisonScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
-  const resultatComp = useSelector((state) => state.user.value.liste);
-  //const resultatComp = useSelector((state) => state.liste.value.liste);
   const produitsSelected = useSelector((state) => state.user.value.selectedProduits);
   const [isReady, setIsReady]= useState(false);
   const [ listeChoisie, setListeChoisie ] = useState({});
-  const [ detailedResults, setDetailedResults] = useState([]);
 
-  const listeName = useSelector((state) => state.user.value.listeName);
-  //const listeName = useSelector((state) => state.liste.value.listeName);
-  const [ enseignes, setEnseignes ] = useState([]);
-  const [ resultats, setResultats ] = useState([]);
+  const listeName = useSelector((state) => state.liste.value.listeName);
+  const enseignes = useSelector((state) => state.user.value.enseignesList);
+  const nbrProduitsRef = useRef(0);
+  const [ resultatComp, setResultComp] = useState([])
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -60,104 +56,67 @@ export default function ResultatComparaisonScreen({ navigation }) {
       if (!user.id) {
         navigation.navigate('Login');
       }
-      getEnseignesList(user.token).then((ens) => { 
-        setEnseignes([...enseignes, ...ens]);
-      })
-      if (resultatComp.resultat) {
-          setIsReady(true);
+      let ignore = false;
+      if (!ignore) {
+        getResultatsComparaison();
       }
+      return () => {ignore = true}
     })();
   }, []);
 
-  if (!resultatComp.resultat ) {
+  const userCriteres = []
+  for (const v of Object.keys(user.criteres)) {
+    if (user.criteres[v] === true) {
+      userCriteres.push(v)
+    }
+  }
+  const produits = produitsSelected.map((p) => {return {...p.produit, quantite: p.count}})
+  const postData = {
+    criteres: userCriteres,
+    produits: produits,
+    enseignes: enseignes,
+  }
+  const getResultatsComparaison = async () => {
+    try {
+      const conReq = await fetch(frontConfig.backendURL + '/listes/calcul', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json", "authorization": user.token},
+        body: JSON.stringify(postData)
+      });
+      if (!conReq.ok) {
+        throw new Error('Connection returned a non 200 http code');
+      }
+      const resJson = await conReq.json();
+      if (resJson.result) {
+        setResultComp(resJson.resultComparaison)
+        console.log('Resultat comp', JSON.stringify(resultatComp));
+      } else {
+        console.log('Failed to create liste. Response from the backend is : ', resJson.error);
+      }
+    } catch(err) {
+      console.log('Create liste - Connection to the backend failed');
+      console.log(err.stack);
+    }
+  }
+
+  if (!resultatComp || resultatComp.length === 0 ) {
     return(
       <SafeAreaView style={styles.container}>
-        <FontAwesomeIcon icon={faSpinner}/>
-        <Text style={styles.loadingText}>nous sommes en train de rechercher les meilleurs matchs</Text>
+        <Text style={{fontWeight: 'bold'}}>Nous recherchons les meilleurs matchs ...</Text>
       </SafeAreaView>
     )
   }
-  const catSelected = [...new Set(produitsSelected.map((e) => e.produit.categorie))].map((e, i) => {return {nom: e, id: i}})
-  const criteresUtilisateur = [ ...new Set(resultatComp.resultat.filter((f) => f.critere !== '_id' && user.criteres[f.critere] ).map((c) => c.critere)) ]
-  const resultComparaison = resultatComp.resultat.reduce((a, v, i, res) => {
-    const isKeyPresent = a.some((k) => k.enseigneId == v.enseigneId);
-    if (!isKeyPresent) {
-      let tmp = { 
-        enseigneId: v.enseigneId,
-        nom: v.enseigneNom,
-        criteresPercentage: [],
-        produits: [],
-      }
-      criteresUtilisateur.map((c) => {
-        const nbCrit = res.filter((r) => r.critere === c && v.enseigneId === r.enseigneId);
-        const poids = nbCrit.reduce((acc, val) => acc + val.ponderation, 0);
-        const totalCrit = produitsSelected.length;
-        const moyenne = totalCrit !== 0 ? (poids/nbCrit.length)*100: 0;
-        tmp['criteresPercentage'].push({nom: c, note: moyenne});
-      });
-      catSelected.map((d) => {
-        res.filter((b) => b.enseigneId === v.enseigneId && v.categorie === d.nom).map((f) => {
-          if (!tmp['produits'].some((x) => x.nomProduit === f.nomProduit )) {
-            let crits = [];
-            if (Object.keys(f.produit).length > 0) {
-              criteresUtilisateur.map((c) => {
-                if (f.produit[c]) {
-                  crits.push(c);
-                }
-              })
-              tmp['produits'].push({categorie: f.categorie, nomProduit: f.nomProduit, produit: f.produit, criteres: crits, quantite: f.quantite});
-            } else {
-                // Si aucun produit ne match aucun des criteres de l'utilisateur, recuperer le produit le moins cher
-                const url = frontConfig.backendURL + '/produits/categories/' + f.categorie + '?nomProduit=' + f.nomProduit + '&page=1&limit=1' 
-                async function fetchData() {
-                    const response = await fetch(url,
-                    {
-                      method: 'GET',
-                      headers: { "Content-Type": "application/json", "authorization": user.token},
-                    }
-                  );
-                  const data = await response.json();
-                  return data.produits;
-                }
-
-                async function getData() {
-                  const produitDetails = await fetchData();
-                  
-                  if (produitDetails && produitDetails.length > 0) {
-                    if (!tmp['produits'].some((x) => x.nomProduit === produitDetails[0].nom )) { 
-                      tmp['produits'].push({categorie: f.categorie, nomProduit: f.nomProduit, produit: produitDetails[0], criteres: crits, quantite: f.quantite});
-                    }
-                  } else {
-                    tmp['produits'].push({categorie: f.categorie, nomProduit: f.nomProduit, produit: {}, criteres: crits, quantite: f.quantite});
-                  }
-                }
-                getData();
-            }
-        }
-        });
-          if (tmp['produits']) {
-            tmp['produits'].sort((c, d) => d.criteres.length - c.criteres.length);
-          }
-      });
-      
-      tmp['conformite'] = (tmp.criteresPercentage.reduce((acc, val) => acc + val.note, 0)/criteresUtilisateur.length).toFixed(2);
-      return a.concat(tmp)
-    } else { return a}
-  }, [])
+  console.log('Resultats comp - 2 : ', JSON.stringify(resultatComp));
+  
+  nbrProduitsRef.current = produitsSelected.reduce((a,v) => a = a + v.count, 0);
+  let resultComparaison = resultatComp;
+  
   const handleChoose = () => {
     dispatch(setSelectedListe(listeChoisie));
     navigation.navigate('ResultasDetailArticlesScreen');
   }
   resultComparaison.sort((a,b) => b.conformite - a.conformite);
 
-if (!resultComparaison) {
-    return(
-      <SafeAreaView style={styles.container}>
-        
-        <Text style={{fontWeight: 'bold'}}>Nous recherchons les meilleurs matchs ...</Text>
-      </SafeAreaView>
-    )
-  }
 
   //setDetailedResults(resultComparaison);
   return (
@@ -301,3 +260,4 @@ const styles = StyleSheet.create({
   },
 
 });
+

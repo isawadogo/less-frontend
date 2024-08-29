@@ -7,9 +7,11 @@ import { TouchableOpacity, StyleSheet, Text, View, TextInput, ImageBackground, P
 import { SafeAreaView } from 'react-native-safe-area-context';
 // import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../reducers/user';
 //import des modules et composants
 import TouchableButton from '../composant/TouchableButton';
+import { updateUser, updateEnseignesList } from '../reducers/user';
+import { getEnseignesList } from '../modules/listesFunctions'
+
 import LessFormikInput from '../composant/LessFormikInput';
 import { frontConfig } from '../modules/config';
 //import ext
@@ -18,8 +20,6 @@ import * as Yup from 'yup';
 //import des icones
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-
-
 
 export default function LoginScreen({ navigation }) {
 
@@ -71,6 +71,9 @@ export default function LoginScreen({ navigation }) {
         const json = await response.json();
         if (json.result) {
           dispatch(updateUser({ ...json.user, id: resJson.id }));
+          getEnseignesList(user.token).then((ens) => {
+              dispatch(updateEnseignesList(ens));
+          })
         }
         navigation.navigate('TabNavigator');
       } else {

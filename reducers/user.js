@@ -14,6 +14,8 @@ const initialState = {
     listeName: '',
     liste: {},
     selectedListe: {},
+    comparaisonOk: false,
+    enseignesList: [],
   },
 };
 
@@ -24,6 +26,12 @@ export const userSlice = createSlice({
     updateListeName: (state, action) => {
       state.value.listeName = action.payload
     },
+    updateComparaisonStatus: (state, action) => {
+      state.value = {
+        ...state.value,
+        comparaisonOk: action.payload,
+      }
+    },
     addListe: (state, action) => {
       state.value.liste = {
         ...state.value.liste,
@@ -33,6 +41,10 @@ export const userSlice = createSlice({
     updateListe: (state, action) => {
       let tempData = { ...state.value.liste}
       state.value.liste = { ...Object.assign(tempData, action.payload) };
+      state.value = { ...state.value, comparaisonOk: true};
+    },
+    updateEnseignesList: (state, action) => {
+      state.value.enseignesList = [ ...action.payload ]
     },
     cleanAddListe: (state, action) => {
       state.value= {
@@ -43,6 +55,7 @@ export const userSlice = createSlice({
         listeName: '',
         liste: {},
         selectedListe: {},
+        comparaisonOk: false,
       }
     },
     removeListe: (state, action) => {
@@ -76,6 +89,7 @@ export const userSlice = createSlice({
         currentListeName: '',
         selectedProduits: [],
         resultatsListe: {},
+        enseignesList: [],
       };
     },
     cleanListeDetails: (state, action) => {
@@ -156,6 +170,8 @@ export const {
   setSelectedListe,
   updateListe,
   cleanAddListe,
+  updateComparaisonStatus,
+  updateEnseignesList,
 } = userSlice.actions;
 
 export default userSlice.reducer;

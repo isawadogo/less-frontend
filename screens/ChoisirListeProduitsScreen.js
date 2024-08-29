@@ -3,7 +3,8 @@
 // import React et React Native
 import { ScrollView, Button, StyleSheet, Text, StatusBar, View, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
 // import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduit, removeProduit } from '../reducers/user';
@@ -26,6 +27,8 @@ export default function CreerListeScreen({ navigation }) {
   const listeName = useSelector((state) => state.user.value.listeName);
   //const listeName = useSelector((state) => state.liste.value.listeName);
   const [selectedCat, setSelectedCat] = useState({})
+  const [ isProduitSelected, setIsproduitSelected] = useState(true);
+  const nbrProduitsRef = useRef(0);
 
   const dispacth = useDispatch();
 
@@ -45,15 +48,11 @@ export default function CreerListeScreen({ navigation }) {
           throw new Error('Connection returned a non 200 http code');
         }
         const resJson = await conReq.json();
-        //console.log('connection result : ', resJson);
         if (resJson.result) {
-            //console.log(' Choisir liste produit - categories - jsonres : ', resJson);
-            //setCategories(resJson.categories);
             setCategories(resJson.categories.map((c,i) => {
               return {nom: c, id: i}
             }));
             if (resJson.categories.length > 0) {
-              //setSelectedCat(categories[0]);
               setSelectedCat({nom: resJson.categories[0], id: 0});
             }
         } else {
@@ -67,16 +66,20 @@ export default function CreerListeScreen({ navigation }) {
   }, []);
 
   const addProduitToList = (p) => {
+    setIsproduitSelected(true);
     dispacth(addProduit(p));
   }
 
   const removeProduitFromList = (p) => {
+    setIsproduitSelected(true);
     dispacth(removeProduit(p));
   }
 
   const handleContinuer = () => {
     if (produitsSelected.length > 0) {
       navigation.navigate('RecapListeProduits')
+    } else {
+      setIsproduitSelected(false);
     }
   }
 
@@ -87,13 +90,19 @@ export default function CreerListeScreen({ navigation }) {
       </SafeAreaView>
     )
   }
+  
+  nbrProduitsRef.current = produitsSelected.reduce((a,v) => a = a + v.count, 0);
+  
   return (
     <SafeAreaView style={styles.container}>
         
         <View style={styles.topContainer}>
           <Text style={styles.title}>{nomListe}</Text>
-          <Text>Nombres produits : {produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
+          <Text>Nombres produits : {nbrProduitsRef.current}</Text>
           
+        </View>
+        <View style={styles.errorProduitsNumber}>
+          {!isProduitSelected && <Text style={styles.errorMessage}>Vous devez choisir au moins un produit</Text>}
         </View>
 
         <ScrollView style={styles.catContainer} horizontal={true}>
@@ -139,34 +148,38 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: StatusBar.currentHeight,
   },
-
   topContainer:{
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-
   catContainer: {
     flexDirection: 'row',
     overflow: 'scroll'
   },
-
   productContainer: {
 
   },
-
   title: {
     fontFamily: 'Raleway-Bold',
     color: '#25000D',
     fontSize: 18,
     marginVertical: 15
   },
-
   icon:{
     fontSize: 35,
     color: '#7CD6C1',
     padding: 30,
     marginTop: 10,
     alignSelf: 'flex-end'
+  },
+  errorProduitsNumber: {
+    alignItems: 'center',
+    paddingBottom: 10,
+    paddingTop: 5,
+  },
+  errorMessage: {
+    color: 'red',
+    fontWeight: 'bold',
   },
 
 });
