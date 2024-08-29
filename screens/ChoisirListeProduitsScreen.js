@@ -97,9 +97,8 @@ export default function CreerListeScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
         
         <View style={styles.topContainer}>
-          <Text style={styles.title}>{nomListe}</Text>
-          <Text>Nombres produits : {nbrProduitsRef.current}</Text>
-          
+          <Text style={styles.ListName}>{nomListe}</Text>
+          <Text style={styles.productNbr}>{nbrProduitsRef.current}</Text>
         </View>
         <View style={styles.errorProduitsNumber}>
           {!isProduitSelected && <Text style={styles.errorMessage}>Vous devez choisir au moins un produit</Text>}
@@ -119,7 +118,9 @@ export default function CreerListeScreen({ navigation }) {
             })
           }      
         </ScrollView>
+
         <Text style={styles.title}>Ajouter des produits :</Text>
+
         <ScrollView style={styles.productContainer}>
           
           <ProduitsComponent 
@@ -152,9 +153,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+
   catContainer: {
     flexDirection: 'row',
-    overflow: 'scroll'
+    height: 70,
+    overflow: 'scroll',
+    marginVertical: 10,
   },
   productContainer: {
 
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Bold',
     color: '#25000D',
     fontSize: 18,
-    marginVertical: 15
+    marginBottom: 15
   },
   icon:{
     fontSize: 35,

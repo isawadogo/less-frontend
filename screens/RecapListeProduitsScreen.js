@@ -60,11 +60,14 @@ export default function RecapListeProduitsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      
+        
+      <View style={styles.topContainer}>
+        <Text style={styles.ListName}>{nomListe}</Text>
+        <Text style={styles.productNbr}>{produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
+      </View>
+
       <ScrollView style={styles.scrollView}>
-        <View style={styles.topContainer}>
-          <Text style={styles.ListName}>{nomListe}</Text>
-          <Text style={styles.productNbr}>{nbrProduitsRef.current}</Text>
-        </View>
         
         { catSelected.map((c, i) => {
             return (
@@ -98,6 +101,7 @@ const styles = StyleSheet.create({
   topContainer:{
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 15
   },
 
   productNbr:{

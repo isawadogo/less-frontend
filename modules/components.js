@@ -7,6 +7,8 @@ import { frontConfig } from '../modules/config';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import colors from '../styles/colors';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 function LessButtonTouchable({ label, onChange }) {
   return (
@@ -111,11 +113,11 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
               <Text style={styles.itemName}>{p.nom}</Text>
               <View style={styles.itemAddRemove}>
                 <Pressable onPress={(value) => onIncrease(p)}>
-                  <AntDesign name='pluscircleo' size={15} color='green' />
+                  <AntDesign name='pluscircleo' size={25} color='#7CD6C1' />
                 </Pressable>
                 <Text style={styles.itemNumber}>0</Text>
                 <Pressable onPress={(value) => onDecrease(p)}>
-                  <AntDesign name='minuscircleo' size={15} color='red' />
+                  <AntDesign name='minuscircleo' size={25} color='#DCA2A2' />
                 </Pressable>
               </View>
             </View>
@@ -162,11 +164,11 @@ function ProduitRecapComponent({ categorie, onDecrease, onIncrease }) {
             <Text>{p.produit.prix}</Text>
             <View style={styles.RecapProductContainerAddRemove}>
               <Pressable onPress={(value) => onIncrease(p.produit)}>
-                <AntDesign name='pluscircleo' size={15} color='green' />
+                <AntDesign name='pluscircleo' size={25} color='#7CD6C1' />
               </Pressable>
               <Text style={styles.RecapProductText}>{p.count}</Text>
               <Pressable onPress={(value) => onDecrease(p.produit)}>
-                <AntDesign name='minuscircleo' size={15} color='red' />
+                <AntDesign name='minuscircleo' size={25} color='#DCA2A2' />
               </Pressable>
             </View>
 
@@ -238,12 +240,12 @@ function ExistingListesComponents({ currentListes, deleteAction }) {
       {listes ? listes.map((l) => {
         //modalVisible = modalsState.find((e) => e.nom === l.nom);
         return(
-          < SafeAreaView key={l._id} style={{ flexDirection: 'row'}}>
-            <Text style={{ paddingRight: 20}}>Nom : {l.nom}</Text>
-            <Button 
-              title='Details'
-              onPress={() => handModalState(l.nom)}
-            />
+          < SafeAreaView key={l._id} style={styles.listContainer}>
+            <View>
+              <Text style={styles.listText}>{l.nom}</Text>
+              <Text style={styles.listDate}>Créer le indiquer la date</Text>
+            </View>            
+            <FontAwesomeIcon icon={faCircleArrowRight} style={styles.listArrow} onPress={() => handModalState(l.nom)}/>
           </SafeAreaView>
         )
       }) :  <View></View> }
@@ -333,6 +335,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly'
   },
+
+  listContainer:{
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 40,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10
+  },
+  listText:{
+    fontFamily: 'Raleway-Medium',
+    fontSize: 18,
+    color: '#25000D'
+  },
+  listDate:{
+    fontFamily: 'Raleway-Regular',
+    fontSize: 12,
+    color: '#7F7F7F'
+  },
+  listArrow: {
+    color: '#7CD7C1',
+    padding: 20,
+  },
+
+
 
   RecapProductContainer:{
     backgroundColor: "white",
