@@ -7,11 +7,6 @@ import { useFonts } from 'expo-font';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { faPiggyBank } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { faHouse } from '@fortawesome/free-solid-svg-icons';
-
 /* NAVIGATION */
 
 // importation des modules react-navigation
@@ -26,6 +21,7 @@ import AideScreen from './screens/AideScreen';
 import ReglageNotifScreen from './screens/ReglageNotifScreen'
 import LangueScreen from './screens/LangueScreen';
 import CGUScreen from './screens/CGUScreen';
+import Notifications from './screens/NotificationScreen';
 
 import WelcomeScreen1 from './screens/WelcomeScreen1';
 import LoginScreen from './screens/LoginScreen';
@@ -33,7 +29,9 @@ import WelcomeScreen2 from './screens/WelcomeScreen2';
 import InscriptionScreen from './screens/InscriptionScreen';
 
 import user from './reducers/user';
+import notifications from './reducers/notifications';
 import liste from './reducers/liste';
+
 import HomeScreen from './screens/HomeScreen';
 
 import CreerListeScreen from './screens/CreerListeScreen';
@@ -53,7 +51,7 @@ const ListStack = createNativeStackNavigator();
 
 // configuration du store
 const store = configureStore({
-  reducer: { user, liste },
+  reducer: { user, liste, notifications },
 });
 
 
@@ -161,6 +159,7 @@ export default function App() {
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
           <Stack.Screen name="Profile" component={ProfilStackScreen} />
           <Stack.Screen name="Liste" component={ListStackScreen} />
+          <Stack.Screen name='Notifications' component={Notifications} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

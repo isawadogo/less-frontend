@@ -1,3 +1,3 @@
 export const frontConfig = {
-    backendURL: 'https://less-backend.vercel.app',
+    backendURL: 'http://192.168.5.68:3000',
 };

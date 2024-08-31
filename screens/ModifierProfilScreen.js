@@ -21,7 +21,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import DateDeNaissance from '../composant/DateDeNaissance';
 import LessFormikInput from '../composant/LessFormikInput';
 import TouchableButton from '../composant/TouchableButton';
-import { updateUserDetails } from '../modules/userFunctions';
+import { updateUserDetails, getUserCoordinates } from '../modules/userFunctions';
 import { LessCheckbox } from '../modules/components';
 import { frontConfig } from '../modules/config';
 
@@ -54,17 +54,21 @@ const data = [
   { key: '4', value: 'Lait', disabled: false },
   { key: '5', value: 'Soja', disabled: false },
 ]
-
-export default function ModifierProfilScreen({ navigation }) {
-  // Style du bouton "APPLIQUER LES CRITERES"
-  const buttonPosition = {
-    width: 220,
-    start: 13,
-    margin: 50,
-    paddingStart: 5,
-    borderRadius: 15,
+// Style du bouton "APPLIQUER LES CRITERES"
+const buttonPosition = {
+  width: 220,
+  start: 13,
+  margin: 50,
+  paddingStart: 5,
+  borderRadius: 15,
 
   }
+export default function ModifierProfilScreen({ route, navigation }) {
+
+//  console.log('PARAMS : ', route)
+  const  origine  = route.params?.origine;
+  const action = origine === 'inscription' ? 'Créér' : 'Modifier'
+  const [useLocation, setUseLocation] = useState(false);
 
   const user = useSelector((state) => state.user.value.userDetails);
 
@@ -148,12 +152,25 @@ export default function ModifierProfilScreen({ navigation }) {
       })
     }
 
-    const addresses = {
+
+    let addresses = {
       numeroDeRue: values.numeroDeRue,
       nomDeRue: values.nomDeRue,
       commune: values.commune,
       codePostal: values.codePostal,
     }
+    
+    const userCoordinates = await getUserCoordinates(addresses);
+    if (!userCoordinates) {
+      setUseLocation(true);
+    }
+    addresses = {
+      ...addresses,
+      ...userCoordinates,
+    } 
+    console.log('User COORDS :', userCoordinates);
+    console.log('USE LOCATION : ', useLocation);
+
     const dataUpdate = {
       ...userParams,
       preferences: preferences,
@@ -218,7 +235,7 @@ export default function ModifierProfilScreen({ navigation }) {
     < SafeAreaView style={styles.container}>
       <View style={styles.color} >
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-          <Text style={styles.title1}>Créér votre profil consommateur</Text>
+          <Text style={styles.title1}>{action} votre profil consommateur</Text>
           <Text style={[globalStyles.title, { top: 30, marginBottom: 10, right: 105 }]}>IDENTITE</Text>
           <Formik
             initialValues={initialValues}

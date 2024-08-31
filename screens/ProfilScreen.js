@@ -36,10 +36,10 @@ export default function ProfilScreen({ navigation }) {
       marginStart: 4,
       start: 0,
     }
-  const [loaded, error] = useFonts({
-    'Raleway': require('../assets/fonts/Raleway-Regular.ttf'),
-    'AlexBrush': require('../assets/fonts/AlexBrush-Regular.ttf')
-  });
+  //const [loaded, error] = useFonts({
+  //  'Raleway': require('../assets/fonts/Raleway-Regular.ttf'),
+  //  'AlexBrush': require('../assets/fonts/AlexBrush-Regular.ttf')
+  //});
 
   const user = useSelector((state) => state.user.value.userDetails);
 

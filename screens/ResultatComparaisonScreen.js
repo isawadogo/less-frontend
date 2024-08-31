@@ -1,15 +1,15 @@
 /* IMPORTS */
 
 // import React et React Native
-import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, KeyboardAvoidingView, Pressable} from 'react-native';
+import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, Pressable} from 'react-native';
 import { useState, useEffect, useRef } from 'react';
 // import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedListe } from '../reducers/user';
 import { frontConfig } from '../modules/config';
 // import Icones
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+//import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+//import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 // import des modules et composants
 
 /* FONCTION CREER LISTE */
@@ -42,7 +42,7 @@ function ResultatComponent({ resultat, onSelect }) {
 export default function ResultatComparaisonScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
   const produitsSelected = useSelector((state) => state.user.value.selectedProduits);
-  const [isReady, setIsReady]= useState(false);
+  //const [isReady, setIsReady]= useState(false);
   const [ listeChoisie, setListeChoisie ] = useState({});
 
   const listeName = useSelector((state) => state.liste.value.listeName);
@@ -89,7 +89,7 @@ export default function ResultatComparaisonScreen({ navigation }) {
       const resJson = await conReq.json();
       if (resJson.result) {
         setResultComp(resJson.resultComparaison)
-        console.log('Resultat comp', JSON.stringify(resultatComp));
+        //console.log('Resultat comp', JSON.stringify(resultatComp));
       } else {
         console.log('Failed to create liste. Response from the backend is : ', resJson.error);
       }
@@ -106,17 +106,17 @@ export default function ResultatComparaisonScreen({ navigation }) {
       </SafeAreaView>
     )
   }
-  console.log('Resultats comp - 2 : ', JSON.stringify(resultatComp));
+  //console.log('Resultats comp - 2 : ', JSON.stringify(resultatComp));
   
   nbrProduitsRef.current = produitsSelected.reduce((a,v) => a = a + v.count, 0);
   let resultComparaison = resultatComp;
+  // Add distance to every enseigne
   
   const handleChoose = () => {
     dispatch(setSelectedListe(listeChoisie));
     navigation.navigate('ResultasDetailArticlesScreen');
   }
   resultComparaison.sort((a,b) => b.conformite - a.conformite);
-
 
   //setDetailedResults(resultComparaison);
   return (

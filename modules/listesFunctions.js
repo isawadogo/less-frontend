@@ -1,16 +1,43 @@
 import { frontConfig } from '../modules/config';
 
+function getUserCoordinates(token, address) {
+  // Search from https://api-adresse.data.gouv.fr
+  const { commune, codePostal, nomDeRue, numeroDeRue } = address;
+  const getQuery = `https://api-adresse.data.gouv.fr/search/?q=${numeroDeRue}+${nomDeRue}+${commune}+${codePostal}&limit=1`;
+
+  const getAddress = async function() {
+    try {
+      const reqRes = await fetch(getQuery);
+      console.log('REQ RES : ', reqRes);
+      if (!reqRes.ok) {
+        console.log('The request failed with error : ');
+        console.log(`Status code : ${reqRes.status}, error : ${reqRes.statusText}`);
+      } else {
+        const addressJson = reqRes.json();
+        if (addressJson.features && addressJson.features.length > 0 ) {
+          const latitude = addressJson.features[0].coordinates[0];
+          const longitude = addressJson.features[0].coordinates[1];
+          return { latitude: latitude, longitude: longitude };
+        }
+      }
+    } catch(err) {
+      console.log(`Api call to ${getQuery} failed `);
+      console.log(err.stack);
+    }
+  }
+}
+
 async function deleteListe(token, listeId) {
     try {
       // delete a liste
-      console.log('LISTE ID', listeId)
+      //console.log('LISTE ID', listeId)
       const deleteReq = await fetch(frontConfig.backendURL + '/listes/delete/' + listeId,
         {
           method: 'DELETE',
           headers: { "Content-Type": "application/json", "authorization": token},
         }
       );
-      console.log('DELETE REQ : ', deleteReq);
+      //console.log('DELETE REQ : ', deleteReq);
       if (!deleteReq.ok) {
         console.log('The delete request failed with error : ')
         console.log(`Status code : ${deleteReq.status}, error : ${deleteReq.statusText}`)
