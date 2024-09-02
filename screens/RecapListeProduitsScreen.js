@@ -5,11 +5,9 @@ import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, Ke
 import { useState, useEffect, useRef } from 'react';
 // import des modules
 import { ProduitRecapComponent } from '../modules/components';
-import { getEnseignesList } from '../modules/listesFunctions';
 // import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduit, removeProduit, updateListe } from '../reducers/user';
-// import { updateListe } from '../reducers/liste';
 
 /* FONCTION LISTE PRODUIT */
 
@@ -21,7 +19,7 @@ export default function RecapListeProduitsScreen({ navigation }) {
 
   const catSelected = [...new Set(produitsSelected.map((e) => e.produit.categorie))].map((e, i) => {return {nom: e, id: i}})
   
-  //const nbrProduitsRef = useRef(0);
+ // const nbrProduitsRef = useRef(0);
 
   const dispatch = useDispatch();
 
@@ -38,7 +36,10 @@ export default function RecapListeProduitsScreen({ navigation }) {
   }
 
   const removeProduitFromList = (p) => {
-    dispatch(removeProduit(p));
+    if ( produitsSelected.reduce((a,v) => a = a + v.count, 0) === 1 ) {
+      navigation.navigate('ChoisirListeProduits');
+      dispatch(removeProduit(p));
+    }
   }
   
   if (!catSelected) {
@@ -50,17 +51,13 @@ export default function RecapListeProduitsScreen({ navigation }) {
   }
 
   //nbrProduitsRef.current = produitsSelected.reduce((a,v) => a = a + v.count, 0);
-  if ( produitsSelected.reduce((a,v) => a = a + v.count, 0) === 0 ) {
-    navigation.navigate('ChoisirListeProduits');
-  }
-
+  
   const handleContinue = () => {
     navigation.navigate('ResultatComparaison')
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      
         
       <View style={styles.topContainer}>
         <Text style={styles.ListName}>{nomListe}</Text>

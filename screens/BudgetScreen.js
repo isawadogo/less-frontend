@@ -47,7 +47,7 @@ export default function BudgetScreen({ navigation }) {
         {
             name: "Boucherie",
             amount: 35,
-            color: "6366F1",
+            color: "#6366F1",
             legendFontColor: "#7F7F7F",
             legendFontSize: 15
         },

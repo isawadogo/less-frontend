@@ -147,17 +147,10 @@ export default function HomeScreen({ navigation }) {
     return (<View></View>) 
   }
 
- // console.log('Dashboard screen - user details : ', user);
- /* 
-  getUserCoordinates(user.adresses[0]).then(coords => {
-    if (coords) {
-      console.log('COORDS : ', coords);
-    } else {
-      console.log('Failed to get user coordinates : ', coords);
-    }
-  });
-  */
-  
+  const budgetConsomme = userListes.reduce((a, v) => a + v.prix,0);
+  const budget = user.budget === 0 ? budgetConsomme : user.budget;
+  const progresBarPercentage = budgetConsomme/budget*300;
+
   return (
     <KeyboardAvoidingView style={styles.containerG} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.container}>
@@ -188,9 +181,10 @@ export default function HomeScreen({ navigation }) {
             <Image source={require('../assets/illustration-home.png')}/>
           </View>
 
-          <Text style={styles.subTilte}>Reste 35€ à dépenser</Text>
+          <Text style={styles.subTilte}>Reste {budget - budgetConsomme}€ à dépenser</Text>
           <View style={styles.barContainer}>
-            <Text style={[styles.progressBar, {width:'75%'}]}>120€</Text>
+            <Text style={[styles.progressBar, {width:`${progresBarPercentage}%`, paddingLeft: 3}]}>{budgetConsomme}€</Text>
+            <Text style={styles.budgetUser}>{user.budget}€</Text>
           </View>
         
           <Text style={styles.subTilte}>Reprendre une liste enregistrée</Text>
@@ -291,8 +285,13 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 20,
     backgroundColor: '#F8F8F8',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-
+  budgetUser: {
+    color: 'green',
+    fontWeight: 'bold',
+  },
   progressBar: {
     height: 20,
     borderRadius: 20,
