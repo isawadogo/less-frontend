@@ -27,7 +27,6 @@ import { frontConfig } from '../modules/config';
 
 // import divers
 import { globalStyles } from '../globalStyles';
-import { Picker } from '@react-native-picker/picker';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 

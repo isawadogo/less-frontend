@@ -6,7 +6,8 @@ import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useFonts } from 'expo-font';
 
 
-export default function Header({ navigation }) {
+export default function Header({ navigation, route }) {
+    const { top } = useSafeAreaInsets();
     const [loaded, error] = useFonts({
         'Raleway': require('../assets/fonts/Raleway-Regular.ttf'),
         'AlexBrush': require('../assets/fonts/AlexBrush-Regular.ttf')
@@ -16,13 +17,13 @@ export default function Header({ navigation }) {
         return null;
     }
 
-    const { top } = useSafeAreaInsets();
+    const titre = route.params?.titre || 'Titre';
 
     return (
         <View style={{ ...styles.container, top }}>
             <TouchableOpacity style={styles.titleContainer} onPress={() => navigation.goBack()} >
-                <FontAwesomeIcon icon={faCircleArrowLeft} style={styles.icone} />
-                <Text style={styles.title}>Titre</Text>
+                <FontAwesomeIcon icon={faCircleArrowLeft} size={20} style={styles.icone} />
+                <Text style={styles.title}>{titre}</Text>
             </TouchableOpacity>
             <View style={styles.whiteContainer}></View>
         </View>
@@ -34,6 +35,7 @@ const styles = StyleSheet.create({
     container:
     {
         backgroundColor: "#2B0D35",
+        
     },
     titleContainer: {
         flexDirection: 'row',
@@ -41,11 +43,11 @@ const styles = StyleSheet.create({
     },
     icone: {
         color: 'white'
-
     },
     title: {
         color: 'white',
-        paddingLeft: 145,
+        //paddingLeft: 145,
+        paddingLeft: 40,
         fontFamily: 'Raleway-SemiBold',
     }
     ,
@@ -55,6 +57,4 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 40,
         padding: 20
     }
-
-
 });

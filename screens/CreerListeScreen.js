@@ -1,7 +1,7 @@
 /* IMPORT */
 
 //imports React & React Native
-import { Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, TextInput, Pressable } from 'react-native';
+import { Button, StyleSheet, Text, View, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //import Redux & Reducer
@@ -112,7 +112,7 @@ export default function CreerListeScreen({ navigation }) {
             <Text style={styles.separatorLine} />
           </View>
 
-          <Text style={styles.title}>Reprendre une liste</Text>
+          <Text style={styles.title}>Mes listes passées</Text>
             {userListes ? userListes.map((l) => {
               return(
                 <View key={l._id} style={styles.listContainer}>

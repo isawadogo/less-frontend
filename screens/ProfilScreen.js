@@ -2,7 +2,7 @@
 
 // import React et React Native
 import { useState, useEffect } from 'react';
-import { TouchableOpacity, Image, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
+import { TouchableOpacity, Modal, Pressable, Image, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
 // import Redux et Reducer
 import { useSelector } from 'react-redux';
 // import { updateUser } from '../reducers/user';
@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import TouchableButton from '../composant/TouchableButton';
 import { frontConfig } from '../modules/config';
 import { checkBody } from '../modules/checkBody';
+import LessFormikInput from '../composant/LessFormikInput';
 // import Icones
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
@@ -17,31 +18,25 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { icon } from '@fortawesome/fontawesome-svg-core';
 // import expo
 //import { StatusBar } from 'expo-status-bar';
-import { useFonts } from 'expo-font';
-import { globalStyles } from '../globalStyles';
 
+import { Formik, Field } from 'formik';
+import * as Yup from 'yup';
 
+function CritereElement({isPresent, critere}) {
+ return (
+  <>
+    {isPresent &&
+      <Text style={styles.criteres}>{critere}</Text>
+    }
+  </>
+ )
+}
 /* FONCTIONS PROFIL */
 
 export default function ProfilScreen({ navigation }) {
-  const buttonPosition = {
-    left: 55,
-    margin: 10,
-    borderColor: "black",
-    // borderWidth: 1,
-    // color: "black",
-  },
-    buttonPosition2 = {
-      width: 270,
-      marginStart: 4,
-      start: 0,
-    }
-  //const [loaded, error] = useFonts({
-  //  'Raleway': require('../assets/fonts/Raleway-Regular.ttf'),
-  //  'AlexBrush': require('../assets/fonts/AlexBrush-Regular.ttf')
-  //});
 
   const user = useSelector((state) => state.user.value.userDetails);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     (() => {
@@ -61,10 +56,59 @@ export default function ProfilScreen({ navigation }) {
     { dbName: 'faibleEnMatiereGrasse', name: 'Faible en matière grasse' },
     { dbName: 'faibleEmpreinte', name: 'Faible empriente' }
   ]
+  
+  const initialValues = { currentPassword: '', password: '', confirmPassword: '' };
+  const validationSchema = Yup.object({
+    currentPassword: Yup
+      .string()
+      .required('Veuillez saisir votre mot de passe actuel'),
+    password: Yup
+      .string()
+      .matches(/\w*[a-z]\w*/, "Le mot de passe doit contenir au moins une lettre minuscule ")
+      .matches(/\w*[A-Z]\w*/, "Le mot de passe doit contenir au moins une lettre majuscule")
+      .matches(/\d/, "Le mot de passe doit contenir au moins un chiffre")
+      .matches(/[!@#$%^&*()\-_=+{}; :,<.>]/, "e mot de passe doit contenir au moins un caractère spécial parmis : !@#$%^&*()\-_=+{}; :,<.>")
+      .min(8, ({ min }) => `Le mot de passe doit avoir au moins ${min} characters`)
+      .required('Le mot de passe est requis'),
+    confirmPassword: Yup
+      .string()
+      .oneOf([Yup.ref('password')], 'Les mots de passes ne correspondent pas')
+      .required('Confirmez votre de passe'),
+  })
+
   if (!user.criteres) {
     return (
       <View></View>
     )
+  }
+  const handleUpdatePassword = () => {
+    postData = {
+      userId: user.userId,
+      password
+    }
+    const updatePassword = async () => {
+      try {
+        const conReq = await fetch(frontConfig.backendURL + '/updatePassword', {
+          method: 'POST',
+          headers: { "Content-Type": "application/json", "authorization": user.token},
+          body: JSON.stringify(postData)
+        });
+        if (!conReq.ok) {
+          throw new Error('Connection returned a non 200 http code');
+        }
+        const resJson = await conReq.json();
+        if (resJson.result) {
+          //setResultComp(resJson.resultComparaison)
+          //console.log('Resultat comp', JSON.stringify(resultatComp));
+          console.log('Password updated');
+        } else {
+          console.log('Failed update password. The response from the backend is : ', resJson.error);
+        }
+      } catch(err) {
+        console.log('Update password - Connection to the backend failed');
+        console.log(err.stack);
+      }
+    }
   }
   
   return (
@@ -101,32 +145,17 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.text}>Critères de consommation</Text>
           </View>
           <View style={styles.trois}>
-            { criteresMapping.map((c, i) => {
-              return (
-                <>
-                  {user.criteres[c.dbName] &&  
-                    (<Text key={`${i}-${c.dbName}`} style={styles.criteres}>{c.name}</Text>)
-                  }
-                </>
-                )
-            })}
-            {/*<Text style={styles.criteres}> {user?.critere || 'vegan'}</Text>
-            <Text style={styles.criteres}> {user?.critere || 'faible en sucre'}</Text>
-            <Text style={styles.criteres}> {user?.critere || 'local'}</Text>
-            */}
+            { criteresMapping.map((c, i) => 
+              <CritereElement isPresent={user.criteres[c.dbName]} critere={c.dbName} key={`${i}-${c.dbName}`}/>
+            )}
             </View>
         </View>
         <View>
-          {/* <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Profile', { screen: 'ModifierProfil' })} title="MODIFIER PROFIL " position={buttonPosition} /> */}
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Aide' })}><Text>Aide</Text></TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Langue' })}><Text>Langue</Text></TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Conditions Générales' })}><Text>Conditions Générales</Text></TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Reglage des notifications' })}><Text>Reglage des notifications</Text></TouchableOpacity>
-
-          {/* <TouchableButton color="white" onPress={() => navigation.navigate('Profile', { screen: 'Aide' })} title="Aide " position={buttonPosition} />
-        <TouchableButton color="white" onPress={() => navigation.navigate('Profile', { screen: 'Langue' })} title="Langues " position={buttonPosition} />
-        <TouchableButton color="white" onPress={() => navigation.navigate('Profile', { screen: 'Conditions Générales' })} title="Conditions Générales" position={buttonPosition} />
-        <TouchableButton color="white" onPress={() => navigation.navigate('Profile', { screen: 'Reglage des notifications' })} title="Reglage des notifications " position={buttonPosition2} /> */}
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'ModifierMotDePasse', name: 'Modifier mon mot de passe' })}><Text>Changer mon mot de passe</Text></TouchableOpacity>
         </View>
       </View>
       <View style={styles.main}>
@@ -142,6 +171,32 @@ const styles = StyleSheet.create({
   back: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
   },
   profil: {
     color: '#fff',

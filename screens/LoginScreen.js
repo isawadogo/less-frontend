@@ -39,7 +39,7 @@ export default function LoginScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
   const displayWelcome = useSelector((state) => state.user.value.displayWelcome);
 
-  //console.log('Login sreen - user details : ', user);
+  console.log('Login sreen - user details : ', user);
   //console.log('Login sreen - Display welcome: ', displayWelcome);
   useEffect(() => {
     (async () => {
@@ -116,7 +116,7 @@ export default function LoginScreen({ navigation }) {
                 secureTextEntry={true}
               />
               
-              <Pressable style={styles.buttonBlue} onPress={handleSubmit}>
+              <Pressable style={styles.buttonBlue} onPress={handleSubmit} disabled={!isValid}>
                 <Text style={styles.textButtonBlue}>connexion</Text>
               </Pressable>
             </>

@@ -84,7 +84,7 @@ export default function InscriptionScreen({ navigation }) {
         if (json.result) {
           dispatch(updateUser({ ...json.user, id: resJson.id }));
         }
-        navigation.navigate('Profile', { screen: 'ModifierProfil' });
+        navigation.navigate('Profile', { screen: 'ModifierProfil', origin: 'inscription' });
       } else {
         console.log('Login failed with message : ', resJson.error);
       }

@@ -15,6 +15,7 @@ import { frontConfig } from '../modules/config';
 /* FONCTION CREER LISTE */
 
 function ResultatComponent({ resultat, onSelect }) {
+  console.log('RES DETAILS : ', resultat);
   return (
       <View style={styles.resultatContainer}>
 
@@ -24,7 +25,7 @@ function ResultatComponent({ resultat, onSelect }) {
             return <Text style={styles.critereText} key={`${resultat.enseigneId}-${c.nom}`}>{c.nom} : {c.note.toFixed(2)} %</Text>
           })}
         </View>
-        
+        <Text>Distance : {resultat.distance.toFixed(2)} Km</Text>
         <Text style={styles.conformText}>Conforme à {resultat.conformite}%</Text>
         <View style={styles.critereContainer}>
           <Text style={styles.critereText}>Montant</Text>
@@ -75,6 +76,7 @@ export default function ResultatComparaisonScreen({ navigation }) {
     criteres: userCriteres,
     produits: produits,
     enseignes: enseignes,
+    userCoordinates: user.adresses.find((a) => a.isDefault),
   }
   const getResultatsComparaison = async () => {
     try {

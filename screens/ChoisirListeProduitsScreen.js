@@ -14,7 +14,6 @@ import { frontConfig } from '../modules/config';
 // import des icones
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import { icon } from '@fortawesome/fontawesome-svg-core';
 
 /* FONCTION CREER LISTE */
 
@@ -23,7 +22,7 @@ export default function CreerListeScreen({ navigation }) {
   const produitsSelected = useSelector((state) => state.user.value.selectedProduits);
 
   const [categories, setCategories] = useState([]);
-  const [nomListe, setNomListe] = useState('');
+  //const [nomListe, setNomListe] = useState('');
   const listeName = useSelector((state) => state.user.value.listeName);
   //const listeName = useSelector((state) => state.liste.value.listeName);
   const [selectedCat, setSelectedCat] = useState({})
@@ -37,7 +36,7 @@ export default function CreerListeScreen({ navigation }) {
       if (!user.id) {
         navigation.navigate('Login');
       }
-      setNomListe(listeName);
+      //setNomListe(listeName);
       // Get categories
       try {
         const conReq = await fetch(frontConfig.backendURL + '/produits/categories', {
@@ -97,7 +96,7 @@ export default function CreerListeScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
         
         <View style={styles.topContainer}>
-          <Text style={styles.ListName}>{nomListe}</Text>
+          <Text style={styles.ListName}>{listeName}</Text>
           <Text style={styles.productNbr}>{nbrProduitsRef.current}</Text>
         </View>
         <View style={styles.errorProduitsNumber}>

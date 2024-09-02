@@ -23,8 +23,9 @@ import { faCircleArrowRight, faBell } from '@fortawesome/free-solid-svg-icons';
 
 /* FONCTION HOMESCREEN */
 
-function ProfilCheckDialog({ navigation }) {
-  const [modalVisible, setModalVisible] = useState(true);
+function ProfilCheckDialog({ navigation, modalStatus, updateVisible }) {
+  //const [modalVisible, setModalVisible] = useState(profilStatus);
+  const modalVisible = modalStatus;
   return (
     <View>
       <Button 
@@ -35,7 +36,7 @@ function ProfilCheckDialog({ navigation }) {
         transparent={false}
         visible={modalVisible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
+          updateVisible(!modalVisible);
         }}>
           <View >
             <View >
@@ -47,7 +48,7 @@ function ProfilCheckDialog({ navigation }) {
               />
               <Button
                 title='Annuler'
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={() => updateVisible(!modalVisible)}
               />
             </View>
           </View>
@@ -62,6 +63,7 @@ export default function HomeScreen({ navigation }) {
   const [ isReady, setIsReady] = useState(false);
   const dispatch = useDispatch();
   const unreadCount = useSelector(state => state.notifications.unreadCount)
+  const [ profilNotComplet, setProfilNotComplet ] = useState(false);
   //const useFocus = useIsFocused();
 
   useFocusEffect(
@@ -88,7 +90,6 @@ export default function HomeScreen({ navigation }) {
     }, [])
   );
 
-
   const handleDeconnection = () => {
     dispatch(logoutUser());
     dispatch(removeListe());
@@ -109,29 +110,32 @@ export default function HomeScreen({ navigation }) {
   }
 
   const checkUserProfil = (userDetails) => {
-     const valuesCriteres = Object.values(userDetails.criteres)
-     if (valuesCriteres.some((v) => v === true)) {
-      return true;
-     }
-     if (userDetails.adresses && user.adresses.length  > 0) {
-      if (userDetails.adresses.some((a) => 
-        (a.commune && a.commune.length > 0) &&
-        (a.nomDeRue && a.nomDeRue.length > 0) &&
-        (a.numeroDeRue && a.numeroDeRue.length > 0) &&
-        (a.codePostal && a.codePostal > 0)
-      ) ) {
-        return true;
+    console.log('USER DER : ', userDetails);
+    const valuesCriteres = Object.values(userDetails.criteres)
+    if (valuesCriteres.some((v) => v === true)) {
+      if (userDetails.adresses && user.adresses.length  > 0) {
+        if (userDetails.adresses.some((a) => 
+          (a.commune && a.commune.length > 0) &&
+          (a.nomDeRue && a.nomDeRue.length > 0) &&
+          (a.numeroDeRue && a.numeroDeRue.length > 0) &&
+          (a.codePostal && a.codePostal > 0)
+        ) ) {
+          return true;
+        } else {
+          console.log('PROFIL NOT COMPLETED')
+        }
       }
-     }
+    }
      return false;
   }
 
   const handleCreerListe = () => {
     if (checkUserProfil(user)) {
+      
       navigation.navigate('Liste', { screen: 'CreerListe' });
+    } else {
+      setProfilNotComplet(true);
     }
-
-    <ProfilCheckDialog navigation={navigation} />
   }
 
   const handlePress = () => {    
@@ -201,7 +205,7 @@ export default function HomeScreen({ navigation }) {
         <Pressable style={styles.button} onPress={handleDeconnection}>
           <Text style={styles.textButton}>Déconnexion</Text>
         </Pressable>
-
+      {profilNotComplet && <ProfilCheckDialog navigation={navigation} modalStatus={profilNotComplet} updateVisible={setProfilNotComplet} />}
       </SafeAreaView>
 
     </KeyboardAvoidingView>

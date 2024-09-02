@@ -21,7 +21,7 @@ export default function RecapListeProduitsScreen({ navigation }) {
 
   const catSelected = [...new Set(produitsSelected.map((e) => e.produit.categorie))].map((e, i) => {return {nom: e, id: i}})
   
-  const nbrProduitsRef = useRef(0);
+  //const nbrProduitsRef = useRef(0);
 
   const dispatch = useDispatch();
 
@@ -49,8 +49,8 @@ export default function RecapListeProduitsScreen({ navigation }) {
     )
   }
 
-  nbrProduitsRef.current = produitsSelected.reduce((a,v) => a = a + v.count, 0);
-  if (nbrProduitsRef.current === 0 ) {
+  //nbrProduitsRef.current = produitsSelected.reduce((a,v) => a = a + v.count, 0);
+  if ( produitsSelected.reduce((a,v) => a = a + v.count, 0) === 0 ) {
     navigation.navigate('ChoisirListeProduits');
   }
 

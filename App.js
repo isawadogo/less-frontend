@@ -22,6 +22,7 @@ import ReglageNotifScreen from './screens/ReglageNotifScreen'
 import LangueScreen from './screens/LangueScreen';
 import CGUScreen from './screens/CGUScreen';
 import Notifications from './screens/NotificationScreen';
+import ModifierPasswordScreen from './screens/ModifierPasswordSreen';
 
 import WelcomeScreen1 from './screens/WelcomeScreen1';
 import LoginScreen from './screens/LoginScreen';
@@ -59,10 +60,11 @@ const store = configureStore({
 function ProfilStackScreen() {
   return (
     <ProfilStack.Navigator screenOptions={{ header: (props) => <Header {...props} /> }}>
-      <ProfilStack.Screen name="Aide" component={AideScreen} />
-      <ProfilStack.Screen name="Reglage des notifications" component={ReglageNotifScreen} />
-      <ProfilStack.Screen name="Langue" component={LangueScreen} />
-      <ProfilStack.Screen name="Conditions Générales" component={CGUScreen} />
+      <ProfilStack.Screen name="Aide" component={AideScreen} initialParams={{ titre: 'Aide' }}/>
+      <ProfilStack.Screen name="Reglage des notifications" component={ReglageNotifScreen} initialParams={{ titre: 'Notifications' }} />
+      <ProfilStack.Screen name="Langue" component={LangueScreen} initialParams={{ titre: 'Langues' }} />
+      <ProfilStack.Screen name="Conditions Générales" component={CGUScreen} initialParams={{ titre: 'Conditions générales de ventes' }} />
+      <ProfilStack.Screen name="ModifierMotDePasse" component={ModifierPasswordScreen} initialParams={{ titre: 'Modifier mon mot de passe' }} />
       <ProfilStack.Screen name="ModifierProfil" component={ModifierProfilScreen} option={{ title: 'modifier notre Profil' }} />
     </ProfilStack.Navigator>
   )
@@ -71,11 +73,11 @@ function ProfilStackScreen() {
 function ListStackScreen() {
   return (
     <ProfilStack.Navigator screenOptions={{ header: (props) => <Header {...props} /> }}>
-          <Stack.Screen name="CreerListe" component={CreerListeScreen} />
-          <Stack.Screen name='ChoisirListeProduits' component={ChoisirListeProduitsScreen} />
-          <Stack.Screen name='RecapListeProduits' component={RecapListeProduitsScreen} />
-          <Stack.Screen name='ResultatComparaison' component={ResultatComparaisonScreen} />
-          <Stack.Screen name='ResultasDetailArticlesScreen' component={ResultasDetailArticlesScreen} />
+          <Stack.Screen name="CreerListe" component={CreerListeScreen} initialParams={{ titre: 'Nouvelle liste' }}  />
+          <Stack.Screen name='ChoisirListeProduits' component={ChoisirListeProduitsScreen} initialParams={{ titre: 'Choix de vos articles' }} />
+          <Stack.Screen name='RecapListeProduits' component={RecapListeProduitsScreen} initialParams={{ titre: 'Vos articles' }} />
+          <Stack.Screen name='ResultatComparaison' component={ResultatComparaisonScreen} initialParams={{ titre: 'Les meilleurs matchs' }} />
+          <Stack.Screen name='ResultasDetailArticlesScreen' component={ResultasDetailArticlesScreen} initialParams={{ titre: 'Les meilleurs matchs' }} />
     </ProfilStack.Navigator>
   )
 }
