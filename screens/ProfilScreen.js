@@ -22,14 +22,14 @@ import { icon } from '@fortawesome/fontawesome-svg-core';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
-function CritereElement({isPresent, critere}) {
- return (
-  <>
-    {isPresent &&
-      <Text style={styles.criteres}>{critere}</Text>
-    }
-  </>
- )
+function CritereElement({ isPresent, critere }) {
+  return (
+    <>
+      {isPresent &&
+        <Text style={styles.criteres}>{critere}</Text>
+      }
+    </>
+  )
 }
 /* FONCTIONS PROFIL */
 
@@ -45,18 +45,18 @@ export default function ProfilScreen({ navigation }) {
       }
     })();
   }, []);
-  
+
   const criteresMapping = [
     { dbName: 'bio', name: 'Bio' },
     { dbName: 'local', name: 'Local' },
-    { dbName: 'faibleEnSucre', name: 'Faible en sucre' }, 
-    { dbName: 'vegan', name: 'Vegan' }, 
+    { dbName: 'faibleEnSucre', name: 'Faible en sucre' },
+    { dbName: 'vegan', name: 'Vegan' },
     { dbName: 'premierPrix', name: 'Premier prix' },
     { dbName: 'vegetarien', name: 'Végétarien' },
     { dbName: 'faibleEnMatiereGrasse', name: 'Faible en matière grasse' },
     { dbName: 'faibleEmpreinte', name: 'Faible empriente' }
   ]
-  
+
   const initialValues = { currentPassword: '', password: '', confirmPassword: '' };
   const validationSchema = Yup.object({
     currentPassword: Yup
@@ -90,7 +90,7 @@ export default function ProfilScreen({ navigation }) {
       try {
         const conReq = await fetch(frontConfig.backendURL + '/updatePassword', {
           method: 'POST',
-          headers: { "Content-Type": "application/json", "authorization": user.token},
+          headers: { "Content-Type": "application/json", "authorization": user.token },
           body: JSON.stringify(postData)
         });
         if (!conReq.ok) {
@@ -104,13 +104,13 @@ export default function ProfilScreen({ navigation }) {
         } else {
           console.log('Failed update password. The response from the backend is : ', resJson.error);
         }
-      } catch(err) {
+      } catch (err) {
         console.log('Update password - Connection to the backend failed');
         console.log(err.stack);
       }
     }
   }
-  
+
   return (
     <SafeAreaView style={styles.back}>
       <ImageBackground source={require('../assets/profil.jpg')}  >
@@ -145,10 +145,10 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.text}>Critères de consommation</Text>
           </View>
           <View style={styles.trois}>
-            { criteresMapping.map((c, i) => 
-              <CritereElement isPresent={user.criteres[c.dbName]} critere={c.dbName} key={`${i}-${c.dbName}`}/>
+            {criteresMapping.map((c, i) =>
+              <CritereElement isPresent={user.criteres[c.dbName]} critere={c.dbName} key={`${i}-${c.dbName}`} />
             )}
-            </View>
+          </View>
         </View>
         <View>
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Aide' })}><Text>Aide</Text></TouchableOpacity>
