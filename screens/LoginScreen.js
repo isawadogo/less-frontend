@@ -49,6 +49,7 @@ export default function LoginScreen({ navigation }) {
     })();
   }, []);
 
+  const [taskMessage, setTaskMessage] = useState('');
   const handleConnect = async (values) => {
     try {
       loginPayload = {
@@ -61,6 +62,7 @@ export default function LoginScreen({ navigation }) {
         body: JSON.stringify(loginPayload),
       });
       if (!conReq.ok) {
+        setTaskMessage('Un problème est survenu lors de la connexion. Veuillez réessayer plus tard.')
         throw new Error('Connection returned a non 200 http code');
       }
       const resJson = await conReq.json();
@@ -78,10 +80,12 @@ export default function LoginScreen({ navigation }) {
         navigation.navigate('TabNavigator');
       } else {
         console.log('Login failed with message : ', resJson.error);
+        setTaskMessage('Email ou mot de passe incorrect')
       }
     } catch (err) {
       console.log('Connection to the backend failed');
       console.log(err.stack);
+        setTaskMessage('Un problème est survenu lors de la connexion. Veuillez réessayer plus tard.')
     }
   }
 
@@ -95,7 +99,7 @@ export default function LoginScreen({ navigation }) {
 
         <Text style={styles.title}>Content de vous revoir 🤩 </Text>
         <Text style={styles.text}>Accédez à votre compte ! {'\n'}Renseignez votre email et votre mot de passe.</Text>
-        
+        <Text style={{ fontWeight: 'bold', color: 'red'}} >{taskMessage}</Text> 
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}

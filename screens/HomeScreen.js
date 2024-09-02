@@ -149,7 +149,7 @@ export default function HomeScreen({ navigation }) {
 
   const budgetConsomme = userListes.reduce((a, v) => a + v.prix,0);
   const budget = user.budget === 0 ? budgetConsomme : user.budget;
-  const progresBarPercentage = budgetConsomme/budget*300;
+  const progresBarPercentage = budgetConsomme/budget*100;
 
   return (
     <KeyboardAvoidingView style={styles.containerG} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

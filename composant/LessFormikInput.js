@@ -1,6 +1,5 @@
 import React from 'react'
 import { Text, TextInput, StyleSheet } from 'react-native'
-import { useFonts } from 'expo-font';
 
 const LessFormikInput = (props) => {
   const {

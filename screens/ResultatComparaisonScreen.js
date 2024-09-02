@@ -8,9 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedListe } from '../reducers/user';
 import { frontConfig } from '../modules/config';
 // import Icones
-//import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-//import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-// import des modules et composants
 
 /* FONCTION CREER LISTE */
 
@@ -50,6 +47,8 @@ export default function ResultatComparaisonScreen({ navigation }) {
   const enseignes = useSelector((state) => state.user.value.enseignesList);
   const nbrProduitsRef = useRef(0);
   const [resultatComp, setResultComp] = useState([])
+
+  const [ isResultatSelected, setIsResultatSelected] = useState(true);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -116,8 +115,12 @@ export default function ResultatComparaisonScreen({ navigation }) {
   // Add distance to every enseigne
 
   const handleChoose = () => {
-    dispatch(setSelectedListe(listeChoisie));
-    navigation.navigate('ResultasDetailArticlesScreen');
+    if (Object.values(listeChoisie).length > 0) {
+      dispatch(setSelectedListe(listeChoisie));
+      navigation.navigate('ResultasDetailArticlesScreen');
+    } else {
+      setIsResultatSelected(false)
+    }
   }
   resultComparaison.sort((a, b) => b.conformite - a.conformite);
 
@@ -129,15 +132,15 @@ export default function ResultatComparaisonScreen({ navigation }) {
         <Text style={styles.listTitle}>{listeName}</Text>
         <Text style={styles.nbrItem}>{produitsSelected.reduce((a, v) => a = a + v.count, 0)}</Text>
       </View>
-
+      {!isResultatSelected && <Text style={{fontWeight: 'bold', color: 'red'}}>Veuillez sélectionner une liste</Text>}
       <Text style={styles.subTitle}>Meilleur résultat</Text>
-      <ResultatComponent resultat={resultComparaison[0]} onSelect={() => setListeChoisie(resultComparaison[0])} key={resultComparaison[0].enseigneId} />
+      <ResultatComponent resultat={resultComparaison[0]} onSelect={() => {setIsResultatSelected(true); setListeChoisie(resultComparaison[0])}} key={resultComparaison[0].enseigneId} />
 
       <Text style={styles.subTitle}>Autres résultats</Text>
 
       <ScrollView style={styles.scrollView}>
         {resultComparaison.slice(1).map((r, i) => {
-          return <ResultatComponent resultat={r} onSelect={() => setListeChoisie(r)} key={r.enseigneId} />
+          return <ResultatComponent resultat={r} onSelect={() => {setIsResultatSelected(true);setListeChoisie(r)}} key={r.enseigneId} />
         })}
       </ScrollView>
 

@@ -39,6 +39,8 @@ export default function RecapListeProduitsScreen({ navigation }) {
     if ( produitsSelected.reduce((a,v) => a = a + v.count, 0) === 1 ) {
       navigation.navigate('ChoisirListeProduits');
       dispatch(removeProduit(p));
+    } else {
+      dispatch(removeProduit(p));
     }
   }
   
