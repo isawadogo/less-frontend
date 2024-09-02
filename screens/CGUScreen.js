@@ -1,7 +1,7 @@
 /* IMPORTS */
 
 // import React et React Native
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 
@@ -19,6 +19,7 @@ export default function CGUScreen({ navigation }) {
   }
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
 
         <View>
           <Text style={styles.intro} >La commission consultative des pratiques commerciales recommande que les fournisseurs de produits ou de prestations de services se dotent de conditions générales de vente établies selon les besoin de chacun, à partir du modèle proposé ci-après :`</Text>
@@ -60,7 +61,7 @@ export default function CGUScreen({ navigation }) {
           <Text style={styles.paragraphe}>Les présentes conditions annulent et remplacent les conditions précédemment applicables. Tout litige relatif aux présentes sera de la compétence du tribunal mixte de commerce</Text>
 
         </View>
-
+      </ScrollView>
     </SafeAreaView>
 
   )

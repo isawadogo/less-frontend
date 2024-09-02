@@ -1,3 +1,4 @@
+
 /* IMPORTS */
 
 // import React et React Native
@@ -27,22 +28,23 @@ import { frontConfig } from '../modules/config';
 
 // import divers
 import { globalStyles } from '../globalStyles';
+import { Picker } from '@react-native-picker/picker';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
 
 /* FONCTION CREER LISTE */
 
-const RegimeConso = [ 
-  { dbValue: 'bio', value: 'Bio' }, 
-  { dbValue: 'vegan', value: 'Vegan' }, 
-  { dbValue: 'premierPrix', value: 'Premier prix' }, 
+const RegimeConso = [
+  { dbValue: 'bio', value: 'Bio' },
+  { dbValue: 'vegan', value: 'Vegan' },
+  { dbValue: 'premierPrix', value: 'Premier prix' },
   { dbValue: 'vegetarien', value: 'Végétarien' }
 ]
 
 const initialPreferences = [
-  { dbValue: 'local', label: 'Local', checked: false }, 
-  { dbValue:'faibleEnSucre', label: 'Faible en sucres', checked: false }, 
+  { dbValue: 'local', label: 'Local', checked: false },
+  { dbValue: 'faibleEnSucre', label: 'Faible en sucres', checked: false },
   { dbValue: 'faibleEnMatiereGrasse', label: 'Faible en matière grasse', checked: false }
 ]
 
@@ -61,11 +63,13 @@ const buttonPosition = {
   paddingStart: 5,
   borderRadius: 15,
 
-  }
+}
 export default function ModifierProfilScreen({ route, navigation }) {
 
-//  console.log('PARAMS : ', route)
-  const  origine  = route.params?.origine;
+  const [selected, setSelected] = React.useState("");
+
+  //  console.log('PARAMS : ', route)
+  const origine = route.params?.origine;
   const action = origine === 'inscription' ? 'Créér' : 'Modifier'
   const [useLocation, setUseLocation] = useState(false);
 
@@ -158,7 +162,7 @@ export default function ModifierProfilScreen({ route, navigation }) {
       commune: values.commune,
       codePostal: values.codePostal,
     }
-    
+
     const userCoordinates = await getUserCoordinates(addresses);
     if (!userCoordinates) {
       setUseLocation(true);
@@ -166,7 +170,7 @@ export default function ModifierProfilScreen({ route, navigation }) {
     addresses = {
       ...addresses,
       ...userCoordinates,
-    } 
+    }
     console.log('User COORDS :', userCoordinates);
     console.log('USE LOCATION : ', useLocation);
 
@@ -203,11 +207,11 @@ export default function ModifierProfilScreen({ route, navigation }) {
     if (criteres[critereName] && criteresApplis.includes(critereName)) {
       return;
     }
-    
+
     const newCrit = {}
     for (const c in criteres) {
-      if (c === '_id')  continue;
-      if ( c === critereName) {
+      if (c === '_id') continue;
+      if (c === critereName) {
         newCrit[critereName] = true
         if (preferencesAppli.includes(c) && preferencesAppli.includes(critereName)) {
           newCrit[c] = !criteres[critereName]
@@ -215,11 +219,11 @@ export default function ModifierProfilScreen({ route, navigation }) {
       } else {
         if (criteresApplis.includes(c) && criteresApplis.includes(critereName)) {
           newCrit[c] = false
-        } 
+        }
       }
     }
     console.log('NEW CRITS : ', newCrit)
-    setCriteres({...criteres, ...newCrit});
+    setCriteres({ ...criteres, ...newCrit });
   }
 
   const updatePreference = (prefName, prefValue) => { // modifier preférence
@@ -227,14 +231,14 @@ export default function ModifierProfilScreen({ route, navigation }) {
       ...preferences,
       [prefName]: !prefValue
     })
-      }
+  }
 
   return (
 
     < SafeAreaView style={styles.container}>
       <View style={styles.color} >
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-          <Text style={styles.title1}>{action} votre profil consommateur</Text>
+          <Text style={styles.title1}>{action} vos informations</Text>
           <Text style={[globalStyles.title, { top: 30, marginBottom: 10, right: 105 }]}>IDENTITE</Text>
           <Formik
             initialValues={initialValues}
@@ -280,7 +284,7 @@ export default function ModifierProfilScreen({ route, navigation }) {
                   errorTextStyle={{ top: 8 }}
                 />
                 <View >
-                  <DateDeNaissance defaultDate={dateN} onSelect={onChangeDate}/>
+                  <DateDeNaissance defaultDate={dateN} onSelect={onChangeDate} />
                 </View>
                 <Text style={[globalStyles.title, { top: 7, marginTop: 10, right: 105 }]}>ADRESSE</Text>
                 <Field
@@ -335,14 +339,14 @@ export default function ModifierProfilScreen({ route, navigation }) {
                         status={criteres[element.dbValue] ? "checked" : "unchecked"}
                         onPress={() => updateCritere(element.dbValue, element.value)}
                         disabled={false}
-                        color='black'
+                        color='white'
                         uncheckedColor='yellow'
                       />
                       <Text style={styles.radioText}>{element.value}</Text>
                     </View>
                   ))}
 
-                  <Text style={[globalStyles.title, { marginTop: 15, bottom: 10, right: 60 }]} >MES PREFERENCES</Text>
+                  <Text style={[globalStyles.title, { marginTop: 15, right: 60 }]} >MES PREFERENCES</Text>
                   <PaperProvider>
                     <View style={styles.checkBoxContainer}>
                       {initialPreferences.map((pref, index) => (
@@ -350,7 +354,7 @@ export default function ModifierProfilScreen({ route, navigation }) {
                           <Checkbox
                             status={criteres[pref.dbValue] ? 'checked' : 'unchecked'}
                             onPress={() => updateCritere(pref.dbValue, pref.label)}
-                            color='black' />
+                            color='white' />
                           <Text style={styles.checkBoxText}>{pref.label}</Text>
 
                         </View>
@@ -370,6 +374,7 @@ export default function ModifierProfilScreen({ route, navigation }) {
                     boxStyles={{ backgroundColor: 'white', width: 300 }}
                     dropdownStyles={{ backgroundColor: '#2B0D35' }}
                     dropdownTextStyles={{ color: 'white' }}
+                    checkBoxStyles={{ color: 'white', tintColor: 'white' }}
                   />
                   }
                 </View>
@@ -447,49 +452,66 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textAlign: 'center',
   },
-  // title2: {
-  //   fontSize: 16,
-  //   fontWeight: 'bold',
-  //   color: 'white',
-  //   marginBottom: 10,
-  //   textAlign: 'right',
-  // },
+
 
   budget: {
     flexDirection: 'row',
   },
   radioContainer: {
     flexDirection: 'row',
+    backgroundColor: '#2B0D35',
     alignItems: 'center',
     top: 5,
-    padding: 5,
-    marginBottom: 10
+    start: 20,
+    marginTop: 10,
+    marginBottom: 5,
+    marginRight: 150,
+    borderRadius: 15,
   },
   radioText: {
-    color: 'black',
+    color: 'white',
     fontWeight: 'bold',
-    left: 15,
-  },
-  checkBoxText: {
-    color: 'black',
-    fontWeight: 'bold',
-    left: 60,
-    bottom: 27,
+    fontSize: 13,
+    // left: 15,
   },
   checkBoxContainer: {
-    borderColor: 'black',
     margin: 5,
+    marginTop: 10,
+    marginBottom: 15,
+    paddingTop: 5,
+    start: 20,
+
+
+
 
   },
+  checkBoxRow: {
+    flexDirection: 'row',
+    textAlign: 'center',
+    backgroundColor: '#2B0D35',
+    marginTop: 10,
+    marginBottom: 5,
+    marginRight: 120,
+    borderRadius: 15,
+
+  },
+  checkBoxText: {
+    flexWrap: 'wrap',
+    fontSize: 12,
+    color: 'white',
+    fontWeight: 'bold',
+    paddingTop: 10,
+    // left: 50,
+    // bottom: 20,
+
+  },
+
   message: {
     flexDirection: 'row',
     marginRight: 18,
     alignItems: 'center',
-
-
-
-
   },
+
   option: {
     color: 'black',
     fontWeight: 'bold',

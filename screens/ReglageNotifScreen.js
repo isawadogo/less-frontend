@@ -1,10 +1,15 @@
+
+
+
+
 import React, { useState, useEffect } from 'react';
-import { ScrollView, StyleSheet, Button } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { chooseCategories, increment } from '../reducers/notifications';
 import CheckBoxReglage from '../composant/CheckBoxReglage';
+
 
 export default function ReglageNotifScreen({ navigation }) {
     const dispatch = useDispatch();
@@ -63,7 +68,7 @@ export default function ReglageNotifScreen({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 {data.map(item => (
                     <CheckBoxReglage
                         key={item.id}
@@ -72,7 +77,7 @@ export default function ReglageNotifScreen({ navigation }) {
                         onCheckBoxChange={() => handleCheckBoxChange(item.id)}
                     />
                 ))}
-                <Button title="Sauvegarder" onPress={saveSettings} />
+                <TouchableOpacity onPress={saveSettings} style={styles.save} ><Text style={styles.saveText}>Sauvegarder</Text></TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
     );
@@ -83,4 +88,26 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16,
     },
+    save: {
+        top: 20,
+        backgroundColor: "#7CD6C1",
+        width: 150,
+        height: 30,
+        marginBottom: 50,
+        borderRadius: 15,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginStart: '27%',
+
+
+
+    },
+    saveText: {
+
+        color: 'white',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        padding: 5,
+    }
+
 });

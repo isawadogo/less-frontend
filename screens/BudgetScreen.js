@@ -1,11 +1,15 @@
 /* IMPORTS */
 
 // import React et React Native
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, Dimensions } from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { object } from 'yup';
 import { globalStyles } from '../globalStyles';
+import { PieChart } from 'react-native-chart-kit';
+
+
+const screenWidth = Dimensions.get('window').width;
 
 /* FONCTION AIDE */
 
@@ -13,35 +17,65 @@ export default function BudgetScreen({ navigation }) {
     // calcul des dépenses du mois en cours
     const categorySpent = [
         {
-            category: "Epricerie",
+            name: "Epricerie",
             amount: 75,
+            color: '#14B8A6',
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 15
         },
         {
-            category: "Légumes",
+            name: "Légumes",
             amount: 15,
+            color: "#FACC15",
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 15
         },
         {
-            category: "Fruits",
+            name: "Fruits",
             amount: 25,
+            color: "#F59E0B",
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 15
         },
         {
-            category: "Crémerie",
+            name: "Crémerie",
             amount: 15,
+            color: "#EC4899",
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 15
         },
         {
-            category: "Boucherie",
+            name: "Boucherie",
             amount: 35,
+            color: "6366F1",
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 15
         },
         {
-            category: "Divers",
+            name: "Divers",
             amount: 15,
+            color: "#3B82F6",
+            legendFontColor: "#7F7F7F",
+            legendFontSize: 15
         },
 
     ];
+
+    const chartConfig = { //personnalisation de l'apparence des graphique
+        backgroundGradientFrom: "#1E2923", // couleur de départ du dégradé
+        backgroundGradientTo: "#08130D", // couleur de fin du dégradé
+        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`, // fonction qui renvoie les couleurs  rouge vert bleu et alpha  dont l'opacité variera selon le paramètre 
+        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,// fonction qui détermine la couleur des étiquettes du graphique avec une variation selon l'opacité en paramètre
+        strokeWidth: 2, // définit l'épaisseur du graphique
+        barPercentage: 0.5, // signifie que chaque barre occupera 50% de l'espae attribué,
+
+    };
+
     const spentByCategory = categorySpent.map((object) => {
         return (
-            <View style={styles.row}>
-                <Text>{object.category}</Text>
+            <View key={object.category} style={styles.row}>
+                <View style={[styles.colorBox, { backgroundColor: object.color }]} />
+                <Text>{object.name}</Text>
                 <Text>{object.amount}€</Text>
             </View>
         );
@@ -88,19 +122,29 @@ export default function BudgetScreen({ navigation }) {
         <SafeAreaView style={styles.background}>
 
             <View style={styles.titleContainer}>
-                {/* <Button
-                    style={styles.returnButton}
-                    title="<-"
-                    onPress={() => navigation.navigate('TabNavigator')}
-                /> */}
                 <Text style={globalStyles.header}>Mon Budget</Text>
             </View>
-
             <View style={styles.container}>
                 <Text style={styles.sectionTitle}>Mois en cours</Text>
                 <View style={styles.listContainer}>
-                    <CircularProgress value={spent} />
-                    <View>{spentByCategory}</View>
+                    <PieChart
+                        data={categorySpent}
+                        width={screenWidth}
+                        height={210}
+                        chartConfig={chartConfig}
+                        accessor={"amount"}
+                        backgroundColor='transparent'
+                        // paddingLeft={15}
+                        // center={[10, 50]}
+                        hasLegend={false}
+                        style={styles.donuts}
+                        borderColor={1}
+                        borderWidth
+                    />
+
+                    <View style={styles.labels}>
+                        {spentByCategory}
+                    </View>
                 </View>
 
                 <Text style={styles.sectionTitle}>Reste {leftToSpend}€ à dépenser</Text>
@@ -146,10 +190,10 @@ const styles = StyleSheet.create({
 
     },
     container: {
-    sflex: 1,
-      padding: 16,
-      backgroundColor: '#fff',
-      borderRadius: 25,
+        flex: 1,
+        padding: 16,
+        backgroundColor: '#fff',
+        borderRadius: 25,
     },
 
     sectionTitle: {
@@ -186,5 +230,24 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: "row",
         justifyContent: "space-between",
+        padding: 4,
+
     },
+    colorBox: {
+        width: 10,
+        height: 10,
+        marginRight: 10,
+        borderRadius: 50,
+        borderColor: 'black',
+        borderWidth: 1,
+    },
+    donuts: {
+        start: 40,
+
+    },
+    labels: {
+        end: 50,
+        top: 35,
+    }
+
 })

@@ -12,7 +12,6 @@ import { useFonts } from 'expo-font';
 /* FONCTION AIDE */
 
 const faqDatas = {
-  titre: "FAQ",
   row: [
     {
       id: 0,
@@ -91,14 +90,16 @@ export default function AideScreen({ navigation }) {
   return (
 
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>{faqDatas.titre}</Text>
-      {faqDatas.row.map((faqData) => (
-        <TouchFAQ
-          key={faqData.id}
-          questionText={faqData.questionText}
-          reponseText={faqData.reponseText}
-        />
-      ))}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={styles.title}>{faqDatas.titre}</Text>
+        {faqDatas.row.map((faqData) => (
+          <TouchFAQ
+            key={faqData.id}
+            questionText={faqData.questionText}
+            reponseText={faqData.reponseText}
+          />
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 }
