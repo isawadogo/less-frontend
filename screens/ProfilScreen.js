@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
 
   back: {
     // flex: 1,
-    borderRadius: 25,
+    // borderRadius: 25,
     backgroundColor: '#2B0D35'
 
 
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 520,
     position: 'absolute',
-    top: 130,
+    top: 110,
     start: 30,
     padding: 10,
     opacity: 0.9,
