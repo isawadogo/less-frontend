@@ -4,7 +4,6 @@
 import { Modal, Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, Pressable, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState, useEffect } from 'react';
-import { useFonts } from 'expo-font';
 //import React Navigation
 import { useFocusEffect } from '@react-navigation/native';
 //import Redux et reducers
@@ -12,14 +11,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUser, logoutUser, removeListe } from '../reducers/user';
 import { reset } from '../reducers/notifications';
 
-import { array } from 'yup';
 //import des modules
 import { getUserListes, deleteListe } from '../modules/listesFunctions';
-import { getUserCoordinates } from '../modules/userFunctions';
 import { ExistingListesComponents } from '../modules/components';
 //import des icones
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleArrowRight, faBell } from '@fortawesome/free-solid-svg-icons';
+
+import BudgetRestant from '../composant/BudgetRestant';
 
 /* FONCTION HOMESCREEN */
 
@@ -64,7 +63,6 @@ export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
   const unreadCount = useSelector(state => state.notifications.unreadCount)
   const [ profilNotComplet, setProfilNotComplet ] = useState(false);
-  //const useFocus = useIsFocused();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -110,7 +108,7 @@ export default function HomeScreen({ navigation }) {
   }
 
   const checkUserProfil = (userDetails) => {
-    console.log('USER DER : ', userDetails);
+    //console.log('USER DER : ', userDetails);
     const valuesCriteres = Object.values(userDetails.criteres)
     if (valuesCriteres.some((v) => v === true)) {
       if (userDetails.adresses && user.adresses.length  > 0) {
@@ -147,10 +145,6 @@ export default function HomeScreen({ navigation }) {
     return (<View></View>) 
   }
 
-  const budgetConsomme = userListes.reduce((a, v) => a + v.prix,0);
-  const budget = user.budget === 0 ? budgetConsomme : user.budget;
-  const progresBarPercentage = budgetConsomme/budget*100;
-
   return (
     <KeyboardAvoidingView style={styles.containerG} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.container}>
@@ -181,12 +175,8 @@ export default function HomeScreen({ navigation }) {
             <Image source={require('../assets/illustration-home.png')}/>
           </View>
 
-          <Text style={styles.subTilte}>Reste {budget - budgetConsomme}€ à dépenser</Text>
-          <View style={styles.barContainer}>
-            <Text style={[styles.progressBar, {width:`${progresBarPercentage}%`, paddingLeft: 3}]}>{budgetConsomme}€</Text>
-            <Text style={styles.budgetUser}>{user.budget}€</Text>
-          </View>
-        
+          <BudgetRestant listes={userListes} userBudget={user.budget} />
+
           <Text style={styles.subTilte}>Reprendre une liste enregistrée</Text>
           <ScrollView>
           <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />

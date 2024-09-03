@@ -39,7 +39,7 @@ export default function LoginScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
   const displayWelcome = useSelector((state) => state.user.value.displayWelcome);
 
-  console.log('Login sreen - user details : ', user);
+  //console.log('Login sreen - user details : ', user);
   //console.log('Login sreen - Display welcome: ', displayWelcome);
   useEffect(() => {
     (async () => {
@@ -66,7 +66,7 @@ export default function LoginScreen({ navigation }) {
         throw new Error('Connection returned a non 200 http code');
       }
       const resJson = await conReq.json();
-      console.log('connection result : ', resJson);
+      //console.log('connection result : ', resJson);
       if (resJson.result) {
         // Get User details
         const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + resJson.id);

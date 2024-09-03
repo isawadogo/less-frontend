@@ -30,7 +30,7 @@ export default function ModifierPasswordScreen({ navigation, route }) {
       }
     })();
   }, []);
-    console.log('PARAMS FROM MODIFIER PWD: ', route)
+    //console.log('PARAMS FROM MODIFIER PWD: ', route)
   
   const initialValues = { currentPassword: '', password: '', confirmPassword: '' };
   const validationSchema = Yup.object({
@@ -72,7 +72,7 @@ export default function ModifierPasswordScreen({ navigation, route }) {
         if (resJson.result) {
           //setResultComp(resJson.resultComparaison)
           //console.log('Resultat comp', JSON.stringify(resultatComp));
-          console.log('Password updated');
+          //console.log('Password updated');
           setTaskMessage('Votre mot de passe a été modifié');
         } else {
           setTaskMessage('Une erreur est survenue. ')

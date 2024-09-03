@@ -3,7 +3,7 @@
 // import React et React Native
 import { ScrollView, Button, StyleSheet, Text, StatusBar, View, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 // import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,7 +27,7 @@ export default function CreerListeScreen({ navigation }) {
   //const listeName = useSelector((state) => state.liste.value.listeName);
   const [selectedCat, setSelectedCat] = useState({})
   const [ isProduitSelected, setIsproduitSelected] = useState(true);
-  const nbrProduitsRef = useRef(0);
+  const [taskMessage, setTaskMessage] = useState({result: true, message: ''});
 
   const dispacth = useDispatch();
 
@@ -44,6 +44,7 @@ export default function CreerListeScreen({ navigation }) {
           headers: { "Content-Type": "application/json", "authorization": user.token},
         });
         if (!conReq.ok) {
+          setTaskMessage({result: false, message: 'Une erreur est survenue, veuillez réessayer plus tard'})
           throw new Error('Connection returned a non 200 http code');
         }
         const resJson = await conReq.json();
@@ -55,9 +56,11 @@ export default function CreerListeScreen({ navigation }) {
               setSelectedCat({nom: resJson.categories[0], id: 0});
             }
         } else {
+          setTaskMessage({result: false, message: 'Une erreur est survenue, veuillez réessayer plus tard'})
           console.log('Failed to get categories list from the backend : ', resJson.error);
         }
       } catch(err) {
+        setTaskMessage({result: false, message: 'Une erreur est survenue, veuillez réessayer plus tard'})
         console.log('Choisir produits liste - Connection to the backend failed');
         console.log(err.stack);
       }
@@ -89,15 +92,16 @@ export default function CreerListeScreen({ navigation }) {
       </SafeAreaView>
     )
   }
-  
-  nbrProduitsRef.current = produitsSelected.reduce((a,v) => a = a + v.count, 0);
+  if (!taskMessage.result) {
+
+  }
   
   return (
     <SafeAreaView style={styles.container}>
         
         <View style={styles.topContainer}>
           <Text style={styles.ListName}>{listeName}</Text>
-          <Text style={styles.productNbr}>{nbrProduitsRef.current}</Text>
+          <Text style={styles.productNbr}>{produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
         </View>
         <View style={styles.errorProduitsNumber}>
           {!isProduitSelected && <Text style={styles.errorMessage}>Vous devez choisir au moins un produit</Text>}

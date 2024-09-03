@@ -51,7 +51,7 @@ export default function InscriptionScreen({ navigation }) {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value.userDetails);
-  console.log('Inscription screen - user details :', user);
+  //console.log('Inscription screen - user details :', user);
   useEffect(() => {
     (() => {
       if (user.id) {
@@ -76,7 +76,7 @@ export default function InscriptionScreen({ navigation }) {
         throw new Error('Connection returned a non 200 http code');
       }
       const resJson = await conReq.json();
-      console.log('connection result : ', resJson);
+      //console.log('connection result : ', resJson);
       if (resJson.result) {
         // Get User details
         const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + resJson.id);

@@ -1,8 +1,8 @@
 /* IMPORTS */
 
 // import React et React Native
-import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, Pressable } from 'react-native';
-import { useState, useEffect, useRef } from 'react';
+import { ScrollView, SafeAreaView, StyleSheet, Text, StatusBar, View, Pressable } from 'react-native';
+import { useState, useEffect } from 'react';
 // import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedListe } from '../reducers/user';
@@ -12,7 +12,7 @@ import { frontConfig } from '../modules/config';
 /* FONCTION CREER LISTE */
 
 function ResultatComponent({ resultat, onSelect }) {
-  console.log('RES DETAILS : ', resultat);
+  //console.log('RES DETAILS : ', resultat);
   return (
     <View style={styles.resultatContainer}>
 
@@ -45,7 +45,6 @@ export default function ResultatComparaisonScreen({ navigation }) {
 
   const listeName = useSelector((state) => state.liste.value.listeName);
   const enseignes = useSelector((state) => state.user.value.enseignesList);
-  const nbrProduitsRef = useRef(0);
   const [resultatComp, setResultComp] = useState([])
 
   const [ isResultatSelected, setIsResultatSelected] = useState(true);
@@ -77,7 +76,7 @@ export default function ResultatComparaisonScreen({ navigation }) {
     enseignes: enseignes,
     userCoordinates: user.adresses.find((a) => a.isDefault),
   }
-  console.log(JSON.stringify(postData))
+  //console.log(JSON.stringify(postData))
   const getResultatsComparaison = async () => {
     try {
       const conReq = await fetch(frontConfig.backendURL + '/listes/calcul', {
@@ -110,7 +109,6 @@ export default function ResultatComparaisonScreen({ navigation }) {
   }
   //console.log('Resultats comp - 2 : ', JSON.stringify(resultatComp));
 
-  nbrProduitsRef.current = produitsSelected.reduce((a, v) => a = a + v.count, 0);
   let resultComparaison = resultatComp;
   // Add distance to every enseigne
 

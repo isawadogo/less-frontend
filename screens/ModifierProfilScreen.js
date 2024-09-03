@@ -136,7 +136,7 @@ export default function ModifierProfilScreen({ route, navigation }) {
   const [dateN, setDateN] = useState(new Date(user.dateDeNaissance));
 
   const onChangeDate = (selectedDate) => {
-    console.log('selected date : ', selectedDate);
+    //console.log('selected date : ', selectedDate);
     //setShow(false);
     setDateN(selectedDate);
     setUserParams({ ...userParams, dateDeNaissance: selectedDate.toLocaleString() });
@@ -171,8 +171,8 @@ export default function ModifierProfilScreen({ route, navigation }) {
       ...addresses,
       ...userCoordinates,
     }
-    console.log('User COORDS :', userCoordinates);
-    console.log('USE LOCATION : ', useLocation);
+    //console.log('User COORDS :', userCoordinates);
+    //console.log('USE LOCATION : ', useLocation);
 
     const dataUpdate = {
       ...userParams,
@@ -181,14 +181,14 @@ export default function ModifierProfilScreen({ route, navigation }) {
       adresses: [addresses],
       allergies: allergies,
     }
-    console.log('Modifier profil - Data to update : ', dataUpdate);
+    //console.log('Modifier profil - Data to update : ', dataUpdate);
 
     const updateRes = await updateUserDetails(user, dataUpdate);
     if (updateRes === 0) {
       const response = await fetch(frontConfig.backendURL + '/utilisateur/details/' + user.id);
       const json = await response.json();
       if (json.result) {
-        console.log('Modifier profil - dispacth to reducer : ', json.user);
+        //console.log('Modifier profil - dispacth to reducer : ', json.user);
         dispatch(updateUser({ ...json.user, id: user.id }));
         navigation.navigate('TabNavigator');
       }
@@ -222,7 +222,7 @@ export default function ModifierProfilScreen({ route, navigation }) {
         }
       }
     }
-    console.log('NEW CRITS : ', newCrit)
+    //console.log('NEW CRITS : ', newCrit)
     setCriteres({ ...criteres, ...newCrit });
   }
 

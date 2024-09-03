@@ -8,6 +8,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateListeName } from '../reducers/user';
 // import modules ext
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import colors from '../styles/colors';
 import { Formik, Field } from 'formik';
@@ -17,8 +19,7 @@ import { useFonts } from 'expo-font';
 import {LessHeader} from '../modules/components';
 import { getUserListes } from '../modules/listesFunctions';
 import LessFormikInput from '../composant/LessFormikInput';
-//import { frontConfig } from '../modules/config';
-
+import BudgetRestant from '../composant/BudgetRestant';
 /* FONCTION CREER LISTE*/
 
 export default function CreerListeScreen({ navigation }) {
@@ -40,7 +41,7 @@ export default function CreerListeScreen({ navigation }) {
       };
       let ignore = false;
       getUserListes(user.token, user.id).then(listes => {
-        console.log('Listes : ', userListes)
+        //console.log('Listes : ', userListes)
         if (!ignore) {
           setUserListes(listes);
           setIsReady(true)
@@ -66,7 +67,7 @@ export default function CreerListeScreen({ navigation }) {
   });
 
   const handleValider = (values) => {
-    console.log('save liste name : ', values.nomListe)
+    //console.log('save liste name : ', values.nomListe)
     dispatch(updateListeName(values.nomListe));
     navigation.navigate('ChoisirListeProduits');
   }
@@ -76,6 +77,7 @@ export default function CreerListeScreen({ navigation }) {
     <KeyboardAvoidingView style={styles.containerG} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Nommer ma liste</Text>
+        <View style={{ flexDirection: 'row'}}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -87,24 +89,21 @@ export default function CreerListeScreen({ navigation }) {
                   component={LessFormikInput}
                   name="nomListe"
                   placeholder='"Ma super liste"'
+                  style={{width: '85%'}}
+                  errorTextStyle={{ position: 'absolute', left: 170 }}
                 />
               <Pressable 
                 onPress={handleSubmit}
                 disabled={!isValid}
                 width={50}
-                backgroundColor='green'
-                borderRadius={30}
               >
-                <AntDesign name='checkcircleo' size={50} color='#ffffff' width={50} />
+                <FontAwesomeIcon icon={faCircleCheck} style={styles.icon}/>
               </Pressable>
               </>
               )}
           </Formik>
-
-          <Text style={styles.subTilte}>Reste 35€ à dépenser</Text>
-          <View style={styles.barContainer}>
-              <Text style={[styles.progressBar, {width:'75%'}]}>120€</Text>
-          </View>
+        </View>
+          <BudgetRestant listes={userListes} userBudget={user.budget} />
 
           <View style={styles.separatorContainer}>
             <Text style={styles.separatorLine} />
@@ -131,31 +130,26 @@ const styles = StyleSheet.create({
   containerG: {
     flex: 1,
   },
-
   container: {
     flex: 1,
     margin: 10,
   },
-
   title: {
     fontFamily: 'Raleway-Bold',
     color: '#25000D',
     fontSize: 24
   },
-
   barContainer: {
     height: 20,
     borderRadius: 20,
     backgroundColor: '#F8F8F8',
   },
-
   progressBar: {
     height: 20,
     borderRadius: 20,
     fontFamily: 'Raleway-Regular',
     backgroundColor: '#2B0D35',
   },
-
   separatorContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -163,20 +157,17 @@ const styles = StyleSheet.create({
     marginTop: 25,
     marginBottom: 25,
   },
-
   separatorLine: {
     height: 1,
     backgroundColor: '#CCCCCC',
     width: 160,
   },
-
   separatorText: {
     fontFamily: 'Raleway-Regular',
     color: '#CFCFCF',
     fontSize: 13,
     margin: 15,
   },
-
   listContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -188,12 +179,17 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderRadius: 40,
   },
-
   listText: {
     fontSize: 16,
     fontFamily: 'Raleway-Medium',
     color: '#25000D',
   },
- 
+   icon:{
+    fontSize: 35,
+    color: '#7CD6C1',
+    padding: 30,
+    marginTop: 5,
+    alignSelf: 'flex-start'
+  },
 
 });
