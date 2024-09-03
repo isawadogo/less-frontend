@@ -186,9 +186,9 @@ export default function HomeScreen({ navigation }) {
 
         </View>
 
-        <Pressable style={styles.button} onPress={handleDeconnection}>
+        <TouchableOpacity style={styles.button} onPress={handleDeconnection}>
           <Text style={styles.textButton}>Déconnexion</Text>
-        </Pressable>
+        </TouchableOpacity>
       {profilNotComplet && <ProfilCheckDialog navigation={navigation} modalStatus={profilNotComplet} updateVisible={setProfilNotComplet} />}
       </SafeAreaView>
 

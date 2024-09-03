@@ -1,7 +1,7 @@
 /* IMPORT */
 
 //imports React & React Native
-import { Button, StyleSheet, Text, View, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //import Redux & Reducer
@@ -10,11 +10,8 @@ import { updateListeName } from '../reducers/user';
 // import modules ext
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import colors from '../styles/colors';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
-import { useFonts } from 'expo-font';
 //import Modules et Composants
 import {LessHeader} from '../modules/components';
 import { getUserListes } from '../modules/listesFunctions';
@@ -59,6 +56,7 @@ export default function CreerListeScreen({ navigation }) {
       <Text></Text>
     )
   }
+
   const initialValues = { nomListe: listeName || '' };
   const validationSchema = Yup.object({
     nomListe: Yup

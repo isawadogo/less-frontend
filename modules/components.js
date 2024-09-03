@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, Button, SafeAreaView,Pressable, StyleSheet, Text, View, Image, TouchableOpacity, RNTextInput } from 'react-native';
+import { StatusBar, Modal, Button, SafeAreaView,Pressable, StyleSheet, Text, View, Image, TouchableOpacity, RNTextInput } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -76,6 +76,7 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
           if (data.result) {
             //console.log(' Choisir liste produit - produits par categorie - jsonres : ', data);
             if (data.produits) {
+              //console.log('data produits : ', data.produits);
               setListProd(data.produits);
               setIsReady(true);
             } else {
@@ -203,7 +204,7 @@ function LessHeader(props) {
 
 function ListeDetailsComponent({ liste }) {
   return (
-    <View key={liste._id}>
+    <View key={liste._id} style={styles.modalView}>
       <Text> Nom : {liste.nom} </Text>
       <Text>Date de création : {liste.dateCreation} </Text>
       <Text> Articles de la liste :</Text>
@@ -243,15 +244,18 @@ function ExistingListesComponents({ currentListes, deleteAction }) {
           < SafeAreaView key={l._id} style={styles.listContainer}>
             <View>
               <Text style={styles.listText}>{l.nom}</Text>
-              <Text style={styles.listDate}>Créer le indiquer la date</Text>
+              <Text style={styles.listDate}>Créer le </Text>
             </View>            
-            <FontAwesomeIcon icon={faCircleArrowRight} style={styles.listArrow} onPress={() => handModalState(l.nom)}/>
+            <TouchableOpacity onPress={() => handModalState(l.nom)}>
+
+              <FontAwesomeIcon icon={faCircleArrowRight} style={styles.listArrow} />
+            </TouchableOpacity>
           </SafeAreaView>
         )
       }) :  <View></View> }
       <Modal 
         animationType="slide"
-        transparent={true}
+        transparent={false}
         visible={ isVisible}
         onRequestClose={() => handModalState(l.nom) } 
       >
@@ -271,6 +275,10 @@ function ExistingListesComponents({ currentListes, deleteAction }) {
 }
 
 const styles = StyleSheet.create({
+  modalView: {
+    paddingTop: StatusBar.currentHeight,
+    flex: 1,
+  },
   inputTextStyle: {
     flexDirection: 'row',
     alignItems: 'center',

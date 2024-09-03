@@ -8,7 +8,7 @@ function getUserCoordinates(token, address) {
   const getAddress = async function() {
     try {
       const reqRes = await fetch(getQuery);
-      console.log('REQ RES : ', reqRes);
+      //console.log('REQ RES : ', reqRes);
       if (!reqRes.ok) {
         console.log('The request failed with error : ');
         console.log(`Status code : ${reqRes.status}, error : ${reqRes.statusText}`);

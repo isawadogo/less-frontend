@@ -3,7 +3,7 @@ import { frontConfig } from '../modules/config';
 // Updates the user details,
 async function updateUserDetails(user, data) {
   //const user = useSelector((state) => state.user.value.userDetails);
-  console.log('Function updateUserDetails  - user details :', user);
+  //console.log('Function updateUserDetails  - user details :', user);
 
   if ( !user.id ) {
     return 
@@ -19,7 +19,7 @@ async function updateUserDetails(user, data) {
       throw new Error('Connection returned a non 200 http code');
     }
     const resJson = await conReq.json();
-    console.log('connection result : ', resJson);
+    //console.log('connection result : ', resJson);
     if (resJson.result) {
         return 0;
     } else {
