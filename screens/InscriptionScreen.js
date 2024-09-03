@@ -20,14 +20,17 @@ import * as Yup from 'yup';
 export default function InscriptionScreen({ navigation }) {
 
   const buttonPosition1 = {
-    bottom: 55,
+    top: 20,
+    borderRadius: 15,
+    start: 115,
   }
 
   const buttonPosition2 = {
     right: 0,
-    top: 25,
+    borderRadius: 15,
+    top: 30,
+    start: 115,
   }
-
 
   const initialValues = { email: '', password: '', confirmPassword: '' };
   const validationSchema = Yup.object({
@@ -97,40 +100,44 @@ export default function InscriptionScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.color}>
-        <Text style={styles.title}>S'enregistrer maintenant ! 🏁</Text>
-        <Text style={styles.infosCon}>
-          Enregistrez-vous avec votre adresse email et un mot de passe pour continuer.
-        </Text>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleInscription}
-        >
-          {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
-            <>
-              <Field
-                component={LessFormikInput}
-                name="email"
-                placeholder="email"
-                keyboardType='email-address'
-              />
-              <Field
-                component={LessFormikInput}
-                name="password"
-                placeholder='Mot de passe'
-                secureTextEntry={true}
-              />
-              <Field
-                component={LessFormikInput}
-                name="confirmPassword"
-                placeholder='Confirmer votre mot de passe'
-                secureTextEntry={true}
-              />
+        <View style={styles.headText}>
+          <Text style={styles.title}>S'enregistrer maintenant ! 🏁</Text>
+          <Text style={styles.infosCon}>
+            Enregistrez-vous avec votre adresse email et un mot de passe pour continuer.
+          </Text>
+        </View>
+        <View style={styles.formikContainer}>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleInscription}
+          >
+            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+              <>
+                <Field
+                  component={LessFormikInput}
+                  name="email"
+                  placeholder="email"
+                  keyboardType='email-address'
+                />
+                <Field
+                  component={LessFormikInput}
+                  name="password"
+                  placeholder='Mot de passe'
+                  secureTextEntry={true}
+                />
+                <Field
+                  component={LessFormikInput}
+                  name="confirmPassword"
+                  placeholder='Confirmer votre mot de passe'
+                  secureTextEntry={true}
+                />
 
-              <TouchableButton color="#7CD6C1" onPress={handleSubmit} title="S'ENREGISTRER" position={buttonPosition1}></TouchableButton>
-            </>
-          )}
-        </Formik>
+                <TouchableButton color="#7CD6C1" onPress={handleSubmit} title="S'ENREGISTRER" position={buttonPosition1}></TouchableButton>
+              </>
+            )}
+          </Formik>
+        </View>
         <View style={styles.row}>
           <Text style={styles.ligne} />
           <Text style={styles.ou}>ou</Text>
@@ -150,32 +157,36 @@ export default function InscriptionScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
+  },
+  headText: {
+    top: 55,
+  },
+  formikContainer: {
+    bottom: 25,
 
   },
   color: {
     heigth: '100%',
     flex: 1,
     backgroundColor: "#2B0D35",
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   title: {
     fontSize: 25,
     fontWeight: 'bold',
+    fontFamily: 'Raleway-Medium',
     color: 'white',
     bottom: 100,
     paddingStart: 40,
-    marginTop: 130,
-
   },
   infosCon: {
     fontSize: 15,
+    fontFamily: 'Raleway-Medium',
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'white',
     padding: 15,
     bottom: 90,
-
   },
   ligne: {
     height: 3,
@@ -186,6 +197,7 @@ const styles = StyleSheet.create({
   ou: {
     color: 'white',
     fontSize: 17,
+    fontFamily: 'Raleway-Medium',
     fontWeight: 'bold',
     top: 9,
   },
@@ -195,7 +207,7 @@ const styles = StyleSheet.create({
   },
   inscription: {
     color: 'white',
-    left: 100,
+    left: 120,
     top: 20,
     fontWeight: 'bold',
 

@@ -2,7 +2,8 @@
 
 // import React et React Native
 import { useState, useEffect } from 'react';
-import { FlatList, ScrollView, Pressable,TouchableOpacity, Image, StyleSheet, Text, View, SafeAreaView, StatusBar, ImageBackground } from 'react-native';
+import { FlatList, ScrollView, Pressable, TouchableOpacity, Image, StyleSheet, Text, View, StatusBar, ImageBackground } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 // import Redux et Reducer
 import { useSelector } from 'react-redux';
 // import Icones
@@ -54,45 +55,54 @@ export default function ProfilScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.back}>
-      <Image source={require('../assets/profil.jpg')} style={styles.image} />
-      <View style={styles.block1}>
-        <Text style={styles.userProfil}> PROFIL</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile', { screen: 'ModifierProfil' })} >
-          <FontAwesomeIcon icon={faPenToSquare} style={styles.icone} />
-        </TouchableOpacity>
-        <View style={styles.infos}>
-          <View style={styles.row}>
-            {/* <Text style={styles.type}>prenom : </Text> */}
-            <Text style={styles.info}> {user?.prenom || 'Jen'} {user?.nom.toUpperCase() || 'Andriamboavonjy'}</Text>
-          </View>
-          <View style={styles.row}>
-            {/* <Text style={styles.type}>email: </Text> */}
-            <Text style={styles.info}> {user?.email || 'Email'}</Text>
-          </View>
-          <View style={styles.budgets}>
-            <Text style={styles.budget}> Budget mensuel</Text>
-            <Text style={styles.montant}> {user?.budget || '500€'}</Text>
-          </View>
-        </View>
-        <View style={styles.ensemble}>
-            <Text style={styles.text}>Critères de consommation</Text>
-          <View style={styles.trois}>
-            {criteresMapping.map((c, i) =>
-              <CritereElement isPresent={user.criteres[c.dbName]} critere={c.dbName} key={`${i}-${c.dbName}`} />
-            )}
-          </View>
-        </View>
-        <ScrollView>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Aide' })}>
-            <Text>Aide</Text>
+      <View style={styles.purple}></View>
+      <View style={styles.block}>
+        <View style={styles.profil}>
+          <ImageBackground source={require('../assets/profil.jpg')} style={styles.background}>
+            <View style={styles.slogan}>
+
+            </View >
+          </ImageBackground>
+          <Text style={styles.userProfil}> PROFIL</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile', { screen: 'ModifierProfil' })} >
+            <FontAwesomeIcon icon={faPenToSquare} style={styles.icone} />
           </TouchableOpacity>
+          <View style={styles.infos}>
+            <View style={styles.row}>
+              {/* <Text style={styles.type}>prenom : </Text> */}
+              <Text style={styles.info}> {user?.prenom || 'Jen'}  {user?.nom.toUpperCase() || 'Andriamboavonjy'}</Text>
+            </View>
+            <View style={styles.row}>
+              {/* <Text style={styles.type}>email: </Text> */}
+              <Text style={styles.info}> {user?.email || 'Email'}</Text>
+            </View>
+            <View style={styles.budgets}>
+              <Text style={styles.budget}> Budget mensuel</Text>
+              <Text style={styles.montant}> {user?.budget || '500'} €</Text>
+            </View>
+          </View>
+          <View style={styles.ensemble}>
+            <View style={styles.toutcritere}>
+              <Text style={styles.text}>Critères de consommation</Text>
+            </View>
+            <View style={styles.trois}>
+              {criteresMapping.map((c, i) =>
+                <CritereElement isPresent={user.criteres[c.dbName]} critere={c.dbName} key={`${i}-${c.dbName}`} />
+              )}
+            </View>
+          </View>
+        </View>
+        <View>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Aide' })}><Text>Aide</Text></TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Langue' })}><Text>Langue</Text></TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Conditions Générales' })}><Text>Conditions Générales</Text></TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Reglage des notifications' })}><Text>Reglage des notifications</Text></TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'ModifierMotDePasse', name: 'Modifier mon mot de passe' })}><Text>Changer mon mot de passe</Text></TouchableOpacity>
-        </ScrollView>
+        </View>
       </View>
-    </SafeAreaView>
+
+    </SafeAreaView >
+
   )
 }
 
@@ -101,31 +111,64 @@ export default function ProfilScreen({ navigation }) {
 const styles = StyleSheet.create({
 
   back: {
-    flex: 1,
-    padding: 15,
-    paddingTop: StatusBar.currentHeight,
+    // flex: 1,
+    borderRadius: 25,
+    backgroundColor: '#2B0D35'
+
+
   },
-  image: {
-    width: 500,
-    height: 250,
-    resizeMode: 'cover'
+  slogan: {
+    height: '30%',
+
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
+
+  purple: {
+    marginTop: 80,
+    borderRadius: 25,
+
+    // top: 260,
+    width: '100%',
+    height: '95%',
+    backgroundColor: '#F2F2F2',
+  },
+
+  modalView: {
+    margin: 20,
     backgroundColor: 'white',
-    width: '90%',
-    marginLeft: 10,
-    marginBottom: 5,
-   // elevation: 2,
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
+
+  button: {
+
+
+  },
+  // buttonOpen: {
+  //   // backgroundColor: '#F194FF',
+  // },
+  // buttonClose: {
+  //   backgroundColor: '#2196F3',
+  // },
+
   profil: {
-    color: '#fff',
-    fontSize: 24,
+
+    borderColor: '#2B0D35',
+    borderWidth: 1,
     fontWeight: 'bold',
-    margin: 25,
-    textAlign: 'center',
+    backgroundColor: 'white',
+    borderRadius: 25,
+    padding: 10,
   },
+
   title: {
     color: 'black',
     textAlign: 'center',
@@ -133,54 +176,71 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: 'bold',
   },
-  block1: {
-    width: '90%',
-    marginTop: 20,
-    height: 490,
-    marginHorizontal: 'auto',
-    //flex: 1,
-    //width: 320,
-    //height: 490,
-    //bottom: 50,
-    //position: 'absolute',
-    //zIndex: 10,
-    //top: 255,
-    //start: 35,
-    //backgroundColor: 'white',
-    borderColor: '#2B0D35',
-    borderWidth: 2,
-    //padding: 15,
+  block: {
+    flex: 1,
+    width: 350,
+    height: 520,
+    position: 'absolute',
+    top: 130,
+    start: 30,
+    padding: 10,
     opacity: 0.9,
+
+
   },
+
   userProfil: {
     textAlign: 'center',
     right: 10,
     fontWeight: 'bold',
     fontSize: 19,
+    paddingTop: 10,
   },
 
   icone: {
     height: 15,
     bottom: 20,
-    start: 260,
+    start: 280,
   },
+  ref: {
+    fontSize: 35,
+    fontWeight: 'bold',
+    paddingTop: 10,
+    paddingStart: 75,
+    paddingBottom: 10,
+    color: 'black',
+  },
+
   text: {
     fontWeight: 'bold',
     paddingTop: 7,
     paddgingBottom: 7,
-    //start: 24,
+    start: 24,
     color: 'white',
   },
+
+
   infos: {
-    //top: 5,
+    top: 5,
     paddingStart: 10,
+  },
+
+
+  row: {
+    flexDirection: 'row',
   },
   budgets: {
     borderColor: 'black',
     backgroundColor: '#2B0D35',
+    paddingTop: 15,
+    paddingBottom: 15,
+    marginTop: 5,
+    marginBottom: 15,
+    marginStart: 3,
+    marginTop: 10,
     borderWidth: 1,
     borderRadius: 15,
-    width: '95%'
+    end: 6,
   },
   budget: {
     margin: 3,
@@ -195,10 +255,10 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
   },
   info: {
-    //padding: 4,
+    padding: 4,
     fontWeight: 'bold',
     color: 'black',
-   // start: 5,
+    start: 5,
     paddingBottom: 5,
   },
   toutcritere: {
@@ -215,13 +275,11 @@ const styles = StyleSheet.create({
   },
   ensemble: {
     borderColor: 'white',
-    alignItems: 'center',
     borderWidth: 1,
     margin: 7,
     backgroundColor: '#2B0D35',
     borderRadius: 15,
-    width: '95%',
-    //gap: 2,
+    gap: 2,
   },
   criteres: {
     margin: 6,
@@ -234,7 +292,11 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: '#',
     borderBottomEndRadius: 15,
   },
+  button: {
+    color: "black",
+    margin: 8,
+  }
 })

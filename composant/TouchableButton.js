@@ -9,11 +9,8 @@ const TouchableButton = ({ color, onPress, title, position }) => {
             width: 160,
             height: 30,
             backgroundColor: color,
-            left: 106,
-            bottom: 10,
-            // borderRadius: 15,
             margin: 8,
-            bottom: 1,
+            top: 1,
             ...position,
 
         },
@@ -22,8 +19,8 @@ const TouchableButton = ({ color, onPress, title, position }) => {
             color: 'white',
             fontWeight: 'bold',
             textAlign: 'center',
-            margin: 6.5,
-            paddingStart: 0,
+            margin: 5,
+
 
         },
 

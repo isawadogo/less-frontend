@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StatusBar, Modal, Button, SafeAreaView,Pressable, StyleSheet, Text, View, Image, TouchableOpacity, RNTextInput } from 'react-native';
+import { StatusBar, Modal, Button, SafeAreaView, Pressable, StyleSheet, Text, View, Image, TouchableOpacity, RNTextInput } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -50,7 +50,7 @@ function LessCheckbox({ onChange, checked }) {
   );
 }
 
-function LessButton({onChange, pressed, texte}) {
+function LessButton({ onChange, pressed, texte }) {
   //console.log(`in less button - Pressed = ${pressed}, categorie: ${texte}`)
   return (
     <Pressable style={[styles.buttonBase, pressed && styles.buttonPressed]}
@@ -67,8 +67,8 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
   //console.log('Cat loading : ', categorie);
   useEffect(() => {
     (async () => {
-    //fetch(frontConfig.backendURL + '/produits/produitsNom/' + categorie, {
-    fetch(frontConfig.backendURL + '/produits/categories/produitsNom/' + categorie, {
+      //fetch(frontConfig.backendURL + '/produits/produitsNom/' + categorie, {
+      fetch(frontConfig.backendURL + '/produits/categories/produitsNom/' + categorie, {
         method: 'GET',
         headers: { "Content-Type": "application/json", "authorization": user.token },
       }).then((response) => response.json())
@@ -103,10 +103,10 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
 
   return (
     <View style={styles.produitContainer}>
-      {listProd.map((p) => 
-        { return(
+      {listProd.map((p) => {
+        return (
           <View style={styles.itemContainer} key={p.nom}>
-            <Image 
+            <Image
               style={styles.produitImage}
               source={require('../assets/fruit_orange.png')}
             />
@@ -122,7 +122,7 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
                 </Pressable>
               </View>
             </View>
-            
+
           </View>
         )
       }
@@ -145,7 +145,7 @@ function ProduitRecapComponent({ categorie, onDecrease, onIncrease }) {
 
   const produitsTodisplay = []
   produitsSelected.map((p) => {
-    if (p.produit.categorie === categorie) { 
+    if (p.produit.categorie === categorie) {
       produitsTodisplay.push(p);
     }
   });
@@ -154,14 +154,14 @@ function ProduitRecapComponent({ categorie, onDecrease, onIncrease }) {
       <Text>Prouits ...</Text>
     )
   }
-  return(
-    <View style={{flex: 1}}>
+  return (
+    <View style={{ flex: 1 }}>
       <Text style={styles.RecapProductCatTitle}>{categorie}</Text>
-      {produitsTodisplay.map((p, i) => 
-        { return(
+      {produitsTodisplay.map((p, i) => {
+        return (
           <View key={`${categorie}-${p.nom}-${i}`} style={styles.RecapProductContainer}>
             <Text style={styles.RecapProductText}>{p.produit.nom}</Text>
-            
+
             <Text>{p.produit.prix}</Text>
             <View style={styles.RecapProductContainerAddRemove}>
               <Pressable onPress={(value) => onIncrease(p.produit)}>
@@ -174,7 +174,7 @@ function ProduitRecapComponent({ categorie, onDecrease, onIncrease }) {
             </View>
 
           </View>
-          
+
         )
       }
       )}
@@ -188,12 +188,12 @@ function LessHeader(props) {
   return (
     <TouchableOpacity style={styles.lessHeader}>
       <View style={styles.lessHeaderLeft}>
-          <Pressable onPress={props.backAction}>
-            <Entypo name='arrow-with-circle-left' color='#ffffff' size={26}/>
-          </Pressable>
-          <Text style={styles.lessHeaderTitle}>
-            {props.titre}
-          </Text>
+        <Pressable onPress={props.backAction}>
+          <Entypo name='arrow-with-circle-left' color='#ffffff' size={26} />
+        </Pressable>
+        <Text style={styles.lessHeaderTitle}>
+          {props.titre}
+        </Text>
       </View>
       <View style={styles.lessHeaderRight}>
 
@@ -209,14 +209,14 @@ function ListeDetailsComponent({ liste }) {
       <Text>Date de création : {liste.dateCreation} </Text>
       <Text> Articles de la liste :</Text>
       {liste.listeArticles.map((a, i) => {
-        return(
+        return (
           <View key={a._id}>
             <Text style={{ paddingLeft: 20 }}>Article : {a.nom}</Text>
             <Text style={{ paddingLeft: 20 }}>Prix : {a.prix}</Text>
             <Text style={{ paddingLeft: 20 }}>Quantite: {a.quantite}</Text>
           </View>
-          )
-        })
+        )
+      })
       }
     </View>
   )
@@ -224,50 +224,50 @@ function ListeDetailsComponent({ liste }) {
 
 function ExistingListesComponents({ currentListes, deleteAction }) {
 
-  const [ isVisible, setIsVisible ] = useState(false);
-  const [ modalListe, setModalListe ] = useState('')
+  const [isVisible, setIsVisible] = useState(false);
+  const [modalListe, setModalListe] = useState('')
 
   const listes = currentListes;
   let modalsState = listes.map((l) => {
-    return { nom: l.nom, isVisible: false}
+    return { nom: l.nom, isVisible: false }
   });
 
   const handModalState = (nom) => {
-      setModalListe(listes.find((e) => e.nom === nom));
-      setIsVisible(!isVisible);
+    setModalListe(listes.find((e) => e.nom === nom));
+    setIsVisible(!isVisible);
   }
   return (
     <View>
       {listes ? listes.map((l) => {
         //modalVisible = modalsState.find((e) => e.nom === l.nom);
-        return(
+        return (
           < SafeAreaView key={l._id} style={styles.listContainer}>
             <View>
               <Text style={styles.listText}>{l.nom}</Text>
               <Text style={styles.listDate}>Créer le </Text>
-            </View>            
+            </View>
             <TouchableOpacity onPress={() => handModalState(l.nom)}>
 
               <FontAwesomeIcon icon={faCircleArrowRight} style={styles.listArrow} />
             </TouchableOpacity>
           </SafeAreaView>
         )
-      }) :  <View></View> }
-      <Modal 
+      }) : <View></View>}
+      <Modal
         animationType="slide"
         transparent={false}
-        visible={ isVisible}
-        onRequestClose={() => handModalState(l.nom) } 
+        visible={isVisible}
+        onRequestClose={() => handModalState(l.nom)}
       >
-      <ListeDetailsComponent liste={modalListe} />
-      <Button 
-        title='Supprimer cette liste'
-        onPress={() => deleteAction(modalListe._id)}
-      />
-      <Button
-        title='Fermer'
-        onPress={() => setIsVisible(!isVisible)}
-      />
+        <ListeDetailsComponent liste={modalListe} />
+        <Button
+          title='Supprimer cette liste'
+          onPress={() => deleteAction(modalListe._id)}
+        />
+        <Button
+          title='Fermer'
+          onPress={() => setIsVisible(!isVisible)}
+        />
       </Modal>
 
     </View>
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexGrow: 1
   },
-  itemTextContainer:{
+  itemTextContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
@@ -332,65 +332,67 @@ const styles = StyleSheet.create({
     aspectRatio: '1/1',
     borderRadius: 20
   },
-  itemNumber:{
+  itemNumber: {
     fontFamily: 'Raleway-Regular',
     fontSize: 12,
     color: "#4F4F4F",
     marginLeft: 5,
     marginRight: 5
   },
-  itemAddRemove:{
+  itemAddRemove: {
     flexDirection: 'row',
     justifyContent: 'space-evenly'
   },
 
-  listContainer:{
+  listContainer: {
     backgroundColor: 'white',
-    padding: 10,
+    padding: 5,
     borderRadius: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10
+    marginBottom: 7
   },
-  listText:{
+  listText: {
     fontFamily: 'Raleway-Medium',
-    fontSize: 18,
-    color: '#25000D'
+    fontSize: 15,
+    color: '#25000D',
+    paddingStart: 15,
   },
-  listDate:{
+  listDate: {
     fontFamily: 'Raleway-Regular',
     fontSize: 12,
-    color: '#7F7F7F'
+    color: '#7F7F7F',
+    paddingStart: 15,
   },
   listArrow: {
     color: '#7CD7C1',
-    padding: 20,
+    padding: 17,
   },
 
 
 
-  RecapProductContainer:{
+  RecapProductContainer: {
     backgroundColor: "white",
     padding: 10,
     borderRadius: 20,
     marginBottom: 10,
     flexDirection: 'row',
-    paddingTop: 10,     flexDirection: 'row',
+    paddingTop: 10, flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  RecapProductContainerAddRemove:{
+  RecapProductContainerAddRemove: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center'
   },
-  RecapProductCatTitle:{
+  RecapProductCatTitle: {
     fontFamily: 'Raleway-Bold',
     color: '#25000D',
     fontSize: 14,
     marginBottom: 15
   },
-  RecapProductText:{
+  RecapProductText: {
     fontFamily: 'Raleway-Regular',
     color: '#4F4F4F',
     fontSize: 14,

@@ -23,6 +23,14 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 export default function LoginScreen({ navigation }) {
 
+  const buttonPosition = {
+    top: 20,
+    start: 95,
+    borderRadius: 15,
+
+  }
+
+
 
   const initialValues = { email: '', password: '' };
   const validationSchema = Yup.object({
@@ -74,7 +82,7 @@ export default function LoginScreen({ navigation }) {
         if (json.result) {
           dispatch(updateUser({ ...json.user, id: resJson.id }));
           getEnseignesList(user.token).then((ens) => {
-              dispatch(updateEnseignesList(ens));
+            dispatch(updateEnseignesList(ens));
           })
         }
         navigation.navigate('TabNavigator');
@@ -85,7 +93,7 @@ export default function LoginScreen({ navigation }) {
     } catch (err) {
       console.log('Connection to the backend failed');
       console.log(err.stack);
-        setTaskMessage('Un problème est survenu lors de la connexion. Veuillez réessayer plus tard.')
+      setTaskMessage('Un problème est survenu lors de la connexion. Veuillez réessayer plus tard.')
     }
   }
 
@@ -93,13 +101,14 @@ export default function LoginScreen({ navigation }) {
 
     <SafeAreaView style={styles.container}>
 
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
-          <FontAwesomeIcon icon={faArrowLeft} style={styles.backButton} />
-        </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
+        <FontAwesomeIcon icon={faArrowLeft} style={styles.backButton} />
+      </TouchableOpacity>
+      <View style={styles.formikContainer}>
 
         <Text style={styles.title}>Content de vous revoir 🤩 </Text>
         <Text style={styles.text}>Accédez à votre compte ! {'\n'}Renseignez votre email et votre mot de passe.</Text>
-        <Text style={{ fontWeight: 'bold', color: 'red'}} >{taskMessage}</Text> 
+        <Text style={{ fontWeight: 'bold', color: 'red' }} >{taskMessage}</Text>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -119,10 +128,8 @@ export default function LoginScreen({ navigation }) {
                 placeholder='Mot de passe'
                 secureTextEntry={true}
               />
-              
-              <Pressable style={styles.buttonBlue} onPress={handleSubmit} disabled={!isValid}>
-                <Text style={styles.textButtonBlue}>connexion</Text>
-              </Pressable>
+
+              <TouchableButton color="#7CD6C1" onPress={handleSubmit} title="S'ENREGISTRER" position={buttonPosition}></TouchableButton>
             </>
           )}
         </Formik>
@@ -133,13 +140,13 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.separatorLine} />
         </View>
 
-      <View style={styles.noAccountContainer}>
-        <Text style={styles.noAccountText}>Pas encore de compte?</Text>
-        <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Inscription')}>
-          <Text style={styles.textButtonTransparent}>créer un compte</Text>
-        </Pressable>
+        <View style={styles.noAccountContainer}>
+          <Text style={styles.noAccountText}>Pas encore de compte?</Text>
+          <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Inscription')}>
+            <Text style={styles.textButtonTransparent}>créer un compte</Text>
+          </Pressable>
+        </View>
       </View>
-
 
     </SafeAreaView >
   )
@@ -149,9 +156,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    padding: 10,
+    padding: 20,
   },
-
+  formikContainer: {
+    top: 130,
+  },
   backButton: {
     backgroundColor: '#F8F8F8',
     borderRadius: 15,
@@ -165,6 +174,7 @@ const styles = StyleSheet.create({
     color: '#2B0D35',
     marginTop: 15,
     marginBottom: 15,
+    left: 15,
   },
 
   text: {
@@ -172,6 +182,8 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#CFCFCF',
     marginBottom: 25,
+    left: 15,
+
   },
 
   buttonBlue: {
@@ -188,7 +200,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Medium',
     color: 'white',
   },
-  
+
   separatorContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -198,8 +210,8 @@ const styles = StyleSheet.create({
   },
 
   separatorLine: {
-    height: 1,
-    backgroundColor: '#CCCCCC',
+    height: 2,
+    backgroundColor: 'grey',
     width: "35%",
   },
 
@@ -210,7 +222,7 @@ const styles = StyleSheet.create({
     margin: 15,
   },
 
-  noAccountContainer:{
+  noAccountContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -231,6 +243,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: 'Raleway-SemiBold',
     color: '#2B0D35',
-  },  
+  },
 
 });

@@ -84,18 +84,16 @@ export default function WelcomeScreen2({ navigation }) {
       <View style={styles.container}>
 
         <View style={styles.carouselContainer}>
-            <MyCarousel data={carouseldata}/>
+          <MyCarousel data={carouseldata} />
         </View>
-            
+
         <View style={styles.textContainer}>
-          <Image style={styles.logo} source={require('../assets/Logo-petit.png')}/>
+          <Image style={styles.logo} source={require('../assets/Logo-petit.png')} />
           <Text style={styles.title}> Un comparateur {'\n'} pour vos courses quotidiennes </Text>
           <Text style={styles.description}>LE$$ compare où vous ferez les meilleures économies.{'\n'}LE$$ vous renverrons le ticket de course avec toutes les références qui respectent vos critères.</Text>
-          
+
           <View>
-            <Pressable style={styles.buttonWhite} onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.textButtonWhite}>suivant</Text>
-            </Pressable>
+            <TouchableButton color="#7CD6C1" onPress={() => navigation.navigate('Login')} title="SUIVANT" position={buttonPosition}></TouchableButton>
             <Pressable style={styles.buttonTransparent} onPress={() => navigation.navigate('Welcome1')}>
               <Text style={styles.textButtonTransparent}>précédent</Text>
             </Pressable>
@@ -103,23 +101,23 @@ export default function WelcomeScreen2({ navigation }) {
         </View>
 
       </View>
-  </SafeAreaView >
+    </SafeAreaView >
   )
 }
 
 /* STYLE CSS */
 
 const styles = StyleSheet.create({
-  SafeAreaContainer:{
+  SafeAreaContainer: {
     backgroundColor: 'white',
     flex: 1
   },
-  
+
   container: {
     flex: 1,
     backgroundColor: "#2B0D35",
   },
-  carouselContainer:{
+  carouselContainer: {
     flex: 1,
   },
 
@@ -173,8 +171,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 
-  logo:{
-    width:90,
+  logo: {
+    width: 90,
     height: 90,
     alignContent: 'center',
     margin: 30

@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     container:
     {
         backgroundColor: "#2B0D35",
-        
+
     },
     titleContainer: {
         flexDirection: 'row',

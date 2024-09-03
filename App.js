@@ -60,7 +60,7 @@ const store = configureStore({
 function ProfilStackScreen() {
   return (
     <ProfilStack.Navigator screenOptions={{ header: (props) => <Header {...props} /> }}>
-      <ProfilStack.Screen name="Aide" component={AideScreen} initialParams={{ titre: 'Aide' }}/>
+      <ProfilStack.Screen name="Aide" component={AideScreen} initialParams={{ titre: 'Aide' }} />
       <ProfilStack.Screen name="Reglage des notifications" component={ReglageNotifScreen} initialParams={{ titre: 'Notifications' }} />
       <ProfilStack.Screen name="Langue" component={LangueScreen} initialParams={{ titre: 'Langues' }} />
       <ProfilStack.Screen name="Conditions Générales" component={CGUScreen} initialParams={{ titre: 'Conditions générales de ventes' }} />
@@ -73,11 +73,11 @@ function ProfilStackScreen() {
 function ListStackScreen() {
   return (
     <ProfilStack.Navigator screenOptions={{ header: (props) => <Header {...props} /> }}>
-          <Stack.Screen name="CreerListe" component={CreerListeScreen} initialParams={{ titre: 'Nouvelle liste' }}  />
-          <Stack.Screen name='ChoisirListeProduits' component={ChoisirListeProduitsScreen} initialParams={{ titre: 'Choix de vos articles' }} />
-          <Stack.Screen name='RecapListeProduits' component={RecapListeProduitsScreen} initialParams={{ titre: 'Vos articles' }} />
-          <Stack.Screen name='ResultatComparaison' component={ResultatComparaisonScreen} initialParams={{ titre: 'Les meilleurs matchs' }} />
-          <Stack.Screen name='ResultasDetailArticlesScreen' component={ResultasDetailArticlesScreen} initialParams={{ titre: 'Les meilleurs matchs' }} />
+      <Stack.Screen name="CreerListe" component={CreerListeScreen} initialParams={{ titre: 'Nouvelle liste' }} />
+      <Stack.Screen name='ChoisirListeProduits' component={ChoisirListeProduitsScreen} initialParams={{ titre: 'Choix de vos articles' }} />
+      <Stack.Screen name='RecapListeProduits' component={RecapListeProduitsScreen} initialParams={{ titre: 'Vos articles' }} />
+      <Stack.Screen name='ResultatComparaison' component={ResultatComparaisonScreen} initialParams={{ titre: 'Les meilleurs matchs' }} />
+      <Stack.Screen name='ResultasDetailArticlesScreen' component={ResultasDetailArticlesScreen} initialParams={{ titre: 'Les meilleurs matchs' }} />
     </ProfilStack.Navigator>
   )
 }
@@ -104,7 +104,7 @@ const TabNavigator = () => {
           paddingTop: 13,
           position: 'absolute',
           elevation: 0,
-          height: 90,
+          height: 75,
           backgroundColor: '#2B0D35',
 
         },
@@ -139,17 +139,17 @@ const TabNavigator = () => {
 }
 
 export default function App() {
-    //import de la police pour le TabNavigator
-    const [loaded, error] = useFonts({
-      'Raleway-Regular': require('./assets/fonts/Raleway-Regular.ttf'),
-      'Raleway-Bold': require('./assets/fonts/Raleway-Bold.ttf'),
-      'Raleway-Medium': require('./assets/fonts/Raleway-Medium.ttf'),
-      'Raleway-SemiBold': require('./assets/fonts/Raleway-SemiBold.ttf'),
-    });
-  
-    if (!loaded && !error) {
-      return null;
-    }
+  //import de la police pour le TabNavigator
+  const [loaded, error] = useFonts({
+    'Raleway-Regular': require('./assets/fonts/Raleway-Regular.ttf'),
+    'Raleway-Bold': require('./assets/fonts/Raleway-Bold.ttf'),
+    'Raleway-Medium': require('./assets/fonts/Raleway-Medium.ttf'),
+    'Raleway-SemiBold': require('./assets/fonts/Raleway-SemiBold.ttf'),
+  });
+
+  if (!loaded && !error) {
+    return null;
+  }
   return (
     <Provider store={store}>
       <NavigationContainer>

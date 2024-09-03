@@ -35,21 +35,27 @@ const styles = StyleSheet.create({
   textInput: {
     backgroundColor: '#F8F8F8',
     borderRadius: 40,
-    width: '100%',
+    width: '75%',
+    height: 35,
     marginBottom: 10,
-    padding: 15,
+    marginTop: 10,
     fontFamily: 'Raleway-Medium',
     color: '#A3A3A3',
     fontSize: 13,
+    paddingLeft: 20,
+    start: 50,
   },
   errorText: {
     fontFamily: 'Raleway-Regular',
     fontSize: 10,
     color: 'red',
     marginLeft: 20,
+    paddingLeft: 33,
+
   },
   errorInput: {
     borderColor: 'red',
+
   }
 })
 

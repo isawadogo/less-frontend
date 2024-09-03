@@ -1,7 +1,7 @@
 /* IMPORTS */
 
 //import des éléments React et React Native
-import { Modal, Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, Pressable, ScrollView } from 'react-native';
+import { Modal, Button, Image, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState, useEffect } from 'react';
 //import React Navigation
@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleArrowRight, faBell } from '@fortawesome/free-solid-svg-icons';
 
 import BudgetRestant from '../composant/BudgetRestant';
+import TouchableButton from '../composant/TouchableButton';
 
 /* FONCTION HOMESCREEN */
 
@@ -27,42 +28,58 @@ function ProfilCheckDialog({ navigation, modalStatus, updateVisible }) {
   const modalVisible = modalStatus;
   return (
     <View>
-      <Button 
+
+      <Button
         title='Annuler'
       />
-        <Modal
+      <Modal
         animationType="slide"
         transparent={false}
         visible={modalVisible}
         onRequestClose={() => {
           updateVisible(!modalVisible);
         }}>
+        <View >
           <View >
-            <View >
-              <Text> Votre profil n'est pas suffisamment complet</Text>
-              <Text> Vous devez renseigner vos critères et votre adresse</Text>
-              <Button 
-                title='Mettre à jour mon profil'
-                onPress={() => navigation.navigate('Profile', { screen: 'ModifierProfil' })}
-              />
-              <Button
-                title='Annuler'
-                onPress={() => updateVisible(!modalVisible)}
-              />
-            </View>
+            <Text> Votre profil n'est pas suffisamment complet</Text>
+            <Text> Vous devez renseigner vos critères et votre adresse</Text>
+            <Button
+              title='Mettre à jour mon profil'
+              onPress={() => navigation.navigate('Profile', { screen: 'ModifierProfil' })}
+            />
+            <Button
+              title='Annuler'
+              onPress={() => updateVisible(!modalVisible)}
+            />
           </View>
-        </Modal>
+        </View>
+      </Modal>
+
     </View>
   )
 }
 
 export default function HomeScreen({ navigation }) {
+
+  const buttonPosition = {
+    borderRadius: 15,
+    fontFamily: 'Raleway-Bold',
+
+  }
+
+  const buttonPosition2 = {
+    borderRadius: 15,
+    fontFamily: 'Raleway-Bold',
+    start: 90,
+
+
+  }
   const user = useSelector((state) => state.user.value.userDetails);
   const [userListes, setUserListes] = useState([]);
-  const [ isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const dispatch = useDispatch();
   const unreadCount = useSelector(state => state.notifications.unreadCount)
-  const [ profilNotComplet, setProfilNotComplet ] = useState(false);
+  const [profilNotComplet, setProfilNotComplet] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -96,100 +113,97 @@ export default function HomeScreen({ navigation }) {
 
   const handleDeleteListe = (id) => {
     deleteListe(user.token, id)
-    .then(res => {
-      if (res) {
-        setIsReady(false);
-        getUserListes(user.token, user.id).then(listes => {
+      .then(res => {
+        if (res) {
+          setIsReady(false);
+          getUserListes(user.token, user.id).then(listes => {
             setUserListes(listes);
             setIsReady(true);
-        });
-      }
-    })
+          });
+        }
+      })
   }
 
   const checkUserProfil = (userDetails) => {
     //console.log('USER DER : ', userDetails);
     const valuesCriteres = Object.values(userDetails.criteres)
     if (valuesCriteres.some((v) => v === true)) {
-      if (userDetails.adresses && user.adresses.length  > 0) {
-        if (userDetails.adresses.some((a) => 
+      if (userDetails.adresses && user.adresses.length > 0) {
+        if (userDetails.adresses.some((a) =>
           (a.commune && a.commune.length > 0) &&
           (a.nomDeRue && a.nomDeRue.length > 0) &&
           (a.numeroDeRue && a.numeroDeRue.length > 0) &&
           (a.codePostal && a.codePostal > 0)
-        ) ) {
+        )) {
           return true;
         } else {
           console.log('PROFIL NOT COMPLETED')
         }
       }
     }
-     return false;
+    return false;
   }
 
   const handleCreerListe = () => {
     if (checkUserProfil(user)) {
-      
+
       navigation.navigate('Liste', { screen: 'CreerListe' });
     } else {
       setProfilNotComplet(true);
     }
   }
 
-  const handlePress = () => {    
-    dispatch(reset())    
-    navigation.navigate('Notifications')  
+  const handlePress = () => {
+    dispatch(reset())
+    navigation.navigate('Notifications')
   }
 
   if (!isReady) {
-    return (<View></View>) 
+    return (<View></View>)
   }
 
   return (
     <KeyboardAvoidingView style={styles.containerG} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.container}>
-
-        <View style={styles.topContainer}>
-          <View>
-            <Text style={styles.userName}>{user.prenom} {user.nom}</Text>
-            <Text style={styles.userMail}>{user.email}</Text>
-          </View>
-          <TouchableOpacity onPress={handlePress} style={styles.nbrNotif}>
-              {/*<FontAwesomeIcon icon={faBell} /> */}         
-              <FontAwesomeIcon style={styles.icon} icon={faBell}/>
-          </TouchableOpacity>          
-          <View>
-            <Text styles={styles.bellText}>{unreadCount}</Text>
-          </View>
-        </View>
-
-        <View>
-          <Text style={styles.salutation}>Bonjour {user.prenom} !</Text>
-          <View style={styles.startContainer}>
-            <View style={styles.startTextContainer}>
-              <Text style={styles.mainText}>prêtes pour une nouvelle course ?</Text>
-              <Pressable style={styles.button} onPress={handleCreerListe} >
-                <Text style={styles.textButton}>commencer</Text>
-              </Pressable>
+        <ScrollView>
+          <View style={styles.topContainer}>
+            <View>
+              <Text style={styles.userName}>{user.prenom} {user.nom}</Text>
+              <Text style={styles.userMail}>{user.email}</Text>
             </View>
-            <Image source={require('../assets/illustration-home.png')}/>
+            <TouchableOpacity onPress={handlePress} style={styles.nbrNotif}>
+              {/*<FontAwesomeIcon icon={faBell} /> */}
+              <FontAwesomeIcon style={styles.icon} icon={faBell} />
+            </TouchableOpacity>
+            <View>
+              <Text styles={styles.bellText}>{unreadCount}</Text>
+            </View>
           </View>
 
-          <BudgetRestant listes={userListes} userBudget={user.budget} />
+          <View>
+            <Text style={styles.salutation}>Bonjour {user.prenom} !</Text>
+            <View style={styles.startContainer}>
+              <View style={styles.startTextContainer}>
+                <Text style={styles.mainText}>prêtes pour une nouvelle course ?</Text>
+                <TouchableButton color="#7CD6C1" onPress={handleCreerListe} title="COMMENCER" position={buttonPosition} />
+              </View>
+              <Image source={require('../assets/illustration-home.png')} />
+            </View>
 
-          <Text style={styles.subTilte}>Reprendre une liste enregistrée</Text>
-          <ScrollView>
-          <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
+            <BudgetRestant listes={userListes} userBudget={user.budget} />
 
-            
-          </ScrollView>
+            <Text style={styles.subTilte}>Reprendre une liste enregistrée</Text>
 
-        </View>
+            <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
 
-        <TouchableOpacity style={styles.button} onPress={handleDeconnection}>
-          <Text style={styles.textButton}>Déconnexion</Text>
-        </TouchableOpacity>
-      {profilNotComplet && <ProfilCheckDialog navigation={navigation} modalStatus={profilNotComplet} updateVisible={setProfilNotComplet} />}
+
+
+
+          </View>
+
+          <TouchableButton color="grey" onPress={handleDeconnection} title="DECONNEXION" position={buttonPosition2}></TouchableButton>
+          {profilNotComplet && <ProfilCheckDialog navigation={navigation} modalStatus={profilNotComplet} updateVisible={setProfilNotComplet} />}
+        </ScrollView>
       </SafeAreaView>
 
     </KeyboardAvoidingView>
@@ -209,29 +223,32 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 20,
     marginTop: 30,
+
   },
 
   topContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+
   },
 
-  userName:{
+  userName: {
     fontFamily: 'Raleway-Bold',
     color: '#2B0D35',
     fontSize: 16,
   },
 
-  userMail:{
+  userMail: {
     fontFamily: 'Raleway-Regular',
     color: '#7E7E7E',
     fontSize: 13,
   },
 
-  icon:{
+  icon: {
     padding: 10,
-    color: '#2B0D35'
+    color: '#2B0D35',
+    start: 80,
   },
 
   salutation: {
@@ -240,14 +257,17 @@ const styles = StyleSheet.create({
     fontSize: 26,
     marginTop: 30,
     marginBottom: 15,
+    start: 10
   },
 
-  startContainer:{
+  startContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#FFFDFD',
     borderRadius: 40,
     padding: 15,
+    borderColor: '#2B0D35',
+    borderWidth: 1,
   },
 
   startTextContainer: {
@@ -275,13 +295,8 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 20,
     backgroundColor: '#F8F8F8',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
-  budgetUser: {
-    color: 'green',
-    fontWeight: 'bold',
-  },
+
   progressBar: {
     height: 20,
     borderRadius: 20,
@@ -290,13 +305,13 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    borderRadius: 20,
-    backgroundColor: '#2B0D35',
-  },
+  // button: {
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   paddingVertical: 12,
+  //   borderRadius: 20,
+  //   backgroundColor: '#2B0D35',
+  // },
 
   textButton: {
     fontSize: 13,
@@ -321,7 +336,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Medium',
     color: '#25000D',
   },
-  
+
   listDate: {
     fontSize: 10,
     fontFamily: 'Raleway-Regular',
@@ -331,5 +346,9 @@ const styles = StyleSheet.create({
   arrow: {
     color: '#7CD6C1',
   },
+
+  bellText: {
+    color: 'black'
+  }
 
 });
