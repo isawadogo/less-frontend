@@ -118,7 +118,7 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
                 <Pressable onPress={(value) => onIncrease(p)}>
                   <AntDesign name='pluscircleo' size={25} color='#7CD6C1' />
                 </Pressable>
-                <Text style={styles.itemNumber}>0</Text>
+                <Text style={styles.itemNumber}> - </Text>
                 <Pressable onPress={(value) => onDecrease(p)}>
                   <AntDesign name='minuscircleo' size={25} color='#DCA2A2' />
                 </Pressable>

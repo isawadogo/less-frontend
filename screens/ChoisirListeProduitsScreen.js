@@ -1,7 +1,7 @@
 /* IMPORTS */
 
 // import React et React Native
-import { ScrollView, Button, StyleSheet, Text, StatusBar, View, Pressable } from 'react-native';
+import { ScrollView, Button, StyleSheet, Text, StatusBar, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 
@@ -100,7 +100,10 @@ export default function CreerListeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
 
-      <MonPanier name={listeName} nbrItem={produitsSelected.reduce((a,v) => a = a + v.count, 0)}/>
+        <TouchableOpacity onPress={handleContinuer}>
+          <FontAwesomeIcon icon={faCircleCheck} style={styles.icon}/>
+        </TouchableOpacity>
+        <MonPanier name={listeName} nbrItem={produitsSelected.reduce((a,v) => a = a + v.count, 0)}/>
         
         <View style={styles.errorProduitsNumber}>
           {!isProduitSelected && <Text style={styles.errorMessage}>Vous devez choisir au moins un produit</Text>}
@@ -133,9 +136,7 @@ export default function CreerListeScreen({ navigation }) {
           />
         </ScrollView>
 
-        <Pressable onPress={handleContinuer}>
-          <FontAwesomeIcon icon={faCircleCheck} style={styles.icon}/>
-        </Pressable>
+
 
     </SafeAreaView>
   )
