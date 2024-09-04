@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F2F2',
     marginBottom: 150,
     marginTop: 48,
-    bottom: 47,
+    bottom: 37,
   },
 
   modalView: {
@@ -172,14 +172,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   block: {
+    top: 130,
     flex: 1,
     width: 350,
     height: 500,
     position: 'absolute',
-    top: 70,
     start: 30,
     padding: 10,
     opacity: 0.9,
+
 
   },
 
