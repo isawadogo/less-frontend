@@ -389,9 +389,6 @@ const styles = StyleSheet.create({
   },
 
   listContainer: {
-
-    width: 300,
-    height: 55,
     backgroundColor: 'white',
     padding: 5,
     borderRadius: 50,
@@ -399,7 +396,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 7,
-    start: 5
   },
   listText: {
     fontFamily: 'Raleway-Medium',

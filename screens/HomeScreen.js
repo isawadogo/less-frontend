@@ -16,7 +16,7 @@ import { getUserListes, deleteListe } from '../modules/listesFunctions';
 import { ExistingListesComponents } from '../modules/components';
 //import des icones
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCircleArrowRight, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket, faBell } from '@fortawesome/free-solid-svg-icons';
 
 import BudgetRestant from '../composant/BudgetRestant';
 import TouchableButton from '../composant/TouchableButton';
@@ -166,21 +166,27 @@ export default function HomeScreen({ navigation }) {
     <KeyboardAvoidingView style={styles.containerG} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.container}>
         <ScrollView>
+
           <View style={styles.topContainer}>
             <View>
               <Text style={styles.userName}>{user.prenom} {user.nom}</Text>
               <Text style={styles.userMail}>{user.email}</Text>
             </View>
-            <TouchableOpacity onPress={handlePress} style={styles.nbrNotif}>
-              {/*<FontAwesomeIcon icon={faBell} /> */}
-              <FontAwesomeIcon style={styles.icon} icon={faBell} />
-            </TouchableOpacity>
-            <View>
+
+            <View style={styles.topContainer}>
+              <TouchableOpacity onPress={handlePress}>
+                <FontAwesomeIcon style={styles.icon} icon={faBell} />
+              </TouchableOpacity>
               <Text styles={styles.bellText}>{unreadCount}</Text>
+              <TouchableOpacity onPress={handleDeconnection}>
+                <FontAwesomeIcon style={styles.icon} icon={faRightFromBracket} />
+              </TouchableOpacity>
             </View>
+
+
           </View>
 
-          <View>
+
             <Text style={styles.salutation}>Bonjour {user.prenom} !</Text>
             <View style={styles.startContainer}>
               <View style={styles.startTextContainer}>
@@ -195,9 +201,9 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.subTilte}>Mes listes passées</Text>
 
             <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
-          </View>
 
-          <TouchableButton color="grey" onPress={handleDeconnection} title="DECONNEXION" position={buttonPosition2}></TouchableButton>
+
+          
           {profilNotComplet && <ProfilCheckDialog navigation={navigation} modalStatus={profilNotComplet} updateVisible={setProfilNotComplet} />}
         </ScrollView>
       </SafeAreaView>
@@ -211,15 +217,12 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   containerG: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between'
   },
 
   container: {
     flex: 1,
     margin: 20,
     marginTop: 30,
-
   },
 
   topContainer: {
@@ -233,20 +236,18 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Bold',
     color: '#2B0D35',
     fontSize: 16,
-    start: 8
   },
 
   userMail: {
     fontFamily: 'Raleway-Regular',
     color: '#7E7E7E',
     fontSize: 13,
-    start: 8,
   },
 
   icon: {
     padding: 10,
     color: '#2B0D35',
-    start: 80,
+    marginLeft: 30,
   },
 
   salutation: {
@@ -255,7 +256,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
     marginTop: 30,
     marginBottom: 15,
-    start: 10
   },
 
   startContainer: {
@@ -280,7 +280,6 @@ const styles = StyleSheet.create({
     color: '#2B0D35',
     fontSize: 24,
     marginBottom: 10,
-    start: 15
 
   },
 
@@ -290,7 +289,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Bold',
     color: '#2B0D35',
     fontSize: 16,
-    start: 15
   },
 
   barContainer: {
@@ -348,9 +346,5 @@ const styles = StyleSheet.create({
   arrow: {
     color: '#7CD6C1',
   },
-
-  bellText: {
-    color: 'black'
-  }
 
 });

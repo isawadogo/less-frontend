@@ -21,7 +21,7 @@ const BudgetRestant = ({ listes, userBudget }) => {
       <View style={styles.contain}>
         <Text style={styles.subTilte}>Reste {reste.toFixed(2)}€ à dépenser</Text>
         <View style={styles.barContainer}>
-          <Text style={[styles.progressBar, { width: `${progresBarPercentage}%`, paddingLeft: 3 }]}>{budgetConsomme.toFixed(2)}€</Text>
+          <Text style={styles.progressBar}>{budgetConsomme.toFixed(2)}€</Text>
           <Text style={styles.budgetUser}>{userBudget}€</Text>
         </View>
       </View>
@@ -40,29 +40,21 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Bold',
     color: '#2B0D35',
     fontSize: 16,
-    start: 10
   },
   barContainer: {
-    width: 300,
     height: 25,
     borderRadius: 20,
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    start: 10,
-    top: 5
-
 
   },
   budgetUser: {
     color: '#2B0D35',
-    fontWeight: 'bold',
-    position: 'absolute',
-    left: budgetPos
+    fontFamily:'Raleway-Medium',
   },
   progressBar: {
-
-    height: 20,
+    height: 25,
     borderRadius: 15,
     fontFamily: 'Raleway-Regular',
     backgroundColor: '#2B0D35',
