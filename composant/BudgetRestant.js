@@ -1,13 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
+
+const screenWidth = Dimensions.get('window').width;
 
 const BudgetRestant = ({listes, userBudget}) => {
 
-  const budgetConsomme = listes.reduce((a, v) => a + v.prix,0);
+  let budgetConsomme = listes.reduce((a, v) => a + v.prix,0);
+  budgetConsomme = budgetConsomme >= userBudget? userBudget: budgetConsomme;
   const budget = userBudget === 0 ? budgetConsomme : userBudget;
-  const progresBarPercentage = budgetConsomme/budget*100;
-  const reste = budget - budgetConsomme;
+  let progresBarPercentage = budgetConsomme/budget*100;
+  let reste = budget - budgetConsomme;
+  reste = reste <=0 ? 0: reste;
 
+  if (budgetConsomme === 0) {
+    progresBarPercentage = 15;
+  }
+  
   return (
     <>
         <Text style={styles.subTilte}>Reste {reste.toFixed(2)}€ à dépenser</Text>
@@ -19,6 +27,7 @@ const BudgetRestant = ({listes, userBudget}) => {
   )
 }
 
+const budgetPos = screenWidth - 70;
 const styles = StyleSheet.create({
   subTilte: {
     marginTop: 25,
@@ -37,6 +46,8 @@ const styles = StyleSheet.create({
   budgetUser: {
     color: 'green',
     fontWeight: 'bold',
+    position: 'absolute',
+    left: budgetPos
   },
   progressBar: {
     height: 20,
