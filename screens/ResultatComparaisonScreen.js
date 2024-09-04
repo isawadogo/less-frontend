@@ -1,7 +1,7 @@
 /* IMPORTS */
 
 // import React et React Native
-import { ScrollView, SafeAreaView, StyleSheet, Text, StatusBar, View, Pressable } from 'react-native';
+import { TouchableOpacity, ScrollView, SafeAreaView, StyleSheet, Text, StatusBar, View } from 'react-native';
 import { useState, useEffect } from 'react';
 // import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,8 +11,25 @@ import { frontConfig } from '../modules/config';
 
 /* FONCTION CREER LISTE */
 
-function ResultatComponent({ resultat, onSelect }) {
+function ResultatComponent({ resultat, onSelect, isSelected }) {
   //console.log('RES DETAILS : ', resultat);
+  let selectText = 'Choisir cette liste'
+  let styleButton = styles.buttonBlue;
+
+  const handleSelect = () => {
+    onSelect();
+  }
+  if (isSelected) {
+    selectText = 'Liste Selectionnée'
+    styleButton = {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 20,
+    backgroundColor: '#191970',
+  };
+  }
+  
   return (
     <View style={styles.resultatContainer}>
 
@@ -29,9 +46,9 @@ function ResultatComponent({ resultat, onSelect }) {
         <Text style={styles.priceText}>{resultat.produits.reduce((a, v) => a + (v.produit.prix * v.quantite), 0).toFixed(2)}€</Text>
       </View>
 
-      <Pressable style={styles.buttonBlue} onPress={onSelect}>
-        <Text style={styles.textButtonBlue}>Choisir cette liste</Text>
-      </Pressable>
+      <TouchableOpacity style={styleButton} onPress={handleSelect}>
+        <Text style={styles.textButtonBlue}>{selectText}</Text>
+      </TouchableOpacity>
 
     </View>
   )
@@ -132,19 +149,19 @@ export default function ResultatComparaisonScreen({ navigation }) {
       </View>
       {!isResultatSelected && <Text style={{fontWeight: 'bold', color: 'red'}}>Veuillez sélectionner une liste</Text>}
       <Text style={styles.subTitle}>Meilleur résultat</Text>
-      <ResultatComponent resultat={resultComparaison[0]} onSelect={() => {setIsResultatSelected(true); setListeChoisie(resultComparaison[0])}} key={resultComparaison[0].enseigneId} />
+      <ResultatComponent resultat={resultComparaison[0]} onSelect={() => {setIsResultatSelected(true); setListeChoisie(resultComparaison[0])}} key={resultComparaison[0].enseigneId} isSelected={listeChoisie.nom === resultComparaison[0].nom} />
 
       <Text style={styles.subTitle}>Autres résultats</Text>
 
       <ScrollView style={styles.scrollView}>
         {resultComparaison.slice(1).map((r, i) => {
-          return <ResultatComponent resultat={r} onSelect={() => {setIsResultatSelected(true);setListeChoisie(r)}} key={r.enseigneId} />
+          return <ResultatComponent resultat={r} onSelect={() => {setIsResultatSelected(true);setListeChoisie(r)}} key={r.enseigneId} isSelected={listeChoisie.nom === r.nom} />
         })}
       </ScrollView>
 
-      <Pressable style={styles.buttonViolet} onPress={handleChoose}>
+      <TouchableOpacity style={styles.buttonViolet} onPress={handleChoose}>
         <Text style={styles.textButtonBlue}>Continuer</Text>
-      </Pressable>
+      </TouchableOpacity>
 
     </SafeAreaView>
   )

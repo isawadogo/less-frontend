@@ -1,18 +1,19 @@
 /* IMPORTS */
 
 // import React et React Native
-import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, KeyboardAvoidingView, Pressable } from 'react-native';
+import { TouchableOpacity, ScrollView, SafeAreaView, StyleSheet, Text, StatusBar, View, Pressable } from 'react-native';
 import { useState, useEffect, useRef } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { cleanListeDetails, removeListe } from '../reducers/user';
+import { removeListe } from '../reducers/user';
 //import { removeListe } from '../reducers/liste';
 // import modules et composants
-import { evaluateCritere, getEnseignesList } from '../modules/listesFunctions';
+import { getEnseignesList } from '../modules/listesFunctions';
 import { frontConfig } from '../modules/config';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 // import icones
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+//import { TouchableOpacity } from 'react-native-gesture-handler';
 
 /* FONCTION CREER LISTE */
 
@@ -106,7 +107,6 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
         <Text style={styles.productNbr}>{produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
       </View>
       
-      
       <Text style={styles.enseigne}>{listeChoisie.nom} :</Text>
 
       <ScrollView style={styles.scrollView}>
@@ -127,7 +127,6 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
 
                         <View style={styles.totalContainer}>
                           {p.criteres.map((c) => <Text style={styles.criteresBool} key={`${j}-${p.produit._id}_${c}`}>✔️ {c}</Text>)}
-                          <FontAwesomeIcon style={styles.icon} icon={faTrash}/>
                         </View>
 
                       </View>
@@ -144,17 +143,17 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
         <Text style={styles.totalNumber}>{listeChoisie.produits.reduce((a, v) => a + (v.produit.prix * v.quantite), 0).toFixed(2)}€</Text>
       </View>
 
-      
-
       <Pressable style={styles.buttonBlue} onPress={handleValider}>
           <Text style={styles.textButtonBlue}>Valider cette liste</Text>
       </Pressable>    
 
       {isListeSave && 
-        <View>
-          <Text>Votre liste a été sauvegardée</Text>
-          <Button title="Retourner à l'accueil" onPress={handleRetour} />
-        </View>
+        <>
+          <Text style={styles.textRetour}>Votre liste a été sauvegardée</Text>
+          <TouchableOpacity style={styles.buttonBlue} onPress={handleRetour}>
+            <Text style={styles.textButtonBlue}>Retourner à l'accueil</Text>
+          </TouchableOpacity>
+        </>
       }
 
    
@@ -172,102 +171,86 @@ const styles = StyleSheet.create({
   },
   scrollView: {
   },
-
   topContainer:{
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 15
   },
-
   ListName:{
     fontFamily: 'Raleway-Bold',
     fontSize: 24,
     color:'#25000D'
   },
-
   productNbr:{
     color: 'white',
     backgroundColor: '#7CD6C1',
     alignSelf: 'flex-end',
   },
-
   enseigne:{
     fontFamily: 'Raleway-Medium',
     fontSize: 18,
     color:'#25000D',
     marginBottom: 15
   },
-
   categorieText:{
     fontFamily: 'Raleway-Bold',
     fontSize: 14,
     color: '#25000D',
     marginBottom: 10,
   },
-
   productContainer:{
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 10,
     marginBottom: 10
   },
-
   productSubContainer:{
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-
   productName:{
     fontFamily: 'Raleway-Regular',
     fontSize: 14,
     color: '#4F4F4F',
   },
-
   productPrice:{
     fontFamily: 'Raleway-Bold',
     fontSize: 14,
     color: '#7CD6C1',
   },
-
   productQuantity:{
     fontFamily: 'Raleway-Regular',
     fontSize: 10,
     color: '#A3A3A3',
     alignSelf: 'flex-end'
   },
-
   criteresBool:{
     fontFamily: 'Raleway-Regular',
     fontSize: 14,
     color: '#4F4F4F',
   },
-
   icon:{
     color: '#DCA2A2',
     padding: 10
   },
-
   totalContainer:{
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 10,
     alignItems: 'flex-end'
   },
-
   totalText:{
     fontFamily: 'Raleway-Medium',
     fontSize: 18,
     color:'#25000D',
     marginBottom: 15
   },
-
   totalNumber:{
     fontFamily: 'Raleway-Bold',
     fontSize: 18,
     color:'#25000D',
     marginBottom: 15
   },
-
   buttonBlue: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -275,11 +258,17 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: '#7CD6C1',
   },
-
   textButtonBlue: {
     fontSize: 13,
     fontFamily: 'Raleway-Medium',
     color: 'white',
+  },
+  textRetour: {
+    paddingTop: 10, 
+    paddingBottom: 10, 
+    fontWeight: 'bold', 
+    alignSelf: 'center',
+    color: '#800000'
   },
 
 
