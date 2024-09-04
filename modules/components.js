@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import colors from '../styles/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faCircleArrowRight, faColumns } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment/moment';
 
 function LessButtonTouchable({ label, onChange }) {
@@ -212,11 +212,13 @@ function ListeDetailsComponent({ liste }) {
       <Text style={styles.article}>Articles de la liste :</Text>
       {liste.listeArticles.map((a, i) => {
         return (
-            <View key={`${i}-${liste._id}-${a._id}`} style={styles.liste}>
-              <Text style={{ paddingLeft: 20, color: 'white', fontWeight: 'bold', paddingBottom: 10 }}>{a.nom.toUpperCase()}</Text>
-              <Text style={{ paddingLeft: 20, color: 'white', fontWeight: 'bold', paddingBottom: 10 }}>Quantité:   {a.quantite}</Text>
+          <View key={`${i}-${liste._id}-${a._id}`} style={styles.liste}>
+            <Text style={{ color: 'white', fontWeight: 'bold' }}>{a.nom.toUpperCase()}</Text>
+            <View>
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>Quantité:  {a.quantite}</Text>
               <Text style={styles.prix}>{a.prix} €</Text>
             </View>
+          </View>
         )
       })
       }
@@ -305,22 +307,27 @@ const styles = StyleSheet.create({
     paddingStart: 30,
     fontSize: 16,
     fontStyle: 'italic',
-    top: 15,
 
   },
   liste: {
-    width: 325,
-    padding: 11,
-    flexDirection: 'row',
+    height: 80,
+    width: 300,
+    padding: 20,
     backgroundColor: "#2B0D35",
     color: 'white',
-    margin: 25,
-    borderRadius: 15,
-
+    marginBottom: 10,
+    borderRadius: 20,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    start: 15,
   },
   prix: {
     color: 'white',
-    start: 105
+    textAlign: 'right',
+    bottom: 20,
+
+
 
   },
   inputTextStyle: {
@@ -399,7 +406,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 7,
-    start: 5
+    paddingStart: 5
   },
   listText: {
     fontFamily: 'Raleway-Medium',
