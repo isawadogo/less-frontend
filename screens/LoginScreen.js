@@ -129,7 +129,7 @@ export default function LoginScreen({ navigation }) {
                 secureTextEntry={true}
               />
 
-              <TouchableButton color="#7CD6C1" onPress={handleSubmit} title="S'ENREGISTRER" position={buttonPosition}></TouchableButton>
+              <TouchableButton color="#7CD6C1" onPress={handleSubmit} title="CONNEXION" position={buttonPosition}></TouchableButton>
             </>
           )}
         </Formik>

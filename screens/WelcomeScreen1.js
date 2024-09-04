@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   buttonTransparent: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
+    paddingVertical: 10,
   },
 
   textButtonWhite: {
@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: 'Raleway-Regular',
     color: 'white',
+    right: 10,
   },
 
   logo: {
