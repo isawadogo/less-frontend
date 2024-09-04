@@ -192,7 +192,7 @@ export default function HomeScreen({ navigation }) {
 
             <BudgetRestant listes={userListes} userBudget={user.budget} />
 
-            <Text style={styles.subTilte}>Reprendre une liste enregistrée</Text>
+            <Text style={styles.subTilte}>Mes listes passées</Text>
 
             <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
           </View>

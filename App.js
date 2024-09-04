@@ -65,7 +65,7 @@ function ProfilStackScreen() {
       <ProfilStack.Screen name="Langue" component={LangueScreen} initialParams={{ titre: 'Langues' }} />
       <ProfilStack.Screen name="Conditions Générales" component={CGUScreen} initialParams={{ titre: 'Conditions générales de ventes' }} />
       <ProfilStack.Screen name="ModifierMotDePasse" component={ModifierPasswordScreen} initialParams={{ titre: 'Modifier mon mot de passe' }} />
-      <ProfilStack.Screen name="ModifierProfil" component={ModifierProfilScreen} option={{ title: 'modifier notre Profil' }} />
+      <ProfilStack.Screen name="ModifierProfil" component={ModifierProfilScreen} initialParams={{ titre: 'modifier notre Profil' }} />
     </ProfilStack.Navigator>
   )
 }

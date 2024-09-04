@@ -139,9 +139,9 @@ export default function BudgetScreen({ navigation }) {
 
     };
 
-    const spentByCategory = categoriesChart.map((object) => {
+    const spentByCategory = categoriesChart.map((object, index) => {
         return (
-            <View key={object.category} style={styles.row}>
+            <View key={`${index}-${object.name}`} style={styles.row}>
                 <View style={[styles.colorBox, { backgroundColor: object.color }]} />
                 <Text>{object.name}</Text>
                 <Text>{object.amount}€</Text>
@@ -168,7 +168,7 @@ export default function BudgetScreen({ navigation }) {
             </View>
         );
     });
-    console.log('GRAPH :', budgetData)
+    //console.log('GRAPH :', budgetData)
     return (
         <SafeAreaView style={styles.background}>
 

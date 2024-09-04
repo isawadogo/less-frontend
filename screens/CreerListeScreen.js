@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
+import moment from 'moment/moment';
 //import Modules et Composants
 import {LessHeader} from '../modules/components';
 import { getUserListes } from '../modules/listesFunctions';
@@ -113,7 +114,7 @@ export default function CreerListeScreen({ navigation }) {
             {userListes ? userListes.map((l) => {
               return(
                 <View key={l._id} style={styles.listContainer}>
-                  <Text style={styles.listText}>Nom : {l.nom}</Text>
+                  <Text style={styles.listText}>Nom : {l.nom}</Text><Text> du {moment(l.dateCreation).format('DD MMMM à HH:mm')}</Text>
                 </View>
               )
             }) :  <View></View> }

@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import colors from '../styles/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment/moment';
 
 function LessButtonTouchable({ label, onChange }) {
   return (
@@ -205,20 +206,17 @@ function LessHeader(props) {
 
 function ListeDetailsComponent({ liste }) {
   return (
-    <SafeAreaView key={liste._id} style={styles.modalView}>
+    <SafeAreaView key={`${liste._id}-${liste.nom}`} style={styles.modalView}>
       <Text style={styles.nom}> {liste.nom} </Text>
-      <Text style={styles.date} >Date de création : {liste.dateCreation} </Text>
+      <Text style={styles.date} >Date de création : {moment(liste.dateCreation).format('DD MMMM à HH:mm')} </Text>
       <Text style={styles.article}>Articles de la liste :</Text>
       {liste.listeArticles.map((a, i) => {
         return (
-          <View>
-            <View key={a._id} style={styles.liste}>
+            <View key={`${i}-${liste._id}-${a._id}`} style={styles.liste}>
               <Text style={{ paddingLeft: 20, color: 'white', fontWeight: 'bold', paddingBottom: 10 }}>{a.nom.toUpperCase()}</Text>
               <Text style={{ paddingLeft: 20, color: 'white', fontWeight: 'bold', paddingBottom: 10 }}>Quantité:   {a.quantite}</Text>
               <Text style={styles.prix}>{a.prix} €</Text>
             </View>
-
-          </View>
         )
       })
       }
@@ -242,14 +240,14 @@ function ExistingListesComponents({ currentListes, deleteAction }) {
   }
   return (
     <View>
-      {listes ? listes.map((l) => {
+      {listes ? listes.map((l, i) => {
         //modalVisible = modalsState.find((e) => e.nom === l.nom);
         return (
-          < View key={l._id} >
+          < View key={`${i}-${l._id}`} >
             <View style={styles.listContainer}>
               <View>
                 <Text style={styles.listText}>{l.nom}</Text>
-                <Text style={styles.listDate}>Créer le </Text>
+                <Text style={styles.listDate}>Créer le {moment(l.dateCreation).format('DD MMMM à HH:mm')}</Text>
               </View>
               <TouchableOpacity onPress={() => handModalState(l.nom)}>
 
@@ -266,7 +264,7 @@ function ExistingListesComponents({ currentListes, deleteAction }) {
         visible={isVisible}
         onRequestClose={() => handModalState(l.nom)}
       >
-        <ListeDetailsComponent liste={modalListe} />
+        <ListeDetailsComponent liste={modalListe} key={modalListe._id} />
         <Button
           title='Supprimer cette liste'
           color={"#7CD6C1"}
