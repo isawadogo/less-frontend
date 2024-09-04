@@ -107,7 +107,7 @@ export default function LoginScreen({ navigation }) {
       <View style={styles.formikContainer}>
 
         <Text style={styles.title}>Content de vous revoir 🤩 </Text>
-        <Text style={styles.text}>Accédez à votre compte ! {'\n'}Renseignez votre email et votre mot de passe.</Text>
+        <Text style={styles.text}>                 Accédez à votre compte ! {'\n'}Renseignez votre emaila et votre mot de passe.</Text>
         <Text style={{ fontWeight: 'bold', color: 'red' }} >{taskMessage}</Text>
         <Formik
           initialValues={initialValues}
@@ -155,7 +155,7 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#2B0D35",
     padding: 20,
   },
   formikContainer: {
@@ -171,10 +171,10 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'Raleway-Bold',
     fontSize: 20,
-    color: '#2B0D35',
+    color: 'white',
     marginTop: 15,
     marginBottom: 15,
-    left: 15,
+    left: 60,
   },
 
   text: {
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#CFCFCF',
     marginBottom: 25,
-    left: 15,
+    left: 40,
 
   },
 
@@ -242,7 +242,8 @@ const styles = StyleSheet.create({
   textButtonTransparent: {
     fontSize: 13,
     fontFamily: 'Raleway-SemiBold',
-    color: '#2B0D35',
+    color: 'white',
+    fontWeight: 'bold',
   },
 
 });
