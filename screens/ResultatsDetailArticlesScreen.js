@@ -6,13 +6,11 @@ import { useState, useEffect, useRef } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { removeListe } from '../reducers/user';
-//import { removeListe } from '../reducers/liste';
 // import modules et composants
 import { getEnseignesList } from '../modules/listesFunctions';
 import { frontConfig } from '../modules/config';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { getUserListes } from '../modules/listesFunctions';
 // import icones
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 //import { TouchableOpacity } from 'react-native-gesture-handler';
 
 /* FONCTION CREER LISTE */
@@ -31,6 +29,9 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
   const [ enseignes, setEnseignes ] = useState([]);
   const [ resultats, setResultats ] = useState([]);
   const [isListeSave, setIsListeSaved] = useState(false);
+  const [userListes, setUserListes] = useState([]);
+  const [isAlreadySaved, setIsAlreadySaved] = useState(false);
+  const [saveMessage, setSaveMessage ] = useState('');
 
   const dispatch = useDispatch();
   //const catSelected = [...new Set(produitsSelected.map((e) => e.produit.categorie))].map((e, i) => {return {nom: e, id: i}})
@@ -45,6 +46,10 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
       if (resultatComp.resultat) {
           setIsReady(true);
       }
+      getUserListes(user.token, user.id).then(listes => {
+        setUserListes(listes);
+        //setIsReady(true)
+      });
     })();
   }, []);
 
@@ -58,6 +63,11 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
   })
 
   const handleValider = async () => {
+    if (userListes.some((l) => l.nom.toLowerCase() === listeName)) {
+      setIsAlreadySaved(true);
+      setSaveMessage('Votre liste a déjà  été sauvegardée')
+      return;
+    };
     const postData = {
       nom: listeName,
       utilisateur: user.id,
@@ -86,7 +96,9 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
       const resJson = await conReq.json();
       //console.log('connection result : ', resJson);
       if (resJson.result) {
+        setSaveMessage('Votre liste a été sauvegardée')
         setIsListeSaved(true);
+        setIsAlreadySaved(true);
       } else {
         console.log('Failed to create liste. Response from the backend is : ', resJson.error);
       }
@@ -143,13 +155,14 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
         <Text style={styles.totalNumber}>{listeChoisie.produits.reduce((a, v) => a + (v.produit.prix * v.quantite), 0).toFixed(2)}€</Text>
       </View>
 
-      <Pressable style={styles.buttonBlue} onPress={handleValider}>
+      <TouchableOpacity style={styles.buttonBlue} onPress={handleValider} disabled={isAlreadySaved}>
           <Text style={styles.textButtonBlue}>Valider cette liste</Text>
-      </Pressable>    
+      </TouchableOpacity>    
+          
+      <Text style={styles.textRetour}>{saveMessage}</Text>
 
       {isListeSave && 
         <>
-          <Text style={styles.textRetour}>Votre liste a été sauvegardée</Text>
           <TouchableOpacity style={styles.buttonBlue} onPress={handleRetour}>
             <Text style={styles.textButtonBlue}>Retourner à l'accueil</Text>
           </TouchableOpacity>

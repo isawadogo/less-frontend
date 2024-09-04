@@ -1,7 +1,7 @@
 /* IMPORT */
 
 //imports React & React Native
-import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, Pressable } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, Pressable, TouchableOpacity } from 'react-native';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //import Redux & Reducer
@@ -12,12 +12,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
-import moment from 'moment/moment';
 //import Modules et Composants
-import {LessHeader} from '../modules/components';
-import { getUserListes } from '../modules/listesFunctions';
+import { getUserListes, deleteListe } from '../modules/listesFunctions';
 import LessFormikInput from '../composant/LessFormikInput';
 import BudgetRestant from '../composant/BudgetRestant';
+import { ExistingListesComponents } from '../modules/components';
 /* FONCTION CREER LISTE*/
 
 export default function CreerListeScreen({ navigation }) {
@@ -25,10 +24,10 @@ export default function CreerListeScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
   
   const listeName = useSelector((state) => state.user.value.listeName);
-  //const listeName = useSelector((state) => state.liste.value.listeName);
 
   const [userListes, setUserListes] = useState([]);
   const [ isReady, setIsReady] = useState(false);
+  const [isListeExists, setIsListeExists] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -66,16 +65,37 @@ export default function CreerListeScreen({ navigation }) {
   });
 
   const handleValider = (values) => {
-    //console.log('save liste name : ', values.nomListe)
+    if (userListes.some((l) => l.nom.toLowerCase() === values.nomListe.toLowerCase())) {
+      setIsListeExists(true);
+      return
+    }
     dispatch(updateListeName(values.nomListe));
+    setIsListeExists(false);
     navigation.navigate('ChoisirListeProduits');
   }
+  const handleDeleteListe = (id) => {
+    deleteListe(user.token, id)
+      .then(res => {
+        if (res) {
+          setIsReady(false);
+          getUserListes(user.token, user.id).then(listes => {
+            setUserListes(listes);
+            setIsReady(true);
+          });
+        }
+      })
+  }
 
-  //console.log('Creer liste screen - user details : ', user);
   return (
     <KeyboardAvoidingView style={styles.containerG} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Nommer ma liste</Text>
+        <Text style={[styles.title, {paddingBottom: 25}]}>Nommer ma liste</Text>
+        {isListeExists && 
+          <View style={{alignItems: 'center', fontSize: 14, color: '#800000'}}>
+          <Text style={styles.textDoubleListe}>Une liste ayant le même nom existe.</Text>
+          <Text style={styles.textDoubleListe}>Veuillez choisir un autre nom.</Text>
+          </View>
+        }
         <View style={{ flexDirection: 'row'}}>
           <Formik
             initialValues={initialValues}
@@ -89,15 +109,16 @@ export default function CreerListeScreen({ navigation }) {
                   name="nomListe"
                   placeholder='"Ma super liste"'
                   style={{width: '85%'}}
-                  errorTextStyle={{ position: 'absolute', left: 170 }}
+                  errorTextStyle={styles.errorTextStyle}
+                  customStyle={{ backgroundColor: '#000000' }}
                 />
-              <Pressable 
+              <TouchableOpacity 
                 onPress={handleSubmit}
                 disabled={!isValid}
                 width={50}
               >
                 <FontAwesomeIcon icon={faCircleCheck} style={styles.icon}/>
-              </Pressable>
+              </TouchableOpacity>
               </>
               )}
           </Formik>
@@ -110,14 +131,8 @@ export default function CreerListeScreen({ navigation }) {
             <Text style={styles.separatorLine} />
           </View>
 
-          <Text style={styles.title}>Mes listes passées</Text>
-            {userListes ? userListes.map((l) => {
-              return(
-                <View key={l._id} style={styles.listContainer}>
-                  <Text style={styles.listText}>Nom : {l.nom}</Text><Text> du {moment(l.dateCreation).format('DD MMMM à HH:mm')}</Text>
-                </View>
-              )
-            }) :  <View></View> }
+          <Text style={[styles.title, {paddingBottom: 25}]}>Mes listes passées</Text>
+          <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
       </SafeAreaView>
     </KeyboardAvoidingView>
   )
@@ -129,6 +144,17 @@ const styles = StyleSheet.create({
   containerG: {
     flex: 1,
   },
+  textDoubleListe: {
+    fontSize: 14, 
+    color: '#800000',
+    fontWeight: 'bold', 
+  },
+  errorTextStyle: { 
+    position: 'absolute', 
+    left: 40, 
+    top: -15, 
+    fontSize: 14 
+  },
   container: {
     flex: 1,
     margin: 10,
@@ -137,17 +163,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Bold',
     color: '#25000D',
     fontSize: 24
-  },
-  barContainer: {
-    height: 20,
-    borderRadius: 20,
-    backgroundColor: '#F8F8F8',
-  },
-  progressBar: {
-    height: 20,
-    borderRadius: 20,
-    fontFamily: 'Raleway-Regular',
-    backgroundColor: '#2B0D35',
   },
   separatorContainer: {
     flexDirection: 'row',
@@ -166,22 +181,6 @@ const styles = StyleSheet.create({
     color: '#CFCFCF',
     fontSize: 13,
     margin: 15,
-  },
-  listContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: 'white',
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingStart: 20,
-    paddingEnd: 10,
-    marginBottom: 15,
-    borderRadius: 40,
-  },
-  listText: {
-    fontSize: 16,
-    fontFamily: 'Raleway-Medium',
-    color: '#25000D',
   },
    icon:{
     fontSize: 35,

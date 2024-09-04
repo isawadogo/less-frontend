@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   block: {
-    top: 130,
+    top: 100,
     flex: 1,
     width: 350,
     height: 500,
