@@ -5,6 +5,7 @@ import { ScrollView, SafeAreaView, Button, StyleSheet, Text, StatusBar, View, Ke
 import { useState, useEffect, useRef } from 'react';
 // import des modules
 import { ProduitRecapComponent } from '../modules/components';
+import MonPanier from '../composant/MonPanier';
 // import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
 import { addProduit, removeProduit, updateListe } from '../reducers/user';
@@ -60,11 +61,10 @@ export default function RecapListeProduitsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+
+      <MonPanier name={nomListe} nbrItem={produitsSelected.reduce((a,v) => a = a + v.count, 0)}/>
         
-      <View style={styles.topContainer}>
-        <Text style={styles.ListName}>{nomListe}</Text>
-        <Text style={styles.productNbr}>{produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
-      </View>
+
 
       <ScrollView style={styles.scrollView}>
         
