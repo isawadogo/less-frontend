@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   loadingText: {
     fontFamily: 'Raleway-Bold',
     fontSize: 14,
-    color: '#25000D'
+    color: '#2B0D35'
   },
 
   container: {
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   listTitle: {
     fontFamily: 'Raleway-Bold',
     fontSize: 24,
-    color: '#25000D'
+    color: '#2B0D35'
   },
 
   nbrItem: {
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   subTitle: {
     fontFamily: 'Raleway-SemiBold',
     fontSize: 20,
-    color: '#25000D',
+    color: '#2B0D35',
     marginBottom: 10,
   },
 
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   priceText: {
     fontSize: 14,
     fontFamily: 'Raleway-Bold',
-    color: '#25000D',
+    color: '#2B0D35',
     marginBottom: 10,
   },
 
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
     borderRadius: 20,
-    backgroundColor: '#25000D',
+    backgroundColor: '#2B0D35',
     marginTop: 15
   },
 
