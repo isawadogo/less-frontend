@@ -7,7 +7,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedListe } from '../reducers/user';
 import { frontConfig } from '../modules/config';
-// import Icones
+// import composants
+import MonPanier from '../composant/MonPanier';
 
 /* FONCTION CREER LISTE */
 
@@ -143,10 +144,8 @@ export default function ResultatComparaisonScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
 
-      <View style={styles.topContainer}>
-        <Text style={styles.listTitle}>{listeName}</Text>
-        <Text style={styles.nbrItem}>{produitsSelected.reduce((a, v) => a = a + v.count, 0)}</Text>
-      </View>
+      <MonPanier name={listeName} nbrItem={produitsSelected.reduce((a,v) => a = a + v.count, 0)}/>
+
       {!isResultatSelected && <Text style={{fontWeight: 'bold', color: 'red'}}>Veuillez sélectionner une liste</Text>}
       <Text style={styles.subTitle}>Meilleur résultat</Text>
       <ResultatComponent resultat={resultComparaison[0]} onSelect={() => {setIsResultatSelected(true); setListeChoisie(resultComparaison[0])}} key={resultComparaison[0].enseigneId} isSelected={listeChoisie.nom === resultComparaison[0].nom} />

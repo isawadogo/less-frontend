@@ -10,8 +10,9 @@ import { removeListe } from '../reducers/user';
 // import modules et composants
 import { getEnseignesList } from '../modules/listesFunctions';
 import { frontConfig } from '../modules/config';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import MonPanier from '../composant/MonPanier';
 // import icones
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 //import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -102,10 +103,8 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.topContainer}>
-        <Text style={styles.ListName}>{listeName}</Text>
-        <Text style={styles.productNbr}>{produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
-      </View>
+
+      <MonPanier name={listeName} nbrItem={produitsSelected.reduce((a,v) => a = a + v.count, 0)}/>
       
       <Text style={styles.enseigne}>{listeChoisie.nom} :</Text>
 

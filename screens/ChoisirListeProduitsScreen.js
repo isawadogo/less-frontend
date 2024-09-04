@@ -14,6 +14,7 @@ import { frontConfig } from '../modules/config';
 // import des icones
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import MonPanier from '../composant/MonPanier';
 
 /* FONCTION CREER LISTE */
 
@@ -98,11 +99,9 @@ export default function CreerListeScreen({ navigation }) {
   
   return (
     <SafeAreaView style={styles.container}>
+
+      <MonPanier name={listeName} nbrItem={produitsSelected.reduce((a,v) => a = a + v.count, 0)}/>
         
-        <View style={styles.topContainer}>
-          <Text style={styles.ListName}>{listeName}</Text>
-          <Text style={styles.productNbr}>{produitsSelected.reduce((a,v) => a = a + v.count, 0)}</Text>
-        </View>
         <View style={styles.errorProduitsNumber}>
           {!isProduitSelected && <Text style={styles.errorMessage}>Vous devez choisir au moins un produit</Text>}
         </View>
