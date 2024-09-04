@@ -10,9 +10,7 @@ import { removeListe } from '../reducers/user';
 import { getEnseignesList } from '../modules/listesFunctions';
 import { frontConfig } from '../modules/config';
 import MonPanier from '../composant/MonPanier';
-// import icones
 import { getUserListes } from '../modules/listesFunctions';
-//import { TouchableOpacity } from 'react-native-gesture-handler';
 
 /* FONCTION CREER LISTE */
 
