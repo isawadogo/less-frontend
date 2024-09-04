@@ -1,7 +1,7 @@
 /* IMPORT */
 
 //imports React & React Native
-import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, Pressable, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView,Text, View, StatusBar, KeyboardAvoidingView, Platform, Pressable, TouchableOpacity } from 'react-native';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //import Redux & Reducer
@@ -87,7 +87,7 @@ export default function CreerListeScreen({ navigation }) {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.containerG} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <ScrollView style={styles.containerG} >
       <SafeAreaView style={styles.container}>
         <Text style={[styles.title, {paddingBottom: 25}]}>Nommer ma liste</Text>
         {isListeExists && 
@@ -110,7 +110,7 @@ export default function CreerListeScreen({ navigation }) {
                   placeholder='"Ma super liste"'
                   style={{width: '85%'}}
                   errorTextStyle={styles.errorTextStyle}
-                  customStyle={{ backgroundColor: '#000000' }}
+                  customStyle={{ backgroundColor: 'white' }}
                 />
               <TouchableOpacity 
                 onPress={handleSubmit}
@@ -134,7 +134,7 @@ export default function CreerListeScreen({ navigation }) {
           <Text style={[styles.title, {paddingBottom: 25}]}>Mes listes passées</Text>
           <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
       </SafeAreaView>
-    </KeyboardAvoidingView>
+    </ScrollView>
   )
 }
 
@@ -143,6 +143,7 @@ export default function CreerListeScreen({ navigation }) {
 const styles = StyleSheet.create({
   containerG: {
     flex: 1,
+    paddingTop: StatusBar.currentHeight,
   },
   textDoubleListe: {
     fontSize: 14, 
@@ -153,7 +154,7 @@ const styles = StyleSheet.create({
     position: 'absolute', 
     left: 40, 
     top: -15, 
-    fontSize: 14 
+    fontSize: 14 ,
   },
   container: {
     flex: 1,

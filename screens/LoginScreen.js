@@ -108,7 +108,7 @@ export default function LoginScreen({ navigation }) {
 
         <Text style={styles.title}>Content de vous revoir 🤩 </Text>
         <Text style={styles.text}>                 Accédez à votre compte ! {'\n'}Renseignez votre emaila et votre mot de passe.</Text>
-        <Text style={{ fontWeight: 'bold', color: 'red' }} >{taskMessage}</Text>
+        <Text style={styles.errorMessage} >{taskMessage}</Text>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -121,12 +121,14 @@ export default function LoginScreen({ navigation }) {
                 name="email"
                 placeholder="email"
                 keyboardType='email-address'
+                errorTextStyle={styles.textError}
               />
               <Field
                 component={LessFormikInput}
                 name="password"
                 placeholder='mot de passe'
                 secureTextEntry={true}
+                errorTextStyle={styles.textError}
               />
 
               <TouchableButton color="#7CD6C1" onPress={handleSubmit} title="CONNEXION" position={buttonPosition}></TouchableButton>
@@ -167,7 +169,12 @@ const styles = StyleSheet.create({
     padding: 15,
     color: '#2B0D35',
   },
-
+  errorMessage: { 
+    fontWeight: 'bold', 
+    color: 'red', 
+    alignSelf: 'center',
+    fontFamily: 'Raleway-Bold',
+  },
   title: {
     fontFamily: 'Raleway-Bold',
     fontSize: 20,
@@ -176,7 +183,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     left: 60,
   },
-
+  textError: {
+    paddingLeft: 40,
+    fontSize: 14,
+  },
   text: {
     fontFamily: 'Raleway-Regular',
     fontSize: 13,

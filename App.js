@@ -116,7 +116,7 @@ const TabNavigator = () => {
 
           if (route.name === 'Acceuil') {
             iconeType = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Profil') {
+          } else if (route.name === 'Compte') {
             iconeType = focused ? 'person' : 'person-outline'
           } else if (route.name === 'Budget') {
             iconeType = focused ? 'wallet' : 'wallet-outline'
@@ -132,7 +132,7 @@ const TabNavigator = () => {
 
     >
       <Tab.Screen name="Acceuil" component={HomeScreen} />
-      <Tab.Screen name="Profil" component={ProfilScreen} />
+      <Tab.Screen name="Compte" component={ProfilScreen} />
       <Tab.Screen name="Budget" component={BudgetScreen} />
     </Tab.Navigator>
   );

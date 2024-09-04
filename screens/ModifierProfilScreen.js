@@ -340,7 +340,7 @@ export default function ModifierProfilScreen({ route, navigation }) {
                         onPress={() => updateCritere(element.dbValue, element.value)}
                         disabled={false}
                         color='white'
-                        uncheckedColor='yellow'
+                        uncheckedColor='whitwhitee'
                       />
                       <Text style={styles.radioText}>{element.value}</Text>
                     </View>

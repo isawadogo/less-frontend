@@ -119,18 +119,21 @@ export default function InscriptionScreen({ navigation }) {
                   name="email"
                   placeholder="email"
                   keyboardType='email-address'
+                  errorTextStyle={styles.textError}
                 />
                 <Field
                   component={LessFormikInput}
                   name="password"
                   placeholder='Mot de passe'
                   secureTextEntry={true}
+                  errorTextStyle={styles.textError}
                 />
                 <Field
                   component={LessFormikInput}
                   name="confirmPassword"
                   placeholder='Confirmer votre mot de passe'
                   secureTextEntry={true}
+                  errorTextStyle={styles.textError}
                 />
 
                 <TouchableButton color="#7CD6C1" onPress={handleSubmit} title="S'ENREGISTRER" position={buttonPosition1}></TouchableButton>
@@ -178,6 +181,10 @@ const styles = StyleSheet.create({
     color: 'white',
     bottom: 100,
     paddingStart: 40,
+  },
+  textError: {
+    paddingLeft: 40,
+    fontSize: 14,
   },
   infosCon: {
     fontSize: 15,
