@@ -17,54 +17,57 @@ export default function CGUScreen({ navigation }) {
   if (!loaded && !error) {
     return null;
   }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-
         <View>
-          <Text style={styles.intro} >La commission consultative des pratiques commerciales recommande que les fournisseurs de produits ou de prestations de services se dotent de conditions générales de vente établies selon les besoin de chacun, à partir du modèle proposé ci-après :`</Text>
+          <Text style={styles.intro}>
+            <Text>Bienvenur sur notre service gratuit de comparateur de prix pour vos listes de courses. Avant d'utiliser notre plateforme, nous vous invitpns à lire attentivement les présentes Conditions sGénérales d'Utilisation.</Text>
+          </Text>
+          <Text style={styles.sectionTitle}>1 - Acceptation des conditions</Text>
+          <Text style={styles.paragraphe}>
+            En accédant à notre service gratuit de comparateur de prix pour une liste de courses, vous acceptez sans réserve les présentes Conditions Générales d'Utilisation (CGU). Ces conditions peuvent être modifiées à tout moment et sans préavis par notre équipe. Il vous appartient de les consulter régulièrement.
+          </Text>
 
-          <Text style={styles.sectionTitle}>1 - Conclusion du contrat</Text>
+          <Text style={styles.sectionTitle}>2 - Description du service</Text>
+          <Text style={styles.paragraphe}>
+            Notre service de comparateur de prix vous permet de créer une liste de courses et de comparer les prix de ces produits parmi plusieurs détaillants partenaires. Les prix affichés sont fournis à titre indicatif et peuvent varier en fonction de divers facteurs, y compris les promotions, la disponibilité des produits, et les politiques tarifaires des détaillants.
+          </Text>
 
-          <Text style={styles.paragraphe}> Toute commande de produits implique l'adhésion sans réserve aux présentes conditions générales de vente, complétées ou aménagées par nos conditions particulières,qui annulent toute clause contraire pouvant figurer dans les conditions d'achat, bons de commande, ou autres documents commerciaux</Text>
+          <Text style={styles.sectionTitle}>3 - Fonctionnement du service</Text>
+          <Text style={styles.paragraphe}>
+            L'utilisateur saisit ou sélectionne des produits pour constituer une liste de courses. Notre service se charge alors de comparer les prix disponibles chez nos partenaires et de proposer les meilleures offres disponibles. Le service est entièrement gratuit pour l'utilisateur, et aucune obligation d'achat n'est imposée.
+          </Text>
 
-          <Text style={styles.sectionTitle}>2 - Prix</Text>
+          <Text style={styles.sectionTitle}>4 - Limitation de responsabilité</Text>
+          <Text style={styles.paragraphe}>
+            Nous nous efforçons de fournir des informations précises et à jour. Toutefois, nous ne pouvons garantir l'exactitude, la complétude, ou la disponibilité des prix et des produits référencés. Les utilisateurs sont invités à vérifier les prix et la disponibilité directement sur les sites des détaillants avant tout achat. Nous déclinons toute responsabilité en cas de différences de prix ou de rupture de stock.
+          </Text>
 
-          <Text style={styles.paragraphe}>Les marchandises sont facturées au tarif en vigueur au jour de la passation de la commande. Le tarif général est annexé aux présentes conditions. Les prix peuvent être révisés sous réserve d'une information préalable de 30 jours.</Text>
+          <Text style={styles.sectionTitle}>5 - Protection des données personnelles</Text>
+          <Text style={styles.paragraphe}>
+            Nous respectons votre vie privée et nous engageons à protéger vos données personnelles conformément à la réglementation en vigueur. Les informations que vous fournissez pour utiliser le service seront utilisées uniquement pour améliorer votre expérience utilisateur. Aucune donnée personnelle n'est partagée avec des tiers sans votre consentement explicite.
+          </Text>
 
-          <Text style={styles.sectionTitle}>3 - Livraison</Text>
+          <Text style={styles.sectionTitle}>6 - Propriété intellectuelle</Text>
+          <Text style={styles.paragraphe}>
+            Tous les éléments de notre service, y compris les textes, images, logos, et autres contenus, sont protégés par le droit d'auteur. Vous n'êtes pas autorisé à copier, reproduire, ou distribuer ces éléments sans notre accord préalable écrit.
+          </Text>
 
-          <Text style={styles.paragraphe}>La livraison est effectuée soit par la remise directe du produit à l'acquéreur, soit par avis de mise à disposition, soit par délivrance à un expéditeur ou à un transporteur dans les locaux du vendeur ou dans tous autres locaux désignés. La vérification des marchandises par l'acheteur doit être effectuée au moment de leur prise en charge. En cas d'avarie ou de manquant, de réclamations sur les vices apparents ou sur la non-conformité du produit livré, l'acheteur émettra des réserves claires et précises qu'il notifiera dans un délai de trois jours, suivant la date de livraison par écrit auprès du vendeur ou du transporteur. Il appartiendra à l'acheteur de fournir toute justification quant à la réalité des anomalies constatées. 4 - Délais de livraison Les délais de livraison sont indiqués en fonction des disponibilités d'approvisionnement. Sauf cas de force majeure (guerre, émeute, incendie, grève totale ou partielle.), en cas de retard de livraison d'une durée supérieure à .... après la date indicative de livraison, l'acheteur aura l'option d'annuler sa commande, sans pouvoir prétendre à quelque indemnité que ce soit.</Text>
+          <Text style={styles.sectionTitle}>7 - Modification du service</Text>
+          <Text style={styles.paragraphe}>
+            Nous nous réservons le droit de modifier, suspendre ou interrompre temporairement ou définitivement le service, en tout ou en partie, à tout moment, avec ou sans préavis. Nous ne serons pas responsables envers vous ou tout tiers pour toute modification, suspension ou interruption du service.
+          </Text>
 
-          <Text style={styles.sectionTitle}>4 - Retours</Text>
-
-          <Text style={styles.paragraphe}>Tout retour de produit doit faire l'objet d'un accord formel entre le vendeur et l'acquéreur.</Text>
-
-          <Text style={styles.sectionTitle}>5 - Garantie</Text>
-
-          <Text style={styles.paragraphe} >Le vendeur apportera le plus grand soin à l'exécution de la commande et à la qualité des produits. En cas de défectuosité reconnue par le vendeur, l'obligation de ce dernier sera limitée au remplacement ou au remboursement des quantités défectueuses, sans autre indemnité. Sont exclus de la garantie les défauts et dommages résultant d'un stockage, de manutention, de transport ou d'utilisation dans des conditions anormales ou non conformes avec la nature, les prescriptions, l'aptitude à l'emploi du produit.</Text>
-
-          <Text style={styles.sectionTitle}>6-Paiement</Text>
-
-          <Text style={styles.paragraphe}>Sauf conditions particulières, les factures sont payables à .... à compter de la date de livraison. En cas de retard de paiement, le vendeur pourra suspendre toutes les commandes en cours. Toute somme non payée à l'échéance figurant sur la facture entraîne de plein droit l'application de pénalités d'un montant égal à une fois et demie1  l'intérêt légal. Ces pénalités seront exigibles sur simple demande du vendeur. Aucun escompte n'est accepté pour paiement anticipé. Un escompte de .... est accordé pour tout paiement au comptant.</Text>
-
-          <Text style={styles.sectionTitle}>7-Clause resolutoire</Text>
-
-          <Text style={styles.paragraphe}>En cas de défaut de paiement, quarante huit heures après une mise en demeure restée infructueuse, la vente sera résiliée de plein droit par le vendeur qui pourra demander en référé la restitution des produits sans préjudice de tous autres dommages et intérêts. Les sommes restant dues pour d'autres livraisons deviendront immédiatement exigibles si le vendeur n'opte pas pour la résolution des commandes correspondantes</Text>
-
-          <Text style={styles.sectionTitle}>8-Réserve de propriété</Text>
-
-          <Text style={styles.paragraphe}>Les marchandises vendues restent la propriété du vendeur jusqu'au complet règlement de leur prix. Toutefois les risques afférents aux marchandises seront transférés à l'acheteur ou au transporteur, dès la remise physique des produits.</Text>
-
-          <Text style={styles.sectionTitle}>9-Attribution de juridiction</Text>
-
-          <Text style={styles.paragraphe}>Les présentes conditions annulent et remplacent les conditions précédemment applicables. Tout litige relatif aux présentes sera de la compétence du tribunal mixte de commerce</Text>
-
+          <Text style={styles.sectionTitle}>8 - Droit applicable et juridiction</Text>
+          <Text style={styles.paragraphe}>
+            Les présentes CGU sont soumises au droit français. En cas de litige relatif à l'utilisation de notre service, les parties s'engagent à rechercher une solution amiable avant toute action judiciaire. À défaut d'accord, le litige sera porté devant les tribunaux compétents.
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
-
-  )
+  );
 }
 
 /* STYLE CSS */
@@ -73,7 +76,10 @@ const styles = StyleSheet.create({
   container: {
     padding: 25,
   },
+  intro: {
+    fontWeight: 'bold'
 
+  },
   sectionTitle: {
     fontFamily: 'Raleway-Bold',
     fontSize: 13,
@@ -93,4 +99,4 @@ const styles = StyleSheet.create({
     fontFamily: "Raleway-Regular",
     color: "#555555"
   },
-})
+});

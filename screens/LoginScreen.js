@@ -125,7 +125,7 @@ export default function LoginScreen({ navigation }) {
               <Field
                 component={LessFormikInput}
                 name="password"
-                placeholder='Mot de passe'
+                placeholder='mot de passe'
                 secureTextEntry={true}
               />
 

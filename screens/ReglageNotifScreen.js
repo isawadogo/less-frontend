@@ -4,6 +4,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import TouchableButton from '../composant/TouchableButton';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,6 +14,12 @@ import CheckBoxReglage from '../composant/CheckBoxReglage';
 
 
 export default function ReglageNotifScreen({ navigation }) {
+
+    const buttonPosition = {
+        start: 85,
+        borderRadius: 15
+
+    }
     const dispatch = useDispatch();
     const [selectedCategoriesIds, setSelectedCategoriesIds] = useState([]);
 
@@ -77,7 +85,8 @@ export default function ReglageNotifScreen({ navigation }) {
                         onCheckBoxChange={() => handleCheckBoxChange(item.id)}
                     />
                 ))}
-                <TouchableOpacity onPress={saveSettings} style={styles.save} ><Text style={styles.saveText}>Sauvegarder</Text></TouchableOpacity>
+                <TouchableButton color="#7CD6C1" onPress={saveSettings} title="SAUVEGARDER" position={buttonPosition}></TouchableButton>
+
             </ScrollView>
         </SafeAreaView>
     );

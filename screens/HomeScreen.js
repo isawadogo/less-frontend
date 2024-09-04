@@ -195,10 +195,6 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.subTilte}>Reprendre une liste enregistrée</Text>
 
             <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
-
-
-
-
           </View>
 
           <TouchableButton color="grey" onPress={handleDeconnection} title="DECONNEXION" position={buttonPosition2}></TouchableButton>
@@ -237,12 +233,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Bold',
     color: '#2B0D35',
     fontSize: 16,
+    start: 8
   },
 
   userMail: {
     fontFamily: 'Raleway-Regular',
     color: '#7E7E7E',
     fontSize: 13,
+    start: 8,
   },
 
   icon: {
@@ -274,6 +272,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     width: 140,
+
   },
 
   mainText: {
@@ -281,6 +280,8 @@ const styles = StyleSheet.create({
     color: '#2B0D35',
     fontSize: 24,
     marginBottom: 10,
+    start: 15
+
   },
 
   subTilte: {
@@ -289,6 +290,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Bold',
     color: '#2B0D35',
     fontSize: 16,
+    start: 15
   },
 
   barContainer: {

@@ -2,7 +2,8 @@
 
 // import React et React Native
 import { useState, useEffect } from 'react';
-import { TouchableButton, TouchableOpacity, Pressable, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, } from 'react-native';
+import { TouchableOpacity, Pressable, Button, StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, } from 'react-native';
+import TouchableButton from '../composant/TouchableButton';
 // import Redux et Reducer
 import { useSelector } from 'react-redux';
 import { frontConfig } from '../modules/config';
@@ -20,8 +21,13 @@ import * as Yup from 'yup';
 
 export default function ModifierPasswordScreen({ navigation, route }) {
 
+  buttonPosition = {
+    start: 105,
+    borderRadius: 15,
+  }
+
   const user = useSelector((state) => state.user.value.userDetails);
-  const [taskMessage, setTaskMessage] = useState(''); 
+  const [taskMessage, setTaskMessage] = useState('');
 
   useEffect(() => {
     (() => {
@@ -30,8 +36,8 @@ export default function ModifierPasswordScreen({ navigation, route }) {
       }
     })();
   }, []);
-    //console.log('PARAMS FROM MODIFIER PWD: ', route)
-  
+  //console.log('PARAMS FROM MODIFIER PWD: ', route)
+
   const initialValues = { currentPassword: '', password: '', confirmPassword: '' };
   const validationSchema = Yup.object({
     currentPassword: Yup
@@ -39,11 +45,11 @@ export default function ModifierPasswordScreen({ navigation, route }) {
       .required('Veuillez saisir votre mot de passe actuel'),
     password: Yup
       .string()
- //     .matches(/\w*[a-z]\w*/, "Le mot de passe doit contenir au moins une lettre minuscule ")
- //     .matches(/\w*[A-Z]\w*/, "Le mot de passe doit contenir au moins une lettre majuscule")
- //     .matches(/\d/, "Le mot de passe doit contenir au moins un chiffre")
- //     .matches(/[!@#$%^&*()\-_=+{}; :,<.>]/, "e mot de passe doit contenir au moins un caractère spécial parmis : !@#$%^&*()\-_=+{}; :,<.>")
- //     .min(8, ({ min }) => `Le mot de passe doit avoir au moins ${min} characters`)
+      //     .matches(/\w*[a-z]\w*/, "Le mot de passe doit contenir au moins une lettre minuscule ")
+      //     .matches(/\w*[A-Z]\w*/, "Le mot de passe doit contenir au moins une lettre majuscule")
+      //     .matches(/\d/, "Le mot de passe doit contenir au moins un chiffre")
+      //     .matches(/[!@#$%^&*()\-_=+{}; :,<.>]/, "e mot de passe doit contenir au moins un caractère spécial parmis : !@#$%^&*()\-_=+{}; :,<.>")
+      //     .min(8, ({ min }) => `Le mot de passe doit avoir au moins ${min} characters`)
       .required('Le mot de passe est requis'),
     confirmPassword: Yup
       .string()
@@ -52,7 +58,7 @@ export default function ModifierPasswordScreen({ navigation, route }) {
   })
 
   const handleUpdatePassword = (values) => {
-   
+
     const updatePassword = async () => {
       postData = {
         userId: user.id,
@@ -61,7 +67,7 @@ export default function ModifierPasswordScreen({ navigation, route }) {
       try {
         const conReq = await fetch(frontConfig.backendURL + '/utilisateur/updatePassword', {
           method: 'POST',
-          headers: { "Content-Type": "application/json", "authorization": user.token},
+          headers: { "Content-Type": "application/json", "authorization": user.token },
           body: JSON.stringify(postData)
         });
         if (!conReq.ok) {
@@ -78,7 +84,7 @@ export default function ModifierPasswordScreen({ navigation, route }) {
           setTaskMessage('Une erreur est survenue. ')
           console.log('Failed update password. The response from the backend is : ', resJson.error);
         }
-      } catch(err) {
+      } catch (err) {
         setTaskMessage('Une erreur est survenue. Veuillez réessayer plus tard');
         console.log('Update password - Connection to the backend failed');
         console.log(err.stack);
@@ -86,12 +92,13 @@ export default function ModifierPasswordScreen({ navigation, route }) {
     }
     updatePassword();
   }
-  
+
   return (
     <SafeAreaView style={styles.back}>
       <View>
         <Text style={styles.error}>{taskMessage}</Text>
-      <Formik
+        <View style={styles.Formik}>
+          <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleUpdatePassword}
@@ -116,12 +123,14 @@ export default function ModifierPasswordScreen({ navigation, route }) {
                   placeholder='Confirmez votre de mot de passe'
                   secureTextEntry={true}
                 />
-              <Pressable disabled={!isValid} style={styles.buttonBlue} onPress={handleSubmit}>
+                <TouchableButton color="#7CD6C1" onPress={handleSubmit} title="VALIDER" position={buttonPosition} disabled={!isValid}></TouchableButton>
+                {/* <Pressable disabled={!isValid} style={styles.buttonBlue} onPress={handleSubmit}>
                 <Text style={styles.textButtonBlue}>Valider</Text>
-              </Pressable>
+              </Pressable> */}
               </>
             )}
           </Formik>
+        </View>
       </View>
     </SafeAreaView>
   )
@@ -135,6 +144,10 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
   },
+  Formik: {
+    marginTop: 30,
+
+  },
   main: {
     flex: 1,
     backgroundColor: 'white',
@@ -147,21 +160,10 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   error: {
+    start: 30,
     color: 'red',
     fontWeight: 'bold',
     fontSize: 16,
-  },  
-  buttonBlue: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 12,
-    borderRadius: 20,
-    backgroundColor: '#7CD6C1',
-    marginTop: 25,
   },
-  textButtonBlue: {
-    fontSize: 13,
-    fontFamily: 'Raleway-Medium',
-    color: 'white',
-  },
+
 })

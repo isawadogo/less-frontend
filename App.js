@@ -104,7 +104,7 @@ const TabNavigator = () => {
           paddingTop: 13,
           position: 'absolute',
           elevation: 0,
-          height: 75,
+          height: 70,
           backgroundColor: '#2B0D35',
 
         },
@@ -112,7 +112,7 @@ const TabNavigator = () => {
 
           let iconeType
           let iconeColor = 'white';
-          let iconSize = focused ? 30 : 25;
+          let iconSize = focused ? 25 : 20;
 
           if (route.name === 'Acceuil') {
             iconeType = focused ? 'home' : 'home-outline';

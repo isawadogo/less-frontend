@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { StatusBar, Modal, Button, SafeAreaView, Pressable, StyleSheet, Text, View, Image, TouchableOpacity, RNTextInput } from 'react-native';
+import { StatusBar, Modal, Button, Pressable, StyleSheet, Text, View, Image, TouchableOpacity, RNTextInput } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -204,21 +205,24 @@ function LessHeader(props) {
 
 function ListeDetailsComponent({ liste }) {
   return (
-    <View key={liste._id} style={styles.modalView}>
-      <Text> Nom : {liste.nom} </Text>
-      <Text>Date de création : {liste.dateCreation} </Text>
-      <Text> Articles de la liste :</Text>
+    <SafeAreaView key={liste._id} style={styles.modalView}>
+      <Text style={styles.nom}> {liste.nom} </Text>
+      <Text style={styles.date} >Date de création : {liste.dateCreation} </Text>
+      <Text style={styles.article}>Articles de la liste :</Text>
       {liste.listeArticles.map((a, i) => {
         return (
-          <View key={a._id}>
-            <Text style={{ paddingLeft: 20 }}>Article : {a.nom}</Text>
-            <Text style={{ paddingLeft: 20 }}>Prix : {a.prix}</Text>
-            <Text style={{ paddingLeft: 20 }}>Quantite: {a.quantite}</Text>
+          <View>
+            <View key={a._id} style={styles.liste}>
+              <Text style={{ paddingLeft: 20, color: 'white', fontWeight: 'bold', paddingBottom: 10 }}>{a.nom.toUpperCase()}</Text>
+              <Text style={{ paddingLeft: 20, color: 'white', fontWeight: 'bold', paddingBottom: 10 }}>Quantité:   {a.quantite}</Text>
+              <Text style={styles.prix}>{a.prix} €</Text>
+            </View>
+
           </View>
         )
       })
       }
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -241,16 +245,19 @@ function ExistingListesComponents({ currentListes, deleteAction }) {
       {listes ? listes.map((l) => {
         //modalVisible = modalsState.find((e) => e.nom === l.nom);
         return (
-          < SafeAreaView key={l._id} style={styles.listContainer}>
-            <View>
-              <Text style={styles.listText}>{l.nom}</Text>
-              <Text style={styles.listDate}>Créer le </Text>
-            </View>
-            <TouchableOpacity onPress={() => handModalState(l.nom)}>
+          < View key={l._id} >
+            <View style={styles.listContainer}>
+              <View>
+                <Text style={styles.listText}>{l.nom}</Text>
+                <Text style={styles.listDate}>Créer le </Text>
+              </View>
+              <TouchableOpacity onPress={() => handModalState(l.nom)}>
 
-              <FontAwesomeIcon icon={faCircleArrowRight} style={styles.listArrow} />
-            </TouchableOpacity>
-          </SafeAreaView>
+                <FontAwesomeIcon icon={faCircleArrowRight} style={styles.listArrow} />
+              </TouchableOpacity>
+            </View>
+
+          </View>
         )
       }) : <View></View>}
       <Modal
@@ -262,15 +269,17 @@ function ExistingListesComponents({ currentListes, deleteAction }) {
         <ListeDetailsComponent liste={modalListe} />
         <Button
           title='Supprimer cette liste'
+          color={"#7CD6C1"}
           onPress={() => deleteAction(modalListe._id)}
         />
         <Button
           title='Fermer'
+          color={"#7CD6C1"}
           onPress={() => setIsVisible(!isVisible)}
         />
       </Modal>
 
-    </View>
+    </View >
   )
 }
 
@@ -278,6 +287,43 @@ const styles = StyleSheet.create({
   modalView: {
     paddingTop: StatusBar.currentHeight,
     flex: 1,
+    paddingStart: 15
+  },
+  nom: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: 15,
+    marginBottom: 15,
+
+  },
+  date: {
+    paddingStart: 30,
+    fontSize: 16,
+    fontStyle: 'italic',
+
+  },
+  article: {
+    paddingStart: 30,
+    fontSize: 16,
+    fontStyle: 'italic',
+    top: 15,
+
+  },
+  liste: {
+    width: 325,
+    padding: 11,
+    flexDirection: 'row',
+    backgroundColor: "#2B0D35",
+    color: 'white',
+    margin: 25,
+    borderRadius: 15,
+
+  },
+  prix: {
+    color: 'white',
+    start: 105
+
   },
   inputTextStyle: {
     flexDirection: 'row',
@@ -345,17 +391,22 @@ const styles = StyleSheet.create({
   },
 
   listContainer: {
+
+    width: 300,
+    height: 55,
     backgroundColor: 'white',
     padding: 5,
-    borderRadius: 40,
+    borderRadius: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 7
+    marginBottom: 7,
+    start: 5
   },
   listText: {
     fontFamily: 'Raleway-Medium',
     fontSize: 15,
+    fontWeight: 'bold',
     color: '#25000D',
     paddingStart: 15,
   },

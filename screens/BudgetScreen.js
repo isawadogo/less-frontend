@@ -170,7 +170,6 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         backgroundColor: '#2B0D35',
-
     },
 
     test: {
@@ -179,6 +178,7 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         flexDirection: "row",
+
     },
 
     returnButton: {
@@ -191,9 +191,10 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        padding: 16,
+        padding: 26,
         backgroundColor: '#fff',
         borderRadius: 25,
+
     },
 
     sectionTitle: {
@@ -217,8 +218,10 @@ const styles = StyleSheet.create({
     progressBar: {
         height: 20,
         borderRadius: 20,
-        backgroundColor: '#25000B',
+        backgroundColor: '#7CD6C1',
         color: '#fff',
+        paddingLeft: 15,
+
     },
 
     lastMounthContainer: {

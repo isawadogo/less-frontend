@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react';
 import { FlatList, ScrollView, Pressable, TouchableOpacity, Image, StyleSheet, Text, View, StatusBar, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { globalStyles } from '../globalStyles';
 // import Redux et Reducer
 import { useSelector } from 'react-redux';
 // import Icones
@@ -55,7 +56,9 @@ export default function ProfilScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.back}>
-      <View style={styles.purple}></View>
+      <Text style={globalStyles.header}>Gestion du Compte</Text>
+      <View style={styles.purple}>
+      </View>
       <View style={styles.block}>
         <View style={styles.profil}>
           <ImageBackground source={require('../assets/profil.jpg')} style={styles.background}>
@@ -111,10 +114,12 @@ export default function ProfilScreen({ navigation }) {
 const styles = StyleSheet.create({
 
   back: {
-    // flex: 1,
-    // borderRadius: 25,
-    backgroundColor: '#2B0D35'
 
+    backgroundColor: '#2B0D35',
+    flex: 1,
+
+  },
+  titleContainer: {
 
   },
   slogan: {
@@ -123,13 +128,13 @@ const styles = StyleSheet.create({
   },
 
   purple: {
-    marginTop: 80,
-    borderRadius: 25,
-
-    // top: 260,
     width: '100%',
     height: '95%',
+    borderRadius: 25,
     backgroundColor: '#F2F2F2',
+    marginBottom: 150,
+    marginTop: 48,
+    bottom: 47,
   },
 
   modalView: {
@@ -148,19 +153,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 
-  button: {
-
-
-  },
-  // buttonOpen: {
-  //   // backgroundColor: '#F194FF',
-  // },
-  // buttonClose: {
-  //   backgroundColor: '#2196F3',
-  // },
 
   profil: {
-
+    marginTop: 25,
     borderColor: '#2B0D35',
     borderWidth: 1,
     fontWeight: 'bold',
@@ -179,13 +174,12 @@ const styles = StyleSheet.create({
   block: {
     flex: 1,
     width: 350,
-    height: 520,
+    height: 500,
     position: 'absolute',
-    top: 110,
+    top: 70,
     start: 30,
     padding: 10,
     opacity: 0.9,
-
 
   },
 
@@ -194,7 +188,7 @@ const styles = StyleSheet.create({
     right: 10,
     fontWeight: 'bold',
     fontSize: 19,
-    paddingTop: 10,
+    paddingTop: 4
   },
 
   icone: {

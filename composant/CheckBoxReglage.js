@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { useFonts } from 'expo-font';
 
@@ -10,7 +10,7 @@ const CheckBoxReglage = React.memo(({ data, onCheckBoxChange, isChecked }) => {
     });
 
     if (!fontsLoaded) {
-        return null;
+        return <ActivityIndicator size="small" color="#2B0D35" />;  // Show loading indicator while fonts load
     }
 
     return (
@@ -19,6 +19,9 @@ const CheckBoxReglage = React.memo(({ data, onCheckBoxChange, isChecked }) => {
                 checked={isChecked}
                 onPress={() => onCheckBoxChange(data.id)}
                 containerStyle={styles.checkbox}
+                checkedColor="#2B0D35" // Checked color
+                uncheckedColor="#555555" // Unchecked color
+                accessibilityLabel={`${data.categorie} checkbox`}
             />
             <View style={styles.textContainer}>
                 <Text style={styles.title}>{data.categorie}</Text>
@@ -33,12 +36,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginVertical: 8,
+        backgroundColor: 'white',
+        borderRadius: 15,
+        padding: 5,
     },
     checkbox: {
+        backgroundColor: 'white',
+
+        padding: 0,
         margin: 0,
     },
     textContainer: {
         marginLeft: 10,
+        flex: 1,
     },
     title: {
         fontFamily: 'Raleway-Bold',
