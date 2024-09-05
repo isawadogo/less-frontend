@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingTop: 7,
     paddgingBottom: 7,
-    start: 24,
+    paddingStart: 54,
     color: 'white',
   },
 
