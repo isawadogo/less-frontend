@@ -44,7 +44,7 @@ export default function Notifications({ navigation }) {
                             </View>
                         ))) : (
                         <View>
-                            <Text style={styles.nothingText}>Aucune notification à afficher !  {'\n'}  Veuillez choisir vos choix d'actualité et de promotion dans "Réglages des notifications"   </Text>
+                            <Text style={styles.nothingText}>Aucune notification à afficher !  {'\n'}  Veuillez chocher vos choix d'actualité et de promotion dans "Réglages notifications"   </Text>
                         </View>
                     )}
 
