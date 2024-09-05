@@ -1,4 +1,6 @@
 import React from 'react';
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 import { StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
 import { ActivityIndicator, Text } from 'react-native'
@@ -6,6 +8,7 @@ import { useFonts } from 'expo-font';
 
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
+
 
 /* NAVIGATION */
 

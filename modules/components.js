@@ -77,7 +77,7 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
       }).then((response) => response.json())
         .then((data) => {
           if (data.result) {
-            console.log(' Choisir liste produit - produits par categorie - jsonres : ', data);
+            //console.log(' Choisir liste produit - produits par categorie - jsonres : ', data);
             if (data.produits) {
               //console.log('data produits : ', data.produits);
               setListProd(data.produits);

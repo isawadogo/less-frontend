@@ -156,10 +156,10 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
                     <View style={styles.productContainer} key={p.produit._id} >
                       <View style={styles.productSubContainer}>
                         <Text style={styles.productName}>{p.produit.nom}</Text>
-                        <Text style={styles.productPrice}>{p.quantite * p.produit.prix}€</Text>
+                        <Text style={styles.productPrice}>{(p.quantite * p.produit.prix).toFixed(2)}€</Text>
                       </View>
 
-                      <Text style={styles.productQuantity}>({p.quantite} x {p.produit.prix}€)</Text>
+                      <Text style={styles.productQuantity}>({p.quantite} x {p.produit.prix.toFixed(2)}€)</Text>
 
                       <View style={styles.totalContainer}>
                         {p.criteres.map((c) => <Text style={styles.criteresBool} key={`${j}-${p.produit._id}_${c}`}>✔️ {c}</Text>)}
