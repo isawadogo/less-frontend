@@ -97,7 +97,7 @@ export default function ProfilScreen({ navigation }) {
           </View>
         </View>
         <View style={styles.paramètre}>
-          <Text style={styles.userProfil}>     PARAMETRE</Text>
+          <Text style={styles.userProfil}>     PARAMÈTRES</Text>
           <View style={styles.option1}>
             <View>
               <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('Profile', { screen: 'Aide' })}>

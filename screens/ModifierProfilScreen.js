@@ -58,9 +58,7 @@ const data = [
 // Style du bouton "APPLIQUER LES CRITERES"
 const buttonPosition = {
   width: 220,
-  start: 13,
   margin: 50,
-  paddingStart: 5,
   borderRadius: 15,
 
 }
