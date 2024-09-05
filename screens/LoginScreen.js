@@ -4,6 +4,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, TextInput, ImageBackground, Pressable } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 // import Redux et Reducer
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,10 +30,15 @@ export default function LoginScreen({ navigation }) {
     borderRadius: 15,
 
   }
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!user.id) {
+        navigation.navigate('Login');
+      }
+    }, [])
+  );
 
-
-
-  const initialValues = { email: '', password: '' };
+  const initialValues = { email: '', password: '' }
   const validationSchema = Yup.object({
     email: Yup
       .string()
@@ -43,22 +49,17 @@ export default function LoginScreen({ navigation }) {
       .required("Le mot de passe est requis")
   });
 
+  const handleReset = (resetFn) => {
+    resetFn();
+  }
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value.userDetails);
   const displayWelcome = useSelector((state) => state.user.value.displayWelcome);
 
   //console.log('Login sreen - user details : ', user);
   //console.log('Login sreen - Display welcome: ', displayWelcome);
-  useEffect(() => {
-    (async () => {
-      if (user.email) {
-        navigation.navigate('TabNavigator');
-      }
-    })();
-  }, []);
-
   const [taskMessage, setTaskMessage] = useState('');
-  const handleConnect = async (values) => {
+  const handleConnect = async (values, resetForm) => {
     try {
       loginPayload = {
         email: values.email,
@@ -83,9 +84,11 @@ export default function LoginScreen({ navigation }) {
           dispatch(updateUser({ ...json.user, id: resJson.id }));
           getEnseignesList(user.token).then((ens) => {
             dispatch(updateEnseignesList(ens));
+
+        resetForm();
+        navigation.navigate('TabNavigator');
           })
         }
-        navigation.navigate('TabNavigator');
       } else {
         console.log('Login failed with message : ', resJson.error);
         setTaskMessage('Email ou mot de passe incorrect')
@@ -110,9 +113,12 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.text}>                 Accédez à votre compte ! {'\n'}Renseignez votre emaila et votre mot de passe.</Text>
         <Text style={styles.errorMessage} >{taskMessage}</Text>
         <Formik
+          enableReinitialize={true}
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={handleConnect}
+          onSubmit={(values, {resetForm}) => {
+              handleConnect(values, resetForm).then(() => resetForm())
+            }}
         >
           {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
             <>

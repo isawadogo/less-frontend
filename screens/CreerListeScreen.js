@@ -1,7 +1,7 @@
 /* IMPORT */
 
 //imports React & React Native
-import { StyleSheet, ScrollView,Text, View, StatusBar, KeyboardAvoidingView, Platform, Pressable, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView,Text, View, StatusBar, TouchableOpacity } from 'react-native';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //import Redux & Reducer
@@ -61,6 +61,8 @@ export default function CreerListeScreen({ navigation }) {
   const validationSchema = Yup.object({
     nomListe: Yup
       .string()
+      .min(3, 'Le nom de la liste doit faire au moins 3 caractères')
+      .max(160, 'Le nom de la liste ne doit pas dépasser 160 caractères')
       .required("Vous devez choisir un nom pour votre liste"),
   });
 
@@ -92,11 +94,11 @@ export default function CreerListeScreen({ navigation }) {
         <Text style={[styles.title, {paddingBottom: 25}]}>Nommer ma liste</Text>
         {isListeExists && 
           <View style={{alignItems: 'center', fontSize: 14, color: '#800000'}}>
-          <Text style={styles.textDoubleListe}>Une liste ayant le même nom existe.</Text>
-          <Text style={styles.textDoubleListe}>Veuillez choisir un autre nom.</Text>
+            <Text style={styles.textDoubleListe}>Une liste ayant le même nom existe.</Text>
+            <Text style={styles.textDoubleListe}>Veuillez choisir un autre nom.</Text>
           </View>
         }
-        <View style={{ flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row', width: '100%'}}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -108,14 +110,14 @@ export default function CreerListeScreen({ navigation }) {
                   component={LessFormikInput}
                   name="nomListe"
                   placeholder='"Ma super liste"'
-                  style={{width: '85%'}}
+                  customStyle={styles.customStyle}
                   errorTextStyle={styles.errorTextStyle}
-                  customStyle={{ backgroundColor: 'white' }}
                 />
               <TouchableOpacity 
                 onPress={handleSubmit}
                 disabled={!isValid}
                 width={50}
+                style={styles.iconButon}
               >
                 <FontAwesomeIcon icon={faCircleCheck} style={styles.icon}/>
               </TouchableOpacity>
@@ -145,6 +147,33 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: StatusBar.currentHeight,
   },
+  iconButon:{
+    fontSize: 35,
+    color: '#7CD6C1',
+    //marginTop: 5,
+    //alignSelf: 'flex-end',
+    right: 60,
+  },
+  icon:{
+    fontSize: 35,
+    color: '#7CD6C1',
+    padding: 30,
+    marginTop: 5,
+    //alignSelf: 'flex-end',
+    left: 0,
+  },
+  customStyle: {
+    borderRadius: 40,
+    backgroundColor: 'white',
+    width: '100%',
+    paddingTop: 5,
+    paddingBottom: 5,
+    height: 60,
+    marginTop: 5,
+    paddingLeft: 20,
+    fontSize: 16,
+    start: 0,
+  },
   textDoubleListe: {
     fontSize: 14, 
     color: '#800000',
@@ -152,8 +181,8 @@ const styles = StyleSheet.create({
   },
   errorTextStyle: { 
     position: 'absolute', 
-    left: 40, 
-    top: -15, 
+    left: 0, 
+    top: -20, 
     fontSize: 14 ,
   },
   container: {
@@ -183,12 +212,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     margin: 15,
   },
-   icon:{
-    fontSize: 35,
-    color: '#7CD6C1',
-    padding: 30,
-    marginTop: 5,
-    alignSelf: 'flex-start'
-  },
+
 
 });

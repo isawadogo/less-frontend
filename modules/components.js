@@ -64,6 +64,7 @@ function LessButton({ onChange, pressed, texte }) {
 
 function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
   const user = useSelector((state) => state.user.value.userDetails);
+  const produitsSelected = useSelector((state) => state.user.value.selectedProduits);
   const [listProd, setListProd] = useState([]);
   const [isReady, setIsReady] = useState(false);
   //console.log('Cat loading : ', categorie);
@@ -103,6 +104,8 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
     onDecrease(value);
   }
 
+  console.log('PORD SELEC : ', produitsSelected)
+
   return (
     <View style={styles.produitContainer}>
       {listProd.map((p) => {
@@ -118,7 +121,7 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
                 <Pressable onPress={(value) => onIncrease(p)}>
                   <AntDesign name='pluscircleo' size={25} color='#7CD6C1' />
                 </Pressable>
-                <Text style={styles.itemNumber}> - </Text>
+                <Text style={styles.itemNumber}> {produitsSelected.find((a) => a.produit.nom === p.nom && a.produit.categorie == categorie )?.count || 0} </Text>
                 <Pressable onPress={(value) => onDecrease(p)}>
                   <AntDesign name='minuscircleo' size={25} color='#DCA2A2' />
                 </Pressable>
@@ -385,7 +388,7 @@ const styles = StyleSheet.create({
   },
   itemNumber: {
     fontFamily: 'Raleway-Regular',
-    fontSize: 12,
+    fontSize: 14,
     color: "#4F4F4F",
     marginLeft: 5,
     marginRight: 5
