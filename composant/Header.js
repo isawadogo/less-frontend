@@ -18,6 +18,7 @@ export default function Header({ navigation, route }) {
     }
 
     const titre = route.params?.titre || 'Titre';
+    const modificationProfil = route.name === 'ModifierProfil'
 
     return (
         <View style={{ ...styles.container, top }}>
@@ -25,7 +26,7 @@ export default function Header({ navigation, route }) {
                 <FontAwesomeIcon icon={faCircleArrowLeft} size={20} style={styles.icone} />
                 <Text style={styles.title}>{titre}</Text>
             </TouchableOpacity>
-            <View style={styles.whiteContainer}></View>
+            <View style={modificationProfil ? styles.whiteContainer : styles.greyContainer}></View>
         </View>
     );
 
@@ -52,9 +53,16 @@ const styles = StyleSheet.create({
     }
     ,
     whiteContainer: {
+        backgroundColor: 'white',
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
+        padding: 20
+    },
+    greyContainer: {
         backgroundColor: '#F2F2F2',
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
         padding: 20
+
     }
 });

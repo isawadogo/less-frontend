@@ -9,7 +9,8 @@ import { globalStyles } from '../globalStyles';
 import { useSelector } from 'react-redux';
 // import Icones
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faBlog, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo, faGlobe, faFileContract, faGears, faLock } from '@fortawesome/free-solid-svg-icons';
 
 function CritereElement({ isPresent, critere }) {
   return (
@@ -95,13 +96,47 @@ export default function ProfilScreen({ navigation }) {
             </View>
           </View>
         </View>
-        <View>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Aide' })}><Text>Aide</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Langue' })}><Text>Langue</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Conditions Générales' })}><Text>Conditions Générales</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'Reglage des notifications' })}><Text>Reglage des notifications</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile', { screen: 'ModifierMotDePasse', name: 'Modifier mon mot de passe' })}><Text>Changer mon mot de passe</Text></TouchableOpacity>
+        <View style={styles.paramètre}>
+          <Text style={styles.userProfil}>     PARAMETRE</Text>
+          <View style={styles.option1}>
+            <View>
+              <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('Profile', { screen: 'Aide' })}>
+                <FontAwesomeIcon icon={faCircleInfo} style={styles.iconStyle} />
+              </TouchableOpacity>
+              <Text style={styles.buttonOption}>Aide</Text>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('Profile', { screen: 'Langue' })}>
+                <FontAwesomeIcon icon={faGlobe} style={styles.iconStyle} />
+              </TouchableOpacity>
+              <Text style={styles.buttonOption}>Langue</Text>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('Profile', { screen: 'Conditions Générales' })}>
+                <FontAwesomeIcon icon={faFileContract} style={styles.iconStyle} />
+              </TouchableOpacity>
+              <Text style={styles.buttonOption}>CGU</Text>
+            </View>
+          </View>
+
+          <View style={styles.option2}>
+            <View style={styles.param} >
+              <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate('Profile', { screen: 'Reglage des notifications' })}>
+                <FontAwesomeIcon icon={faGears} style={styles.iconStyle} />
+              </TouchableOpacity>
+
+              <Text style={styles.buttonOption}>Réglage {'\n'} notifications</Text>
+            </View>
+            <View stlye={styles.param}>
+              <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate('Profile', { screen: 'ModifierMotDePasse' })}>
+                <FontAwesomeIcon icon={faLock} style={styles.iconStyle} />
+              </TouchableOpacity>
+              <Text style={styles.buttonOption}>Changer {'\n'} mot de passe</Text>
+            </View>
+
+          </View>
         </View>
+
       </View>
 
     </SafeAreaView >
@@ -178,18 +213,66 @@ const styles = StyleSheet.create({
     height: 500,
     position: 'absolute',
     start: 30,
-    padding: 10,
+    padding: 5,
     opacity: 0.9,
 
 
+  },
+  paramètre: {
+    backgroundColor: 'white',
+    flexDirection: 'column',
+    marginTop: 10,
+    padding: 4,
+    borderRadius: 15,
+    width: '100%',
+    borderColor: 'black',
+    borderWidth: 1
+
+  },
+  option1: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    textAlign: 'center'
+  },
+  option2: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    textAlign: 'center',
+    gap: 25
+  },
+
+  button1: {
+    padding: 15,
+    backgroundColor: '#7CD6C1',
+    borderRadius: 10
+
+
+  },
+  button2: {
+    padding: 15,
+    backgroundColor: '#7CD6C1',
+    borderRadius: 10,
+    width: 50,
+    marginStart: 15
+
+
+
+  },
+  iconStyle: {
+    color: 'white',
+    textAlign: 'center',
+
+  },
+  buttonOption: {
+    textAlign: 'center'
   },
 
   userProfil: {
     textAlign: 'center',
     right: 10,
     fontWeight: 'bold',
-    fontSize: 19,
-    paddingTop: 4
+    fontSize: 15,
+    padding: 4
   },
 
   icone: {
@@ -290,8 +373,5 @@ const styles = StyleSheet.create({
     // backgroundColor: '#',
     borderBottomEndRadius: 15,
   },
-  button: {
-    color: "black",
-    margin: 8,
-  }
+
 })

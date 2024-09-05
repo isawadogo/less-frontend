@@ -18,9 +18,9 @@ export default function RecapListeProduitsScreen({ navigation }) {
 
   const nomListe = useSelector((state) => state.user.value.listeName);
 
-  const catSelected = [...new Set(produitsSelected.map((e) => e.produit.categorie))].map((e, i) => {return {nom: e, id: i}})
-  
- // const nbrProduitsRef = useRef(0);
+  const catSelected = [...new Set(produitsSelected.map((e) => e.produit.categorie))].map((e, i) => { return { nom: e, id: i } })
+
+  // const nbrProduitsRef = useRef(0);
 
   const dispatch = useDispatch();
 
@@ -37,24 +37,24 @@ export default function RecapListeProduitsScreen({ navigation }) {
   }
 
   const removeProduitFromList = (p) => {
-    if ( produitsSelected.reduce((a,v) => a = a + v.count, 0) === 1 ) {
+    if (produitsSelected.reduce((a, v) => a = a + v.count, 0) === 1) {
       navigation.navigate('ChoisirListeProduits');
       dispatch(removeProduit(p));
     } else {
       dispatch(removeProduit(p));
     }
   }
-  
+
   if (!catSelected) {
-    return(
+    return (
       <SafeAreaView style={styles.container}>
-        <Text style={{fontWeight: 'bold'}}>Retrieving produits ...</Text>
+        <Text style={{ fontWeight: 'bold' }}>Retrieving produits ...</Text>
       </SafeAreaView>
     )
   }
 
   //nbrProduitsRef.current = produitsSelected.reduce((a,v) => a = a + v.count, 0);
-  
+
   const handleContinue = () => {
     navigation.navigate('ResultatComparaison')
   }
@@ -62,28 +62,28 @@ export default function RecapListeProduitsScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
 
-      <MonPanier name={nomListe} nbrItem={produitsSelected.reduce((a,v) => a = a + v.count, 0)}/>
-        
+      <MonPanier name={nomListe} nbrItem={produitsSelected.reduce((a, v) => a = a + v.count, 0)} />
 
 
-      <ScrollView style={styles.scrollView}>
-        
-        { catSelected.map((c, i) => {
-            return (
-              <ProduitRecapComponent 
-                categorie={c.nom} 
-                key={`${i}-${c.id}`} 
-                onDecrease={removeProduitFromList} 
-                onIncrease={addProduitToList}
-              />
-            )
-          })
+
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
+
+        {catSelected.map((c, i) => {
+          return (
+            <ProduitRecapComponent
+              categorie={c.nom}
+              key={`${i}-${c.id}`}
+              onDecrease={removeProduitFromList}
+              onIncrease={addProduitToList}
+            />
+          )
+        })
         }
 
       </ScrollView>
-        <Pressable style={styles.buttonBlue} onPress={handleContinue}>
-          <Text style={styles.textButtonBlue}>Valider et sommettre à comparaison</Text>
-        </Pressable>
+      <Pressable style={styles.buttonBlue} onPress={handleContinue}>
+        <Text style={styles.textButtonBlue}>Valider et sommettre à comparaison</Text>
+      </Pressable>
     </SafeAreaView>
   )
 }
@@ -97,13 +97,13 @@ const styles = StyleSheet.create({
     padding: 15,
   },
 
-  topContainer:{
+  topContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 15
   },
 
-  productNbr:{
+  productNbr: {
     color: 'white',
     backgroundColor: '#7CD6C1',
     alignSelf: 'flex-end'
@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 
-  ListName:{
+  ListName: {
     fontFamily: 'Raleway-Bold',
     fontSize: 24,
-    color:'#25000D'
+    color: '#25000D'
   },
 });

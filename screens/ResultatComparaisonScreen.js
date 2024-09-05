@@ -24,14 +24,14 @@ function ResultatComponent({ resultat, onSelect, isSelected }) {
   if (isSelected) {
     selectText = 'Liste Selectionnée'
     styleButton = {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    borderRadius: 20,
-    backgroundColor: '#191970',
-  };
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 12,
+      borderRadius: 20,
+      backgroundColor: '#191970',
+    };
   }
-  
+
   return (
     <View style={styles.resultatContainer}>
 
@@ -66,8 +66,8 @@ export default function ResultatComparaisonScreen({ navigation }) {
   const enseignes = useSelector((state) => state.user.value.enseignesList);
   const [resultatComp, setResultComp] = useState([])
 
-  const [ isResultatSelected, setIsResultatSelected] = useState(true);
-  const [taskMessage, setTaskMessage] = useState({result: true, message: '', desc: ''});
+  const [isResultatSelected, setIsResultatSelected] = useState(true);
+  const [taskMessage, setTaskMessage] = useState({ result: true, message: '', desc: '' });
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -78,17 +78,18 @@ export default function ResultatComparaisonScreen({ navigation }) {
       let ignore = false;
       if (!ignore) {
         getResultatsComparaison()
-        .then()
-        .catch((err) => {
-          setTaskMessage({ ...taskMessage, 
-            result: false, 
-            message: 'Une erreur est survenue.',
-            desc: "Les resultats de la comparaison ne sont pas disponibles actuellement. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer dans quelques minutes."
-          })
-          console.log('Choisir produits liste - Connection to the backend failed');
-          console.log(err.stack);
+          .then()
+          .catch((err) => {
+            setTaskMessage({
+              ...taskMessage,
+              result: false,
+              message: 'Une erreur est survenue.',
+              desc: "Les resultats de la comparaison ne sont pas disponibles actuellement. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer dans quelques minutes."
+            })
+            console.log('Choisir produits liste - Connection to the backend failed');
+            console.log(err.stack);
           }
-        );
+          );
       }
       return () => { ignore = true }
     })();
@@ -163,17 +164,17 @@ export default function ResultatComparaisonScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
 
-      <MonPanier name={listeName} nbrItem={produitsSelected.reduce((a,v) => a = a + v.count, 0)}/>
+      <MonPanier name={listeName} nbrItem={produitsSelected.reduce((a, v) => a = a + v.count, 0)} />
 
-      {!isResultatSelected && <Text style={{fontWeight: 'bold', color: 'red'}}>Veuillez sélectionner une liste</Text>}
+      {!isResultatSelected && <Text style={{ fontWeight: 'bold', color: 'red' }}>Veuillez sélectionner une liste</Text>}
       <Text style={styles.subTitle}>Meilleur résultat</Text>
-      <ResultatComponent resultat={resultComparaison[0]} onSelect={() => {setIsResultatSelected(true); setListeChoisie(resultComparaison[0])}} key={resultComparaison[0].enseigneId} isSelected={listeChoisie.nom === resultComparaison[0].nom} />
+      <ResultatComponent resultat={resultComparaison[0]} onSelect={() => { setIsResultatSelected(true); setListeChoisie(resultComparaison[0]) }} key={resultComparaison[0].enseigneId} isSelected={listeChoisie.nom === resultComparaison[0].nom} />
 
       <Text style={styles.subTitle}>Autres résultats</Text>
 
-      <ScrollView style={styles.scrollView}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
         {resultComparaison.slice(1).map((r, i) => {
-          return <ResultatComponent resultat={r} onSelect={() => {setIsResultatSelected(true);setListeChoisie(r)}} key={r.enseigneId} isSelected={listeChoisie.nom === r.nom} />
+          return <ResultatComponent resultat={r} onSelect={() => { setIsResultatSelected(true); setListeChoisie(r) }} key={r.enseigneId} isSelected={listeChoisie.nom === r.nom} />
         })}
       </ScrollView>
 

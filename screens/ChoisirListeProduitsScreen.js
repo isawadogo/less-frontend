@@ -28,8 +28,8 @@ export default function CreerListeScreen({ navigation }) {
   const listeName = useSelector((state) => state.user.value.listeName);
   //const listeName = useSelector((state) => state.liste.value.listeName);
   const [selectedCat, setSelectedCat] = useState({})
-  const [ isProduitSelected, setIsproduitSelected] = useState(true);
-  const [taskMessage, setTaskMessage] = useState({result: true, message: '', desc: ''});
+  const [isProduitSelected, setIsproduitSelected] = useState(true);
+  const [taskMessage, setTaskMessage] = useState({ result: true, message: '', desc: '' });
 
   const dispacth = useDispatch();
 
@@ -43,11 +43,12 @@ export default function CreerListeScreen({ navigation }) {
       try {
         const conReq = await fetch(frontConfig.backendURL + '/produits/categories', {
           method: 'GET',
-          headers: { "Content-Type": "application/json", "authorization": user.token},
+          headers: { "Content-Type": "application/json", "authorization": user.token },
         });
         if (!conReq.ok) {
-          setTaskMessage({ ...taskMessage, 
-            result: false, 
+          setTaskMessage({
+            ...taskMessage,
+            result: false,
             message: 'Une erreur est survenue.',
             desc: "La connexion au serveur a échoué. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer l'opération dans quelques minutes."
           })
@@ -55,15 +56,16 @@ export default function CreerListeScreen({ navigation }) {
         }
         const resJson = await conReq.json();
         if (resJson.result) {
-            setCategories(resJson.categories.map((c,i) => {
-              return {nom: c, id: i}
-            }));
-            if (resJson.categories.length > 0) {
-              setSelectedCat({nom: resJson.categories[0], id: 0});
-            }
+          setCategories(resJson.categories.map((c, i) => {
+            return { nom: c, id: i }
+          }));
+          if (resJson.categories.length > 0) {
+            setSelectedCat({ nom: resJson.categories[0], id: 0 });
+          }
         } else {
-          setTaskMessage({ ...taskMessage, 
-            result: false, 
+          setTaskMessage({
+            ...taskMessage,
+            result: false,
             message: 'Une erreur est survenue, veuillez réessayer plus tard',
             desc: "La connexion au serveur a échoué. Il s'agit sans doute d'un problème temporaire"
           })
@@ -71,15 +73,16 @@ export default function CreerListeScreen({ navigation }) {
 
           console.log('Failed to get categories list from the backend : ', resJson.error);
         }
-      } catch(err) {
+      } catch (err) {
         //setTaskMessage({...taskMessage, result: false, message: 'Une erreur est survenue, veuillez réessayer plus tard'})
-          setTaskMessage({ ...taskMessage, 
-            result: false, 
-            message: 'Une erreur est survenue, veuillez réessayer plus tard',
-            desc: "La connexion au serveur a échoué. Il s'agit sans doute d'un problème temporaire"
-          })
-          console.log('Choisir produits liste - Connection to the backend failed');
-          console.log(err.stack);
+        setTaskMessage({
+          ...taskMessage,
+          result: false,
+          message: 'Une erreur est survenue, veuillez réessayer plus tard',
+          desc: "La connexion au serveur a échoué. Il s'agit sans doute d'un problème temporaire"
+        })
+        console.log('Choisir produits liste - Connection to the backend failed');
+        console.log(err.stack);
       }
     })();
   }, []);
@@ -107,51 +110,51 @@ export default function CreerListeScreen({ navigation }) {
   }
 
   if (!selectedCat || selectedCat === undefined) {
-    return(
+    return (
       <SafeAreaView style={styles.container}>
-        <Text style={{fontWeight: 'bold'}}>Retrieving categories ...</Text>
+        <Text style={{ fontWeight: 'bold' }}>Retrieving categories ...</Text>
       </SafeAreaView>
     )
   }
-  
+
   return (
     <SafeAreaView style={styles.container}>
 
-        <TouchableOpacity onPress={handleContinuer}>
-          <FontAwesomeIcon icon={faCircleCheck} style={styles.icon}/>
-        </TouchableOpacity>
-        <MonPanier name={listeName} nbrItem={produitsSelected.reduce((a,v) => a = a + v.count, 0)}/>
-        
-        <View style={styles.errorProduitsNumber}>
-          {!isProduitSelected && <Text style={styles.errorMessage}>Vous devez choisir au moins un produit</Text>}
-        </View>
+      <TouchableOpacity onPress={handleContinuer}>
+        <FontAwesomeIcon icon={faCircleCheck} style={styles.icon} />
+      </TouchableOpacity>
+      <MonPanier name={listeName} nbrItem={produitsSelected.reduce((a, v) => a = a + v.count, 0)} />
 
-        <ScrollView style={styles.catContainer} horizontal={true}>
-          {
-            categories.map((c, i) => {
-              return (
-                <LessButton
-                  onChange={() => setSelectedCat(c)} 
-                  key={`${i}-${c.nom}`} 
-                  pressed={c.nom===selectedCat.nom}
-                  texte={c.nom}  
-                />
-              )
-            })
-          }      
-        </ScrollView>
+      <View style={styles.errorProduitsNumber}>
+        {!isProduitSelected && <Text style={styles.errorMessage}>Vous devez choisir au moins un produit</Text>}
+      </View>
 
-        <Text style={styles.title}>Ajouter des produits :</Text>
+      <ScrollView style={styles.catContainer} showsVerticalScrollIndicator={false} horizontal={true}>
+        {
+          categories.map((c, i) => {
+            return (
+              <LessButton
+                onChange={() => setSelectedCat(c)}
+                key={`${i}-${c.nom}`}
+                pressed={c.nom === selectedCat.nom}
+                texte={c.nom}
+              />
+            )
+          })
+        }
+      </ScrollView>
 
-        <ScrollView style={styles.productContainer}>
-          
-          <ProduitsComponent 
-            categorie={selectedCat.nom} 
-            key={selectedCat.id} 
-            onDecrease={removeProduitFromList} 
-            onIncrease={addProduitToList}
-          />
-        </ScrollView>
+      <Text style={styles.title}>Ajouter des produits :</Text>
+
+      <ScrollView style={styles.productContainer}>
+
+        <ProduitsComponent
+          categorie={selectedCat.nom}
+          key={selectedCat.id}
+          onDecrease={removeProduitFromList}
+          onIncrease={addProduitToList}
+        />
+      </ScrollView>
 
 
 
@@ -169,7 +172,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: StatusBar.currentHeight,
   },
-  topContainer:{
+  topContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -189,7 +192,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 15
   },
-  icon:{
+  icon: {
     fontSize: 35,
     color: '#7CD6C1',
     padding: 30,

@@ -17,27 +17,30 @@ import { months } from 'moment/moment';
 const screenWidth = Dimensions.get('window').width;
 
 const graphColors = [
-    '#faebd7', 
-    '#7fffd4', 
-    '#0000ff', 
-    '#8a2be2',
-    '#a52a2a',
-    '#deb887',
-    '#00ffff', 
-    '#5f9ea0',
-    '#7fff00',
-    '#9932cc',
-    '#483d8b',
-    '#ff1493',
-    '#f0f8ff', 
-    '#ff4500',
-    '#663399',
-    '#87ceeb',
-    '#ffff00',
-    '#0A1F46',
-    '#9F8BE3',
-    '#9DC2F5',
-    '#E3A740',
+    '#14B8A6',
+    '#FACC15',
+    '#F59E0B',
+    '#EC4899',
+    '#6366F1',
+    '#3B82F6',
+    '#34D399',
+    '#FBBF24',
+    '#F97316',
+    '#F43F5E',
+    '#4F46E5',
+    '#2563EB',
+    '#22C55E',
+    '#FDE68A',
+    '#F97316',
+    '#E11D48',
+    '#6366F1',
+    '#3B82F6',
+    '#10B981',
+    '#FBBF24',
+    '#F97316',
+    '#F43F5E',
+    '#4F46E5',
+
 ]
 const monthsMaps = [
     "Janvier",
@@ -58,90 +61,91 @@ const monthsMaps = [
 
 export default function BudgetScreen({ navigation }) {
 
-  const user = useSelector((state) => state.user.value.userDetails);
-  const [userListes, setUserListes] = useState([]);
-  const [ isReady, setIsReady] = useState(false);
-  const [taskMessage, setTaskMessage] = useState({result: true, message: '', desc: ''});
-  
-  useFocusEffect(
-    React.useCallback(() => {
-      if (!user.id) {
-        navigation.navigate('Login');
-      }
+    const user = useSelector((state) => state.user.value.userDetails);
+    const [userListes, setUserListes] = useState([]);
+    const [isReady, setIsReady] = useState(false);
+    const [taskMessage, setTaskMessage] = useState({ result: true, message: '', desc: '' });
 
-      const getListes = async () => {
-        let ignore = false;
-        getUserListes(user.token, user.id).then(listes => {
-          if (!ignore) {
-            if (listes) {
-              setUserListes(listes);
-              setIsReady(true);
-            } else {
-              setTaskMessage({ ...taskMessage, 
-                result: false, 
-                message: 'Une erreur est survenue.',
-                desc: "L'initialisation des listes a échoué. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer dans quelques minutes."
-              })
-              console.log('Resultat liste details - getUserListes - Connection to the backend failed');
-              console.log(listes);
+    useFocusEffect(
+        React.useCallback(() => {
+            if (!user.id) {
+                navigation.navigate('Login');
             }
-          //  setUserListes(listes);
-          }
-        });
-      }
 
-      getListes();
+            const getListes = async () => {
+                let ignore = false;
+                getUserListes(user.token, user.id).then(listes => {
+                    if (!ignore) {
+                        if (listes) {
+                            setUserListes(listes);
+                            setIsReady(true);
+                        } else {
+                            setTaskMessage({
+                                ...taskMessage,
+                                result: false,
+                                message: 'Une erreur est survenue.',
+                                desc: "L'initialisation des listes a échoué. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer dans quelques minutes."
+                            })
+                            console.log('Resultat liste details - getUserListes - Connection to the backend failed');
+                            console.log(listes);
+                        }
+                        //  setUserListes(listes);
+                    }
+                });
+            }
 
-      return () => {
-        ignore = true;
-      }
-    }, [])
-  );
+            getListes();
 
-  if (!taskMessage.result) {
-    return <ErrorMessage message={taskMessage.message} desc={taskMessage.desc} />
-  }
+            return () => {
+                ignore = true;
+            }
+        }, [])
+    );
+
+    if (!taskMessage.result) {
+        return <ErrorMessage message={taskMessage.message} desc={taskMessage.desc} />
+    }
     if (!isReady) {
         return (
             <View></View>
         )
     }
-    const prixParMois = userListes.map((e) => {return {month: new Date(e.dateCreation).getMonth(), prix: e.prix}})
+    const prixParMois = userListes.map((e) => { return { month: new Date(e.dateCreation).getMonth(), prix: e.prix } })
         .reduce((a, v, i, arr) => {
             let tempData = {}
             if (!a.some((d) => d.month === v.month)) {
                 const prixTotal = arr.filter((l) => l.month === v.month).reduce((acc, val) => acc + val.prix, 0);
-                tempData = { month: v.month, spent: prixTotal.toFixed(2)}
+                tempData = { month: v.month, spent: prixTotal.toFixed(2) }
                 return a.concat([tempData]);
             } else {
                 return a
             }
-    }, []);
+        }, []);
 
     const categoriesChart = userListes.map(a => a.listeArticles).flat().reduce((acc, val, idx, arr) => {
 
-    let graphElm = {};
-    if (!acc.some((t) => t.name === val.categorieDeProduit )) {
-        //console.log('PASSAGE : ', idx);
-        const amount = arr.reduce((a, v) => {
-            if (v.categorieDeProduit === val.categorieDeProduit) {
-                return a + v.prix;
-            } else {
-                return a;
+        let graphElm = {};
+        if (!acc.some((t) => t.name === val.categorieDeProduit)) {
+            //console.log('PASSAGE : ', idx);
+            const amount = arr.reduce((a, v) => {
+                if (v.categorieDeProduit === val.categorieDeProduit) {
+                    return a + v.prix;
+                } else {
+                    return a;
+                }
+            }, 0);
+            graphElm = {
+                name: val.categorieDeProduit,
+                amount: Math.ceil(amount),
+                legendFontColor: '#7F7F7F',
+                legendFontSize: 15,
+                color: graphColors[idx],
             }
-        }, 0);
-        graphElm = {
-            name: val.categorieDeProduit, 
-            amount: Math.ceil(amount), 
-            legendFontColor: '#7F7F7F', 
-            legendFontSize: 15,
-            color: graphColors[idx],
+            return acc.concat([graphElm]);
+        } else {
+            return acc;
         }
-        return acc.concat([graphElm]);
-    } else {
-        return acc;
-    }
-  }, []);
+    }, []);
 
     const chartConfig = { //personnalisation de l'apparence des graphique
         backgroundGradientFrom: "#1E2923", // couleur de départ du dégradé
@@ -172,8 +176,8 @@ export default function BudgetScreen({ navigation }) {
     const percentageSpent = (100 * spent) / budget
 
     // calcul des dépenses du mois précédents
-    const budgetData = prixParMois.map((d) => {return {month: monthsMaps[d.month], spend: d.spent}})
-    
+    const budgetData = prixParMois.map((d) => { return { month: monthsMaps[d.month], spend: d.spent } })
+
     const lastSpent = budgetData.map((object, index) => {
         return (
             <View style={styles.row} key={`${index}-${object.month}-${object.spend}`}>
@@ -192,29 +196,29 @@ export default function BudgetScreen({ navigation }) {
             <View style={styles.container}>
                 <Text style={styles.sectionTitle}>Mois en cours</Text>
                 <View style={styles.listContainer}>
-                    { categoriesChart.length === 0 ?
+                    {categoriesChart.length === 0 ?
                         <Text style={styles.noListText}>Vous n'avez pas encore de liste courses</Text>
                         :
-                    <>
-                        <PieChart
-                            data={categoriesChart}
-                            width={screenWidth}
-                            height={210}
-                            chartConfig={chartConfig}
-                            accessor={"amount"}
-                            backgroundColor='transparent'
-                            // paddingLeft={15}
-                            // center={[10, 50]}
-                            hasLegend={false}
-                            style={styles.donuts}
-                            borderColor={1}
-                            borderWidth
-                        />
+                        <>
+                            <PieChart
+                                data={categoriesChart}
+                                width={screenWidth}
+                                height={210}
+                                chartConfig={chartConfig}
+                                accessor={"amount"}
+                                backgroundColor='transparent'
+                                // paddingLeft={15}
+                                // center={[10, 50]}
+                                hasLegend={false}
+                                style={styles.donuts}
+                                borderColor={1}
+                                borderWidth
+                            />
 
-                        <View style={styles.labels}>
-                            {spentByCategory}
-                        </View>
-                    </>
+                            <View style={styles.labels}>
+                                {spentByCategory}
+                            </View>
+                        </>
                     }
 
                 </View>
@@ -309,8 +313,8 @@ const styles = StyleSheet.create({
         end: 50,
         top: 35,
     },
-    noListText: { 
-        fontSize: 24, 
+    noListText: {
+        fontSize: 24,
         color: '#2f4f4f',
     }
 })

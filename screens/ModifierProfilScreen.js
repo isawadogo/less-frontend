@@ -429,19 +429,20 @@ const pickerSelectStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: StatusBar.currentHeight,
-    marginTop: 20,
-  },
-  imageBackground: {
-    flex: 1,
-    width: '100%',
-  },
-  checkBox: {
+    marginTop: 0,
+    borderRadius: 15
 
   },
+  // imageBackground: {
+  //   flex: 1,
+  //   width: '100%',
+
+  // },
+
   scrollView: {
     marginHorizontal: 20,
   },

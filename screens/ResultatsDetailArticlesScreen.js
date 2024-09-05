@@ -20,19 +20,19 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
   const resultatComp = useSelector((state) => state.user.value.liste);
   //const resultatComp = useSelector((state) => state.liste.value.liste);
   const produitsSelected = useSelector((state) => state.user.value.selectedProduits);
-  const [isReady, setIsReady]= useState(false);
+  const [isReady, setIsReady] = useState(false);
   const listeChoisie = useSelector((state) => state.user.value.selectedListe);
   //const listeChoisie = useSelector((state) => state.liste.value.selectedListe);
 
   const listeName = useSelector((state) => state.user.value.listeName);
   //const listeName = useSelector((state) => state.liste.value.listeName);
-  const [ enseignes, setEnseignes ] = useState([]);
-  const [ resultats, setResultats ] = useState([]);
+  const [enseignes, setEnseignes] = useState([]);
+  const [resultats, setResultats] = useState([]);
   const [isListeSave, setIsListeSaved] = useState(false);
   const [userListes, setUserListes] = useState([]);
   const [isAlreadySaved, setIsAlreadySaved] = useState(false);
-  const [saveMessage, setSaveMessage ] = useState('');
-  const [taskMessage, setTaskMessage] = useState({result: true, message: '', desc: ''});
+  const [saveMessage, setSaveMessage] = useState('');
+  const [taskMessage, setTaskMessage] = useState({ result: true, message: '', desc: '' });
 
   const dispatch = useDispatch();
   //const catSelected = [...new Set(produitsSelected.map((e) => e.produit.categorie))].map((e, i) => {return {nom: e, id: i}})
@@ -41,26 +41,27 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
       if (!user.id) {
         navigation.navigate('Login');
       }
-     /* getEnseignesList(user.token).then((ens) => { 
-        setEnseignes([...enseignes, ...ens]);
-      }).catch((err) => {
-          setTaskMessage({ ...taskMessage, 
-            result: false, 
-            message: 'Une erreur est survenue.',
-            desc: "L'initialisation des enseignes a échoué. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer dans quelques minutes."
-          })
-          console.log('Resultat liste details - getEnseignesList - Connection to the backend failed');
-          console.log(err.stack);
-        })*/
+      /* getEnseignesList(user.token).then((ens) => { 
+         setEnseignes([...enseignes, ...ens]);
+       }).catch((err) => {
+           setTaskMessage({ ...taskMessage, 
+             result: false, 
+             message: 'Une erreur est survenue.',
+             desc: "L'initialisation des enseignes a échoué. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer dans quelques minutes."
+           })
+           console.log('Resultat liste details - getEnseignesList - Connection to the backend failed');
+           console.log(err.stack);
+         })*/
       if (resultatComp.resultat) {
-          setIsReady(true);
+        setIsReady(true);
       }
       getUserListes(user.token, user.id).then(listes => {
         if (listes) {
           setUserListes(listes);
         } else {
-          setTaskMessage({ ...taskMessage, 
-            result: false, 
+          setTaskMessage({
+            ...taskMessage,
+            result: false,
             message: 'Une erreur est survenue.',
             desc: "L'initialisation des listes a échoué. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer dans quelques minutes."
           })
@@ -71,17 +72,17 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
       })
     })();
   }, []);
-  
+
   if (!taskMessage.result) {
     return <ErrorMessage message={taskMessage.message} desc={taskMessage.desc} />
   }
 
   let articlesDetails = []
-  const catListe = [ ...new Set(listeChoisie.produits.map((a) =>  a.categorie )) ];
+  const catListe = [...new Set(listeChoisie.produits.map((a) => a.categorie))];
   catListe.map((a, i, array) => {
     const prod = listeChoisie.produits.filter((e) => e.categorie === a && e.produit)
     if (prod) {
-      articlesDetails.push({ categorie: a, produits: prod})
+      articlesDetails.push({ categorie: a, produits: prod })
     }
   })
 
@@ -96,21 +97,22 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
       utilisateur: user.id,
       adresseLivraison: user.adresses[0],
       prix: listeChoisie.produits.reduce((a, v) => a + (v.produit.prix * v.quantite), 0),
-      listeArticles: listeChoisie.produits.map((a) => {return {
-        id: a.produit._id,
-        nom: a.produit.nom,
-        categorieDeProduit: a.produit.categorieDeProduit,
-        prix: a.produit.prix,
-        quantite: a.quantite,
-        enseignes: a.produit.enseigne.nom,
-        criteres: a.criteres.map(a => a)
-      }
+      listeArticles: listeChoisie.produits.map((a) => {
+        return {
+          id: a.produit._id,
+          nom: a.produit.nom,
+          categorieDeProduit: a.produit.categorieDeProduit,
+          prix: a.produit.prix,
+          quantite: a.quantite,
+          enseignes: a.produit.enseigne.nom,
+          criteres: a.criteres.map(a => a)
+        }
       }),
     }
     try {
       const conReq = await fetch(frontConfig.backendURL + '/listes/create', {
         method: 'POST',
-        headers: { "Content-Type": "application/json", "authorization": user.token},
+        headers: { "Content-Type": "application/json", "authorization": user.token },
         body: JSON.stringify(postData)
       });
       if (!conReq.ok) {
@@ -125,65 +127,65 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
       } else {
         console.log('Failed to create liste. Response from the backend is : ', resJson.error);
       }
-    } catch(err) {
+    } catch (err) {
       console.log('Create liste - Connection to the backend failed');
       console.log(err.stack);
     }
   }
-   const handleRetour = () => {
+  const handleRetour = () => {
     dispatch(removeListe());
-    navigation.navigate('TabNavigator', {screen: 'Accueil'});
-   }
+    navigation.navigate('TabNavigator', { screen: 'Accueil' });
+  }
 
 
   return (
     <SafeAreaView style={styles.container}>
 
-      <MonPanier name={listeName} nbrItem={produitsSelected.reduce((a,v) => a = a + v.count, 0)}/>
-      
+      <MonPanier name={listeName} nbrItem={produitsSelected.reduce((a, v) => a = a + v.count, 0)} />
+
       <Text style={styles.enseigne}>{listeChoisie.nom} :</Text>
 
-      <ScrollView style={styles.scrollView}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
         <View>
-            {articlesDetails.map((a,i) => {
-              return (
-                <View key={`${i}`}>
-                  <Text style={styles.categorieText}>{a.categorie}</Text>
-                  {a.produits.map((p,j) => {
-                    return (
-                      <View style={styles.productContainer} key={p.produit._id} >
-                        <View style={styles.productSubContainer}>
-                          <Text style={styles.productName}>{p.produit.nom}</Text>
-                          <Text style={styles.productPrice}>{p.quantite * p.produit.prix}€</Text>
-                        </View>
-
-                        <Text style={styles.productQuantity}>({p.quantite} x {p.produit.prix}€)</Text>
-
-                        <View style={styles.totalContainer}>
-                          {p.criteres.map((c) => <Text style={styles.criteresBool} key={`${j}-${p.produit._id}_${c}`}>✔️ {c}</Text>)}
-                        </View>
-
+          {articlesDetails.map((a, i) => {
+            return (
+              <View key={`${i}`}>
+                <Text style={styles.categorieText}>{a.categorie}</Text>
+                {a.produits.map((p, j) => {
+                  return (
+                    <View style={styles.productContainer} key={p.produit._id} >
+                      <View style={styles.productSubContainer}>
+                        <Text style={styles.productName}>{p.produit.nom}</Text>
+                        <Text style={styles.productPrice}>{p.quantite * p.produit.prix}€</Text>
                       </View>
-                    )
-                  })}
-                </View>
-              )
-            })}
+
+                      <Text style={styles.productQuantity}>({p.quantite} x {p.produit.prix}€)</Text>
+
+                      <View style={styles.totalContainer}>
+                        {p.criteres.map((c) => <Text style={styles.criteresBool} key={`${j}-${p.produit._id}_${c}`}>✔️ {c}</Text>)}
+                      </View>
+
+                    </View>
+                  )
+                })}
+              </View>
+            )
+          })}
         </View>
       </ScrollView>
-      
+
       <View style={styles.totalContainer}>
         <Text style={styles.totalText}>Prix total pour cette liste : </Text>
         <Text style={styles.totalNumber}>{listeChoisie.produits.reduce((a, v) => a + (v.produit.prix * v.quantite), 0).toFixed(2)}€</Text>
       </View>
 
       <TouchableOpacity style={styles.buttonBlue} onPress={handleValider} disabled={isAlreadySaved}>
-          <Text style={styles.textButtonBlue}>Valider cette liste</Text>
-      </TouchableOpacity>    
-          
+        <Text style={styles.textButtonBlue}>Valider cette liste</Text>
+      </TouchableOpacity>
+
       <Text style={styles.textRetour}>{saveMessage}</Text>
 
-      {isListeSave && 
+      {isListeSave &&
         <>
           <TouchableOpacity style={styles.buttonBlue} onPress={handleRetour}>
             <Text style={styles.textButtonBlue}>Retourner à l'accueil</Text>
@@ -191,7 +193,7 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
         </>
       }
 
-   
+
     </SafeAreaView>
   )
 }
@@ -206,84 +208,84 @@ const styles = StyleSheet.create({
   },
   scrollView: {
   },
-  topContainer:{
+  topContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 15
   },
-  ListName:{
+  ListName: {
     fontFamily: 'Raleway-Bold',
     fontSize: 24,
-    color:'#25000D'
+    color: '#25000D'
   },
-  productNbr:{
+  productNbr: {
     color: 'white',
     backgroundColor: '#7CD6C1',
     alignSelf: 'flex-end',
   },
-  enseigne:{
+  enseigne: {
     fontFamily: 'Raleway-Medium',
     fontSize: 18,
-    color:'#25000D',
+    color: '#25000D',
     marginBottom: 15
   },
-  categorieText:{
+  categorieText: {
     fontFamily: 'Raleway-Bold',
     fontSize: 14,
     color: '#25000D',
     marginBottom: 10,
   },
-  productContainer:{
+  productContainer: {
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 10,
     marginBottom: 10
   },
-  productSubContainer:{
+  productSubContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  productName:{
+  productName: {
     fontFamily: 'Raleway-Regular',
     fontSize: 14,
     color: '#4F4F4F',
   },
-  productPrice:{
+  productPrice: {
     fontFamily: 'Raleway-Bold',
     fontSize: 14,
     color: '#7CD6C1',
   },
-  productQuantity:{
+  productQuantity: {
     fontFamily: 'Raleway-Regular',
     fontSize: 10,
     color: '#A3A3A3',
     alignSelf: 'flex-end'
   },
-  criteresBool:{
+  criteresBool: {
     fontFamily: 'Raleway-Regular',
     fontSize: 14,
     color: '#4F4F4F',
   },
-  icon:{
+  icon: {
     color: '#DCA2A2',
     padding: 10
   },
-  totalContainer:{
+  totalContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 10,
     alignItems: 'flex-end'
   },
-  totalText:{
+  totalText: {
     fontFamily: 'Raleway-Medium',
     fontSize: 18,
-    color:'#25000D',
+    color: '#25000D',
     marginBottom: 15
   },
-  totalNumber:{
+  totalNumber: {
     fontFamily: 'Raleway-Bold',
     fontSize: 18,
-    color:'#25000D',
+    color: '#25000D',
     marginBottom: 15
   },
   buttonBlue: {
@@ -299,9 +301,9 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   textRetour: {
-    paddingTop: 10, 
-    paddingBottom: 10, 
-    fontWeight: 'bold', 
+    paddingTop: 10,
+    paddingBottom: 10,
+    fontWeight: 'bold',
     alignSelf: 'center',
     color: '#800000'
   },

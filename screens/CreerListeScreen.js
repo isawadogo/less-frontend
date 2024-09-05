@@ -1,7 +1,7 @@
 /* IMPORT */
 
 //imports React & React Native
-import { StyleSheet, ScrollView,Text, View, StatusBar, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, StatusBar, TouchableOpacity } from 'react-native';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //import Redux & Reducer
@@ -23,13 +23,13 @@ import { ErrorMessage } from '../composant/ErrorMessage';
 export default function CreerListeScreen({ navigation }) {
 
   const user = useSelector((state) => state.user.value.userDetails);
-  
+
   const listeName = useSelector((state) => state.user.value.listeName);
 
   const [userListes, setUserListes] = useState([]);
-  const [ isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const [isListeExists, setIsListeExists] = useState(false);
-  const [taskMessage, setTaskMessage] = useState({result: true, message: '', desc: ''});
+  const [taskMessage, setTaskMessage] = useState({ result: true, message: '', desc: '' });
 
   const dispatch = useDispatch();
 
@@ -45,8 +45,9 @@ export default function CreerListeScreen({ navigation }) {
           setIsReady(true)
         }
       }).catch((err) => {
-        setTaskMessage({ ...taskMessage, 
-          result: false, 
+        setTaskMessage({
+          ...taskMessage,
+          result: false,
           message: 'Une erreur est survenue.',
           desc: "L'initialisation des listes a échoué. Il s'agit sans doute d'un problème temporaire"
         })
@@ -102,16 +103,16 @@ export default function CreerListeScreen({ navigation }) {
   }
 
   return (
-    <ScrollView style={styles.containerG} >
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.containerG} >
       <SafeAreaView style={styles.container}>
-        <Text style={[styles.title, {paddingBottom: 25}]}>Nommer ma liste</Text>
-        {isListeExists && 
-          <View style={{alignItems: 'center', fontSize: 14, color: '#800000'}}>
+        <Text style={[styles.title, { paddingBottom: 25 }]}>Nommer ma liste</Text>
+        {isListeExists &&
+          <View style={{ alignItems: 'center', fontSize: 14, color: '#800000' }}>
             <Text style={styles.textDoubleListe}>Une liste ayant le même nom existe.</Text>
             <Text style={styles.textDoubleListe}>Veuillez choisir un autre nom.</Text>
           </View>
         }
-        <View style={{ flexDirection: 'row', width: '100%'}}>
+        <View style={{ flexDirection: 'row', width: '100%' }}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -126,28 +127,28 @@ export default function CreerListeScreen({ navigation }) {
                   customStyle={styles.customStyle}
                   errorTextStyle={styles.errorTextStyle}
                 />
-              <TouchableOpacity 
-                onPress={handleSubmit}
-                disabled={!isValid}
-                width={50}
-                style={styles.iconButon}
-              >
-                <FontAwesomeIcon icon={faCircleCheck} style={styles.icon}/>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleSubmit}
+                  disabled={!isValid}
+                  width={50}
+                  style={styles.iconButon}
+                >
+                  <FontAwesomeIcon icon={faCircleCheck} style={styles.icon} />
+                </TouchableOpacity>
               </>
-              )}
+            )}
           </Formik>
         </View>
-          <BudgetRestant listes={userListes} userBudget={user.budget} />
+        <BudgetRestant listes={userListes} userBudget={user.budget} />
 
-          <View style={styles.separatorContainer}>
-            <Text style={styles.separatorLine} />
-            <Text style={styles.separatorText}>ou</Text>
-            <Text style={styles.separatorLine} />
-          </View>
+        <View style={styles.separatorContainer}>
+          <Text style={styles.separatorLine} />
+          <Text style={styles.separatorText}>ou</Text>
+          <Text style={styles.separatorLine} />
+        </View>
 
-          <Text style={[styles.title, {paddingBottom: 25}]}>Mes listes passées</Text>
-          <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
+        <Text style={[styles.title, { paddingBottom: 25 }]}>Mes listes passées</Text>
+        <ExistingListesComponents currentListes={userListes} deleteAction={handleDeleteListe} />
       </SafeAreaView>
     </ScrollView>
   )
@@ -160,14 +161,14 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: StatusBar.currentHeight,
   },
-  iconButon:{
+  iconButon: {
     fontSize: 35,
     color: '#7CD6C1',
     //marginTop: 5,
     //alignSelf: 'flex-end',
     right: 60,
   },
-  icon:{
+  icon: {
     fontSize: 35,
     color: '#7CD6C1',
     padding: 30,
@@ -188,15 +189,15 @@ const styles = StyleSheet.create({
     start: 0,
   },
   textDoubleListe: {
-    fontSize: 14, 
+    fontSize: 14,
     color: '#800000',
-    fontWeight: 'bold', 
+    fontWeight: 'bold',
   },
-  errorTextStyle: { 
-    position: 'absolute', 
-    left: 0, 
-    top: -20, 
-    fontSize: 14 ,
+  errorTextStyle: {
+    position: 'absolute',
+    left: 0,
+    top: -20,
+    fontSize: 14,
   },
   container: {
     flex: 1,
