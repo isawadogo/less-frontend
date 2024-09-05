@@ -146,7 +146,7 @@ export default function CreerListeScreen({ navigation }) {
 
       <Text style={styles.title}>Ajouter des produits :</Text>
 
-      <ScrollView style={styles.productContainer}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.productContainer}>
 
         <ProduitsComponent
           categorie={selectedCat.nom}
