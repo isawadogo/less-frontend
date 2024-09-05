@@ -9,6 +9,7 @@ import { setSelectedListe } from '../reducers/user';
 import { frontConfig } from '../modules/config';
 // import composants
 import MonPanier from '../composant/MonPanier';
+import { ErrorMessage } from '../composant/ErrorMessage';
 
 /* FONCTION CREER LISTE */
 
@@ -66,6 +67,7 @@ export default function ResultatComparaisonScreen({ navigation }) {
   const [resultatComp, setResultComp] = useState([])
 
   const [ isResultatSelected, setIsResultatSelected] = useState(true);
+  const [taskMessage, setTaskMessage] = useState({result: true, message: '', desc: ''});
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -75,7 +77,18 @@ export default function ResultatComparaisonScreen({ navigation }) {
       }
       let ignore = false;
       if (!ignore) {
-        getResultatsComparaison();
+        getResultatsComparaison()
+        .then()
+        .catch((err) => {
+          setTaskMessage({ ...taskMessage, 
+            result: false, 
+            message: 'Une erreur est survenue.',
+            desc: "Les resultats de la comparaison ne sont pas disponibles actuellement. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer dans quelques minutes."
+          })
+          console.log('Choisir produits liste - Connection to the backend failed');
+          console.log(err.stack);
+          }
+        );
       }
       return () => { ignore = true }
     })();
@@ -111,11 +124,17 @@ export default function ResultatComparaisonScreen({ navigation }) {
         //console.log('Resultat comp', JSON.stringify(resultatComp));
       } else {
         console.log('Failed to create liste. Response from the backend is : ', resJson.error);
+        throw new Error(` Failed to create liste. Response from the backend is : ${resJson.error} `);
       }
     } catch (err) {
       console.log('Create liste - Connection to the backend failed');
       console.log(err.stack);
+      throw new Error(`Create liste - Connection to the backend failed : ${resJson.error} `);
     }
+  }
+
+  if (!taskMessage.result) {
+    return <ErrorMessage message={taskMessage.message} desc={taskMessage.desc} />
   }
 
   if (!resultatComp || resultatComp.length === 0) {

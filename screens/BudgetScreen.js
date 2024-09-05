@@ -61,7 +61,7 @@ export default function BudgetScreen({ navigation }) {
   const user = useSelector((state) => state.user.value.userDetails);
   const [userListes, setUserListes] = useState([]);
   const [ isReady, setIsReady] = useState(false);
-  const [ taskMessage, setTaskMessage] = useState('')
+  const [taskMessage, setTaskMessage] = useState({result: true, message: '', desc: ''});
   
   useFocusEffect(
     React.useCallback(() => {
@@ -73,8 +73,19 @@ export default function BudgetScreen({ navigation }) {
         let ignore = false;
         getUserListes(user.token, user.id).then(listes => {
           if (!ignore) {
-            setUserListes(listes);
-            setIsReady(true);
+            if (listes) {
+              setUserListes(listes);
+              setIsReady(true);
+            } else {
+              setTaskMessage({ ...taskMessage, 
+                result: false, 
+                message: 'Une erreur est survenue.',
+                desc: "L'initialisation des listes a échoué. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer dans quelques minutes."
+              })
+              console.log('Resultat liste details - getUserListes - Connection to the backend failed');
+              console.log(listes);
+            }
+          //  setUserListes(listes);
           }
         });
       }
@@ -87,6 +98,9 @@ export default function BudgetScreen({ navigation }) {
     }, [])
   );
 
+  if (!taskMessage.result) {
+    return <ErrorMessage message={taskMessage.message} desc={taskMessage.desc} />
+  }
     if (!isReady) {
         return (
             <View></View>

@@ -63,12 +63,15 @@ async function getUserListes(token, userId) {
           headers: { "Content-Type": "application/json", "authorization": token},
         }
       );
+      if (!listes.ok) {
+        throw new Error('getUserListes - Connection returned a non 200 http code');
+      }
       const listesJson = await listes.json();
       if (listesJson.result) {
         return listesJson.listes;
       }
     } catch (err) {
-      console.log('Failed to get user listes ');
+      console.log('getUserListes - Failed to get user listes ');
       console.log(err.stack);
     }
 }
@@ -165,7 +168,7 @@ async function getEnseignesList(token) {
         headers: { "Content-Type": "application/json", "authorization": token},
       });
       if (!conReq.ok) {
-        throw new Error('Connection returned a non 200 http code');
+        throw new Error('getEnseignesList - Connection returned a non 200 http code');
       }
       const resJson = await conReq.json();
       //console.log('connection result - enseignes lists - resJson: ', resJson);
@@ -178,7 +181,7 @@ async function getEnseignesList(token) {
         console.log('Failed to get enseigne list from the backend : ', resJson.error);
       }
     } catch(err) {
-      console.log('Choisir porduits liste - Connection to the backend failed');
+      console.log('getEnseignesList - Connection to the backend failed');
       console.log(err.stack);
     }
   //}

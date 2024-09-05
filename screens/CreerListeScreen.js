@@ -17,6 +17,7 @@ import { getUserListes, deleteListe } from '../modules/listesFunctions';
 import LessFormikInput from '../composant/LessFormikInput';
 import BudgetRestant from '../composant/BudgetRestant';
 import { ExistingListesComponents } from '../modules/components';
+import { ErrorMessage } from '../composant/ErrorMessage';
 /* FONCTION CREER LISTE*/
 
 export default function CreerListeScreen({ navigation }) {
@@ -28,6 +29,7 @@ export default function CreerListeScreen({ navigation }) {
   const [userListes, setUserListes] = useState([]);
   const [ isReady, setIsReady] = useState(false);
   const [isListeExists, setIsListeExists] = useState(false);
+  const [taskMessage, setTaskMessage] = useState({result: true, message: '', desc: ''});
 
   const dispatch = useDispatch();
 
@@ -38,11 +40,18 @@ export default function CreerListeScreen({ navigation }) {
       };
       let ignore = false;
       getUserListes(user.token, user.id).then(listes => {
-        //console.log('Listes : ', userListes)
         if (!ignore) {
           setUserListes(listes);
           setIsReady(true)
         }
+      }).catch((err) => {
+        setTaskMessage({ ...taskMessage, 
+          result: false, 
+          message: 'Une erreur est survenue.',
+          desc: "L'initialisation des listes a échoué. Il s'agit sans doute d'un problème temporaire"
+        })
+        console.log('Choisir produits liste - Connection to the backend failed');
+        console.log(err.stack);
       });
       return () => {
         ignore = true;
@@ -50,6 +59,10 @@ export default function CreerListeScreen({ navigation }) {
 
     })();
   }, []);
+
+  if (!taskMessage.result) {
+    return <ErrorMessage message={taskMessage.message} desc={taskMessage.desc} />
+  }
 
   if (!isReady) {
     return (

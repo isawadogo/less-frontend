@@ -1,7 +1,7 @@
 /* IMPORTS */
 
 // import React et React Native
-import { ScrollView, Button, StyleSheet, Text, StatusBar, View, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, Text, StatusBar, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 
@@ -15,6 +15,7 @@ import { frontConfig } from '../modules/config';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import MonPanier from '../composant/MonPanier';
+import { ErrorMessage } from '../composant/ErrorMessage';
 
 /* FONCTION CREER LISTE */
 
@@ -28,7 +29,7 @@ export default function CreerListeScreen({ navigation }) {
   //const listeName = useSelector((state) => state.liste.value.listeName);
   const [selectedCat, setSelectedCat] = useState({})
   const [ isProduitSelected, setIsproduitSelected] = useState(true);
-  const [taskMessage, setTaskMessage] = useState({result: true, message: ''});
+  const [taskMessage, setTaskMessage] = useState({result: true, message: '', desc: ''});
 
   const dispacth = useDispatch();
 
@@ -45,7 +46,11 @@ export default function CreerListeScreen({ navigation }) {
           headers: { "Content-Type": "application/json", "authorization": user.token},
         });
         if (!conReq.ok) {
-          setTaskMessage({result: false, message: 'Une erreur est survenue, veuillez réessayer plus tard'})
+          setTaskMessage({ ...taskMessage, 
+            result: false, 
+            message: 'Une erreur est survenue.',
+            desc: "La connexion au serveur a échoué. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer l'opération dans quelques minutes."
+          })
           throw new Error('Connection returned a non 200 http code');
         }
         const resJson = await conReq.json();
@@ -57,13 +62,24 @@ export default function CreerListeScreen({ navigation }) {
               setSelectedCat({nom: resJson.categories[0], id: 0});
             }
         } else {
-          setTaskMessage({result: false, message: 'Une erreur est survenue, veuillez réessayer plus tard'})
+          setTaskMessage({ ...taskMessage, 
+            result: false, 
+            message: 'Une erreur est survenue, veuillez réessayer plus tard',
+            desc: "La connexion au serveur a échoué. Il s'agit sans doute d'un problème temporaire"
+          })
+          //setTaskMessage({...taskMessage, result: false, message: 'Une erreur est survenue, veuillez réessayer plus tard'})
+
           console.log('Failed to get categories list from the backend : ', resJson.error);
         }
       } catch(err) {
-        setTaskMessage({result: false, message: 'Une erreur est survenue, veuillez réessayer plus tard'})
-        console.log('Choisir produits liste - Connection to the backend failed');
-        console.log(err.stack);
+        //setTaskMessage({...taskMessage, result: false, message: 'Une erreur est survenue, veuillez réessayer plus tard'})
+          setTaskMessage({ ...taskMessage, 
+            result: false, 
+            message: 'Une erreur est survenue, veuillez réessayer plus tard',
+            desc: "La connexion au serveur a échoué. Il s'agit sans doute d'un problème temporaire"
+          })
+          console.log('Choisir produits liste - Connection to the backend failed');
+          console.log(err.stack);
       }
     })();
   }, []);
@@ -86,15 +102,16 @@ export default function CreerListeScreen({ navigation }) {
     }
   }
 
+  if (!taskMessage.result) {
+    return <ErrorMessage message={taskMessage.message} desc={taskMessage.desc} />
+  }
+
   if (!selectedCat || selectedCat === undefined) {
     return(
       <SafeAreaView style={styles.container}>
         <Text style={{fontWeight: 'bold'}}>Retrieving categories ...</Text>
       </SafeAreaView>
     )
-  }
-  if (!taskMessage.result) {
-
   }
   
   return (

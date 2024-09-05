@@ -20,6 +20,7 @@ import { faRightFromBracket, faBell } from '@fortawesome/free-solid-svg-icons';
 
 import BudgetRestant from '../composant/BudgetRestant';
 import TouchableButton from '../composant/TouchableButton';
+import { ErrorMessage } from '../composant/ErrorMessage';
 
 /* FONCTION HOMESCREEN */
 
@@ -80,6 +81,7 @@ export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
   const unreadCount = useSelector(state => state.notifications.unreadCount)
   const [profilNotComplet, setProfilNotComplet] = useState(false);
+  const [taskMessage, setTaskMessage] = useState({result: true, message: '', desc: ''});
 
   useFocusEffect(
     React.useCallback(() => {
@@ -91,8 +93,19 @@ export default function HomeScreen({ navigation }) {
         let ignore = false;
         getUserListes(user.token, user.id).then(listes => {
           if (!ignore) {
-            setUserListes(listes);
-            setIsReady(true);
+            if (listes) {
+              setUserListes(listes);
+              setIsReady(true);
+            } else {
+              setTaskMessage({ ...taskMessage, 
+                result: false, 
+                message: 'Une erreur est survenue.',
+                desc: "L'initialisation des listes a échoué. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer dans quelques minutes."
+              })
+              console.log('Resultat liste details - getUserListes - Connection to the backend failed');
+              console.log(listes);
+            }
+          //  setUserListes(listes);
           }
         });
       }
@@ -156,6 +169,10 @@ export default function HomeScreen({ navigation }) {
   const handlePress = () => {
     dispatch(reset())
     navigation.navigate('Notifications')
+  }
+
+  if (!taskMessage.result) {
+    return <ErrorMessage message={taskMessage.message} desc={taskMessage.desc} />
   }
 
   if (!isReady) {

@@ -104,8 +104,6 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
     onDecrease(value);
   }
 
-  console.log('PORD SELEC : ', produitsSelected)
-
   return (
     <View style={styles.produitContainer}>
       {listProd.map((p) => {

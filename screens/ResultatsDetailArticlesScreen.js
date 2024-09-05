@@ -11,6 +11,7 @@ import { getEnseignesList } from '../modules/listesFunctions';
 import { frontConfig } from '../modules/config';
 import MonPanier from '../composant/MonPanier';
 import { getUserListes } from '../modules/listesFunctions';
+import { ErrorMessage } from '../composant/ErrorMessage';
 
 /* FONCTION CREER LISTE */
 
@@ -31,6 +32,7 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
   const [userListes, setUserListes] = useState([]);
   const [isAlreadySaved, setIsAlreadySaved] = useState(false);
   const [saveMessage, setSaveMessage ] = useState('');
+  const [taskMessage, setTaskMessage] = useState({result: true, message: '', desc: ''});
 
   const dispatch = useDispatch();
   //const catSelected = [...new Set(produitsSelected.map((e) => e.produit.categorie))].map((e, i) => {return {nom: e, id: i}})
@@ -39,18 +41,40 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
       if (!user.id) {
         navigation.navigate('Login');
       }
-      getEnseignesList(user.token).then((ens) => { 
+     /* getEnseignesList(user.token).then((ens) => { 
         setEnseignes([...enseignes, ...ens]);
-      })
+      }).catch((err) => {
+          setTaskMessage({ ...taskMessage, 
+            result: false, 
+            message: 'Une erreur est survenue.',
+            desc: "L'initialisation des enseignes a échoué. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer dans quelques minutes."
+          })
+          console.log('Resultat liste details - getEnseignesList - Connection to the backend failed');
+          console.log(err.stack);
+        })*/
       if (resultatComp.resultat) {
           setIsReady(true);
       }
       getUserListes(user.token, user.id).then(listes => {
-        setUserListes(listes);
+        if (listes) {
+          setUserListes(listes);
+        } else {
+          setTaskMessage({ ...taskMessage, 
+            result: false, 
+            message: 'Une erreur est survenue.',
+            desc: "L'initialisation des listes a échoué. Il s'agit sans doute d'un problème temporaire. Vous pouvez réessayer dans quelques minutes."
+          })
+          console.log('Resultat liste details - getUserListes - Connection to the backend failed');
+          console.log(listes);
+        }
         //setIsReady(true)
-      });
+      })
     })();
   }, []);
+  
+  if (!taskMessage.result) {
+    return <ErrorMessage message={taskMessage.message} desc={taskMessage.desc} />
+  }
 
   let articlesDetails = []
   const catListe = [ ...new Set(listeChoisie.produits.map((a) =>  a.categorie )) ];
@@ -110,6 +134,7 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
     dispatch(removeListe());
     navigation.navigate('TabNavigator', {screen: 'Accueil'});
    }
+
 
   return (
     <SafeAreaView style={styles.container}>
