@@ -77,7 +77,7 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
       }).then((response) => response.json())
         .then((data) => {
           if (data.result) {
-            //console.log(' Choisir liste produit - produits par categorie - jsonres : ', data);
+            console.log(' Choisir liste produit - produits par categorie - jsonres : ', data);
             if (data.produits) {
               //console.log('data produits : ', data.produits);
               setListProd(data.produits);
@@ -111,7 +111,7 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
           <View style={styles.itemContainer} key={p.nom}>
             <Image
               style={styles.produitImage}
-              source={require('../assets/fruit_orange.png')}
+              source={{uri:p.url}}
             />
             <View style={styles.itemTextContainer}>
               <Text style={styles.itemName}>{p.nom}</Text>
@@ -383,7 +383,9 @@ const styles = StyleSheet.create({
   produitImage: {
     objectFit: 'contain',
     aspectRatio: '1/1',
-    borderRadius: 20
+    borderRadius: 20,
+    width: 150,
+    height: 150,
   },
   itemNumber: {
     fontFamily: 'Raleway-Regular',
