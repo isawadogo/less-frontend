@@ -33,15 +33,22 @@ export default function Notifications({ navigation }) {
                     <FontAwesomeIcon icon={faCircleArrowLeft} size={24} />
                 </Pressable>
                 <View>
-                    {notifToShow.map(element => (
-                        <View key={element.id} style={styles.notificationContainer}>
-                            <Text style={styles.notificationTitre}>{element.titre}</Text>
-                            <Text style={styles.notificationP}>{element.p}</Text>
-                            <TouchableOpacity >
-                                <Text style={styles.notificationLien}>{element.lien}</Text>
-                            </TouchableOpacity>
+                    {notifToShow.length > 0 ? (
+                        notifToShow.map(element => (
+                            <View key={element.id} style={styles.notificationContainer}>
+                                <Text style={styles.notificationTitre}>{element.titre}</Text>
+                                <Text style={styles.notificationP}>{element.p}</Text>
+                                <TouchableOpacity >
+                                    <Text style={styles.notificationLien}>{element.lien}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        ))) : (
+                        <View>
+                            <Text style={styles.nothingText}>Aucune nouvelle notification </Text>
                         </View>
-                    ))}
+                    )}
+
+
                 </View>
             </ScrollView>
         </SafeAreaView>
