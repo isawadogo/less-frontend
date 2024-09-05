@@ -85,8 +85,8 @@ export default function LoginScreen({ navigation }) {
           getEnseignesList(user.token).then((ens) => {
             dispatch(updateEnseignesList(ens));
 
-        resetForm();
-        navigation.navigate('TabNavigator');
+            resetForm();
+            navigation.navigate('TabNavigator');
           })
         }
       } else {
@@ -116,9 +116,9 @@ export default function LoginScreen({ navigation }) {
           enableReinitialize={true}
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, {resetForm}) => {
-              handleConnect(values, resetForm).then(() => resetForm())
-            }}
+          onSubmit={(values, { resetForm }) => {
+            handleConnect(values, resetForm).then(() => resetForm())
+          }}
         >
           {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
             <>
@@ -175,9 +175,9 @@ const styles = StyleSheet.create({
     padding: 15,
     color: '#2B0D35',
   },
-  errorMessage: { 
-    fontWeight: 'bold', 
-    color: 'red', 
+  errorMessage: {
+    fontWeight: 'bold',
+    color: 'red',
     alignSelf: 'center',
     fontFamily: 'Raleway-Bold',
   },
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     color: 'white',
     marginTop: 15,
     marginBottom: 15,
-    left: 60,
+    left: 80,
   },
   textError: {
     paddingLeft: 40,
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#CFCFCF',
     marginBottom: 25,
-    left: 40,
+    left: 60,
 
   },
 

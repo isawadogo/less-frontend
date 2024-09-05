@@ -29,7 +29,7 @@ export default function Notifications({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-                <Pressable onPress={() => navigation.goBack()}>
+                <Pressable onPress={() => navigation.goBack()} style={styles.fleche}>
                     <FontAwesomeIcon icon={faCircleArrowLeft} size={24} />
                 </Pressable>
                 <View>
@@ -37,14 +37,14 @@ export default function Notifications({ navigation }) {
                         notifToShow.map(element => (
                             <View key={element.id} style={styles.notificationContainer}>
                                 <Text style={styles.notificationTitre}>{element.titre}</Text>
-                                <Text style={styles.notificationP}>{element.p}</Text>
+                                <Text>{element.p}</Text>
                                 <TouchableOpacity >
                                     <Text style={styles.notificationLien}>{element.lien}</Text>
                                 </TouchableOpacity>
                             </View>
                         ))) : (
                         <View>
-                            <Text style={styles.nothingText}>Aucune nouvelle notification </Text>
+                            <Text style={styles.nothingText}>Aucune notification à afficher !  {'\n'}  Veuillez choisir vos choix d'actualité et de promotion dans "Réglages notification"   </Text>
                         </View>
                     )}
 
@@ -56,6 +56,18 @@ export default function Notifications({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+    fleche: {
+        paddingTop: 30,
+        paddingLeft: 15,
+    },
+    nothingText: {
+        textAlign: 'center',
+        fontFamily: 'Raleway-Regular',
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginBottom: 15,
+
+    },
     container: {
         flex: 1,
         padding: 16,
@@ -74,5 +86,6 @@ const styles = StyleSheet.create({
     notificationLien: {
         fontStyle: 'italic'
 
-    }
+    },
+
 });
