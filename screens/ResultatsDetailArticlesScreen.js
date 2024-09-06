@@ -92,6 +92,7 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
       setSaveMessage('Votre liste a déjà  été sauvegardée')
       return;
     };
+    //console.log('LISTE CHOISIE : ', listeChoisie)
     const postData = {
       nom: listeName,
       utilisateur: user.id,
@@ -104,7 +105,7 @@ export default function ResultasDetailArticlesScreen({ navigation }) {
           categorieDeProduit: a.produit.categorieDeProduit,
           prix: a.produit.prix,
           quantite: a.quantite,
-          enseignes: a.produit.enseigne.nom,
+          enseigne: a.produit.enseigne.nom,
           criteres: a.criteres.map(a => a)
         }
       }),

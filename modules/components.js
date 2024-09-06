@@ -13,6 +13,8 @@ import { faCircleArrowRight, faColumns } from '@fortawesome/free-solid-svg-icons
 import moment from 'moment/moment';
 // import { ScrollView } from 'react-native-gesture-handler';
 
+import { ListeDetailScreen } from '../composant/ListeDetailsScreen';
+
 function LessButtonTouchable({ label, onChange }) {
   return (
     <TouchableOpacity style={styles.btnTouchableStyle} activeOpacity={0.7} onPress={onPress} >
@@ -270,7 +272,7 @@ function ExistingListesComponents({ currentListes, deleteAction }) {
         visible={isVisible}
         onRequestClose={() => handModalState(l.nom)}
       >
-        <ListeDetailsComponent liste={modalListe} key={modalListe._id} />
+        <ListeDetailScreen liste={modalListe} key={modalListe._id} />
         <Button
           title='Supprimer cette liste'
           color={"#7CD6C1"}
