@@ -123,14 +123,14 @@ export default function CreerListeScreen({ navigation }) {
                 <Field
                   component={LessFormikInput}
                   name="nomListe"
-                  placeholder='"Ma super liste"'
+                  placeholder='ex:  Ma super liste'
                   customStyle={styles.customStyle}
                   errorTextStyle={styles.errorTextStyle}
                 />
                 <TouchableOpacity
                   onPress={handleSubmit}
                   disabled={!isValid}
-                  width={50}
+                  width={30}
                   style={styles.iconButon}
                 >
                   <FontAwesomeIcon icon={faCircleCheck} style={styles.icon} />
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight,
   },
   iconButon: {
-    fontSize: 35,
+
     color: '#7CD6C1',
     //marginTop: 5,
     //alignSelf: 'flex-end',
@@ -177,14 +177,15 @@ const styles = StyleSheet.create({
     left: 0,
   },
   customStyle: {
-    borderRadius: 40,
+    borderRadius: 30,
     backgroundColor: 'white',
-    width: '100%',
+    width: '90%',
     paddingTop: 5,
     paddingBottom: 5,
     height: 60,
     marginTop: 5,
-    paddingLeft: 20,
+    marginLeft: 13,
+    paddingLeft: 40,
     fontSize: 16,
     start: 0,
   },
@@ -206,7 +207,8 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'Raleway-Bold',
     color: '#25000D',
-    fontSize: 24
+    fontSize: 24,
+    paddingStart: 10
   },
   separatorContainer: {
     flexDirection: 'row',

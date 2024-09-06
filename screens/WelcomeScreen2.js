@@ -169,6 +169,8 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: 'Raleway-Regular',
     color: 'white',
+    sart: 50
+
   },
 
   logo: {

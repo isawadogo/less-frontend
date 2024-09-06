@@ -5,17 +5,17 @@ const screenWidth = Dimensions.get('window').width;
 
 const BudgetRestant = ({ listes, userBudget }) => {
 
-  let budgetConsomme = listes.reduce((a, v) => a + v.prix,0);
-  budgetConsomme = budgetConsomme >= userBudget? userBudget: budgetConsomme;
+  let budgetConsomme = listes.reduce((a, v) => a + v.prix, 0);
+  budgetConsomme = budgetConsomme >= userBudget ? userBudget : budgetConsomme;
   const budget = userBudget === 0 ? budgetConsomme : userBudget;
-  let progresBarPercentage = budgetConsomme/budget*100;
+  let progresBarPercentage = budgetConsomme / budget * 100;
   let reste = budget - budgetConsomme;
-  reste = reste <=0 ? 0: reste;
+  reste = reste <= 0 ? 0 : reste;
 
   if (budgetConsomme === 0) {
     progresBarPercentage = 15;
   }
-  
+
   return (
     <>
       <View style={styles.contain}>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   barContainer: {
-    height: 25,
+    height: 30,
     borderRadius: 20,
     backgroundColor: 'white',
     flexDirection: 'row',
@@ -51,14 +51,16 @@ const styles = StyleSheet.create({
   },
   budgetUser: {
     color: '#2B0D35',
-    fontFamily:'Raleway-Medium',
+    fontFamily: 'Raleway-Medium',
+    paddingRight: 10,
   },
   progressBar: {
-    height: 25,
+    height: 30,
     borderRadius: 15,
     fontFamily: 'Raleway-Regular',
     backgroundColor: '#2B0D35',
     color: '#fff',
+    paddingLeft: 10
   },
 
 });

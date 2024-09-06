@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StatusBar, Modal, Button, Pressable, StyleSheet, Text, View, Image, TouchableOpacity, RNTextInput } from 'react-native';
+import { StatusBar, Modal, Button, Pressable, StyleSheet, Text, View, Image, TouchableOpacity, RNTextInput, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -11,6 +11,7 @@ import colors from '../styles/colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleArrowRight, faColumns } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment/moment';
+// import { ScrollView } from 'react-native-gesture-handler';
 
 function LessButtonTouchable({ label, onChange }) {
   return (
@@ -111,7 +112,7 @@ function ProduitsComponent({ categorie, onDecrease, onIncrease }) {
           <View style={styles.itemContainer} key={p.nom}>
             <Image
               style={styles.produitImage}
-              source={{uri:p.url}}
+              source={{ uri: p.url }}
             />
             <View style={styles.itemTextContainer}>
               <Text style={styles.itemName}>{p.nom}</Text>
@@ -208,21 +209,23 @@ function LessHeader(props) {
 function ListeDetailsComponent({ liste }) {
   return (
     <SafeAreaView key={`${liste._id}-${liste.nom}`} style={styles.modalView}>
-      <Text style={styles.nom}> {liste.nom} </Text>
-      <Text style={styles.date} >Date de création : {moment(liste.dateCreation).format('DD MMMM à HH:mm')} </Text>
-      <Text style={styles.article}>Articles de la liste :</Text>
-      {liste.listeArticles.map((a, i) => {
-        return (
-          <View key={`${i}-${liste._id}-${a._id}`} style={styles.liste}>
-            <Text style={{ color: 'white', fontWeight: 'bold' }}>{a.nom.toUpperCase()}</Text>
-            <View>
-              <Text style={{ color: 'white', fontWeight: 'bold' }}>Quantité:  {a.quantite}</Text>
-              <Text style={styles.prix}>{a.prix} €</Text>
+      <ScrollView contentContainerStyle={{ paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
+        <Text style={styles.nom}> {liste.nom} </Text>
+        <Text style={styles.date} >Date de création : {moment(liste.dateCreation).format('DD MMMM à HH:mm')} </Text>
+        <Text style={styles.article}>Articles de la liste :</Text>
+        {liste.listeArticles.map((a, i) => {
+          return (
+            <View key={`${i}-${liste._id}-${a._id}`} style={styles.liste}>
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>{a.nom.toUpperCase()}</Text>
+              <View>
+                <Text style={{ color: 'white', fontWeight: 'bold' }}>Quantité:  {a.quantite}</Text>
+                <Text style={styles.prix}>{a.prix.toFixed(2)} €</Text>
+              </View>
             </View>
-          </View>
-        )
-      })
-      }
+          )
+        })
+        }
+      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -311,7 +314,7 @@ const styles = StyleSheet.create({
 
   },
   liste: {
-    height: 70,
+    height: 60,
     width: 300,
     padding: 14,
     backgroundColor: "#2B0D35",

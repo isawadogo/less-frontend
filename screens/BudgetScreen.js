@@ -17,8 +17,6 @@ import { months } from 'moment/moment';
 const screenWidth = Dimensions.get('window').width;
 
 const graphColors = [
-    '#14B8A6',
-    '#FACC15',
     '#F59E0B',
     '#EC4899',
     '#6366F1',
@@ -40,6 +38,26 @@ const graphColors = [
     '#F97316',
     '#F43F5E',
     '#4F46E5',
+    '#FF6161',
+    '#61FF91',
+    '#FF5733',
+    '#C70039',
+    '#900C3F',
+    '#581845',
+    '#DAF7A6',
+    '#FFC300',
+    '#FF6F61',
+    '#FF9F00',
+    '#D84315',
+    '#8E24AA',
+    '#5C6BC0',
+    '#43A047',
+    '#E57373',
+    '#81C784',
+    '#FF7043',
+    '#CE93D8',
+    '#FFEB3B'
+
 
 ]
 const monthsMaps = [

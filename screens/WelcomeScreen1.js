@@ -20,8 +20,9 @@ import { StatusBar } from 'expo-status-bar';
 
 export default function WelcomeScreen1({ navigation }) {
   const buttonPosition = {
-    bottom: 20,
+    marginBottom: 15,
     borderRadius: 15,
+    marginStart: 15
 
 
   }
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: 'Raleway-Regular',
     color: 'white',
-    right: 10,
+
   },
 
   logo: {
