@@ -60,7 +60,7 @@ export default function ReglageNotifScreen({ navigation }) {
     const saveSettings = () => {
 
         dispatch(chooseCategories(selectedCategoriesIds));
-        navigation.navigate('Acceuil');
+        navigation.navigate('Accueil');
     };
 
     const data = [

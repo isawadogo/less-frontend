@@ -221,8 +221,8 @@ const styles = StyleSheet.create({
   paramètre: {
     backgroundColor: 'white',
     flexDirection: 'column',
-    marginTop: 10,
-    padding: 4,
+    marginTop: 5,
+    padding: 3,
     borderRadius: 15,
     width: '100%',
     borderColor: 'black',

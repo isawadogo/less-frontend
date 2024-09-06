@@ -110,7 +110,7 @@ export default function LoginScreen({ navigation }) {
       <View style={styles.formikContainer}>
 
         <Text style={styles.title}>Content de vous revoir 🤩 </Text>
-        <Text style={styles.text}>                 Accédez à votre compte ! {'\n'}Renseignez votre emaila et votre mot de passe.</Text>
+        <Text style={styles.text}>                   Accédez à votre compte ! {'\n'}Renseignez votre emaila et votre mot de passe.</Text>
         <Text style={styles.errorMessage} >{taskMessage}</Text>
         <Formik
           enableReinitialize={true}
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     color: 'white',
     marginTop: 15,
     marginBottom: 15,
-    left: 80,
+    left: 65
   },
   textError: {
     paddingLeft: 40,
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#CFCFCF',
     marginBottom: 25,
-    left: 60,
+    left: 40,
 
   },
 
